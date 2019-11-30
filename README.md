@@ -1,6 +1,6 @@
 PAKURI
 ===
-
+![SS1](https://github.com/01rabbit/PAKURI/blob/master/pakuri_s.png)
 ---
 
 ## Presentation
