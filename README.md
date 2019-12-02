@@ -29,3 +29,5 @@
   - [oh-my-zsh](https://github.com/robbyrussell/oh-myzsh.git)
   - htop
 - CUI-GUI switching
+
+**This tool is not yet complete. It will be updated sequentially.**
