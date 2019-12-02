@@ -17,17 +17,9 @@
 * Front-end operation is only possible with the numeric keypad.
 ## Features
 - Scan
-  - [nmapAutomator](https://github.com/21y4d/nmapAutomator.git)
   - [AutoRecon](https://github.com/Tib3rius/AutoRecon.git)
-  - OpenVAS
 - Visualize
   - [Faraday](https://github.com/infobyte/faraday.git)
-- Front-end operation
-  - PAKURI
-- Other
-  - [oh-my-tmux](https://github.com/gpakosz/.tmux.git)
-  - [oh-my-zsh](https://github.com/robbyrussell/oh-myzsh.git)
-  - htop
 - CUI-GUI switching
 
 **This tool is not yet complete. It will be updated sequentially.**
