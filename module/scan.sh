@@ -42,25 +42,14 @@ if [ $2 = 1 ];then
     # AutoRecon.py (Port Service Scan)
     else
     case $3 in
-        Quick )
-            if [ $4 = "S" ];then
-                $AUTORECON --profile quicK -o $WDIR $1
-            else 
-                if [ $4 = "M" ];then
-                    cat $1 | while read line
-                    do
-                        $AUTORECON --profile quicK -o $WDIR $line
-                    done
-                fi
-            fi ;;
         Default )
             if [ $4 = "S" ];then
-                $AUTORECON -o $WDIR $1 
+                $AUTORECON $1 -v -o $WDIR --only-scans-dir
             else 
                 if [ $4 = "M" ];then
                     cat $1 | while read line
                     do
-                        $AUTORECON -o $WDIR $line
+                        $AUTORECON -t $1 -v -o $WDIR --only-scans-dir
                     done
                 fi
             fi ;;

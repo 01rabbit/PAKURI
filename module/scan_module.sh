@@ -45,18 +45,12 @@ function scan_manage()
         fi
         if ps -ef|grep autorecon.py|grep -v "grep" > /dev/null;then
             echo -e "+---+"
-            echo -e "| 3 | Quick Service Scan ${RED} Running${NC}"
-            echo -e "+---+"
-            echo -e "+---+"
-            echo -e "| 4 | Default Service Scan ${RED} Running${NC}"
+            echo -e "| 3 | Service Scan ${RED} Running${NC}"
             echo -e "+---+"
             flg_ar=1
         else
             echo -e "+---+"
-            echo -e "| 3 | Quick Service Scan"
-            echo -e "+---+"
-            echo -e "+---+"
-            echo -e "| 4 | Default Service Scan"
+            echo -e "| 3 | Service Scan"
             echo -e "+---+"
             flg_ar=0
         fi
@@ -75,7 +69,6 @@ function scan_manage()
                     echo -e "Please check your right panel"
                     echo -e "Press any key to continue..."
                     read
-                    break
                 fi ;;
         esac 
         case "$key" in
@@ -93,18 +86,18 @@ function scan_manage()
                 read -n 1 -s ans
                 if [ $ans = 1 ];then
                     read -p "IP Address :" addr
-                    echo -e "Start Quick Port Scanning. Single Host"
-                    echo -e "Press any key to continue..."
-                    read             
+                    echo -e "Start Quick Port Scanning. Single Host"            
                     tmux send-keys -t $WINDOW_NAME.1 "$SCAN $addr 1 Quick S" C-m
                     tmux select-pane -t $WINDOW_NAME.0
+                    echo -e "Press any key to continue..."
+                    read 
                 else 
                     if [ $ans = 2 ];then
-                        echo -e "Start Quick Port Scanning. Multi Host"
-                        echo -e "Press any key to continue..."
-                        read             
+                        echo -e "Start Quick Port Scanning. Multi Host"             
                         tmux send-keys -t $WINDOW_NAME.1 "$SCAN $TARGETS 1 Quick M" C-m 
                         tmux select-pane -t $WINDOW_NAME.0
+                        echo -e "Press any key to continue..."
+                        read
                     else
                         echo -e "Press any key to continue..."
                         read
@@ -124,25 +117,25 @@ function scan_manage()
                 read -n 1 -s ans
                 if [ $ans = 1 ];then
                     read -p "IP Address :" addr
-                    echo -e "Start Full Port Scanning. Single Host"
-                    echo -e "Press any key to continue..."
-                    read             
+                    echo -e "Start Full Port Scanning. Single Host"            
                     tmux send-keys -t $WINDOW_NAME.1 "$SCAN $addr 1 Full S" C-m
                     tmux select-pane -t $WINDOW_NAME.0
+                    echo -e "Press any key to continue..."
+                    read 
                 else 
                     if [ $ans = 2 ];then
-                        echo -e "Start Full Port Scanning. Multi Host"
-                        echo -e "Press any key to continue..."
-                        read             
+                        echo -e "Start Full Port Scanning. Multi Host"             
                         tmux send-keys -t $WINDOW_NAME.1 "$SCAN $TARGETS 1 Full M" C-m 
                         tmux select-pane -t $WINDOW_NAME.0
+                        echo -e "Press any key to continue..."
+                        read
                     else
                         echo -e "Press any key to continue..."
                         read
                     fi
                 fi ;;
             3 )
-                echo -e "Quick Service Scan"
+                echo -e "Service Scan"
                 echo -e "+---+"
                 echo -e "| 1 | Single"
                 echo -e "+---+"
@@ -155,49 +148,18 @@ function scan_manage()
                 read -n 1 -s ans
                 if [ $ans = 1 ];then
                     read -p "IP Address :" addr
-                    echo -e "Start Quick Scanning. Single Host"
-                    echo -e "Press any key to continue..."
-                    read             
-                    tmux send-keys -t $WINDOW_NAME.1 "$SCAN $addr 2 Quick S" C-m
-                    tmux select-pane -t $WINDOW_NAME.0
-                else 
-                    if [ $ans = 2 ];then
-                        echo -e "Start Quick Scanning. Multi Host"
-                        echo -e "Press any key to continue..."
-                        read             
-                        tmux send-keys -t $WINDOW_NAME.1 "$SCAN $TARGETS 2 Quick M" C-m 
-                        tmux select-pane -t $WINDOW_NAME.0
-                    else
-                        echo -e "Press any key to continue..."
-                        read
-                    fi
-                fi ;;
-            4 )
-                echo -e "Default Service Scan"
-                echo -e "+---+"
-                echo -e "| 1 | Single"
-                echo -e "+---+"
-                echo -e "+---+"
-                echo -e "| 2 | Multi"
-                echo -e "+---+"
-                echo -e "+---+"
-                echo -e "| 9 | Back"
-                echo -e "+---+"
-                read -n 1 -s ans
-                if [ $ans = 1 ];then
-                    read -p "IP Address :" addr
-                    echo -e "Start Quick Scanning. Single Host"
-                    echo -e "Press any key to continue..."
-                    read             
+                    echo -e "Start Service Scanning. Single Host"             
                     tmux send-keys -t $WINDOW_NAME.1 "$SCAN $addr 2 Default S" C-m
                     tmux select-pane -t $WINDOW_NAME.0
+                    echo -e "Press any key to continue..."
+                    read
                 else 
                     if [ $ans = 2 ];then
-                        echo -e "Start Quick Scanning. Multi Host"
-                        echo -e "Press any key to continue..."
-                        read             
+                        echo -e "Start Service Scanning. Multi Host"             
                         tmux send-keys -t $WINDOW_NAME.1 "$SCAN $TARGETS 2 Default M" C-m
                         tmux select-pane -t $WINDOW_NAME.0
+                        echo -e "Press any key to continue..."
+                        read
                     else
                         echo -e "Press any key to continue..."
                         read
