@@ -103,7 +103,7 @@ function scan_manage()
                         echo -e "Start Quick Port Scanning. Multi Host"
                         echo -e "Press any key to continue..."
                         read             
-                        tmux send-keys -t $WINDOW_NAME "$SCAN $TARGETS 1 Quick M" C-m 
+                        tmux send-keys -t $WINDOW_NAME.1 "$SCAN $TARGETS 1 Quick M" C-m 
                         tmux select-pane -t $WINDOW_NAME.0
                     else
                         echo -e "Press any key to continue..."
@@ -134,7 +134,7 @@ function scan_manage()
                         echo -e "Start Full Port Scanning. Multi Host"
                         echo -e "Press any key to continue..."
                         read             
-                        tmux send-keys -t $WINDOW_NAME "$SCAN $TARGETS 1 Full M" C-m 
+                        tmux send-keys -t $WINDOW_NAME.1 "$SCAN $TARGETS 1 Full M" C-m 
                         tmux select-pane -t $WINDOW_NAME.0
                     else
                         echo -e "Press any key to continue..."
@@ -158,14 +158,14 @@ function scan_manage()
                     echo -e "Start Quick Scanning. Single Host"
                     echo -e "Press any key to continue..."
                     read             
-                    tmux send-keys -t $WINDOW_NAME "$SCAN $addr 2 Quick S" C-m
+                    tmux send-keys -t $WINDOW_NAME.1 "$SCAN $addr 2 Quick S" C-m
                     tmux select-pane -t $WINDOW_NAME.0
                 else 
                     if [ $ans = 2 ];then
                         echo -e "Start Quick Scanning. Multi Host"
                         echo -e "Press any key to continue..."
                         read             
-                        tmux send-keys -t $WINDOW_NAME "$SCAN $TARGETS 2 Quick M" C-m 
+                        tmux send-keys -t $WINDOW_NAME.1 "$SCAN $TARGETS 2 Quick M" C-m 
                         tmux select-pane -t $WINDOW_NAME.0
                     else
                         echo -e "Press any key to continue..."
@@ -189,14 +189,14 @@ function scan_manage()
                     echo -e "Start Quick Scanning. Single Host"
                     echo -e "Press any key to continue..."
                     read             
-                    tmux send-keys -t $WINDOW_NAME "$SCAN $addr 2 Default S" C-m
+                    tmux send-keys -t $WINDOW_NAME.1 "$SCAN $addr 2 Default S" C-m
                     tmux select-pane -t $WINDOW_NAME.0
                 else 
                     if [ $ans = 2 ];then
                         echo -e "Start Quick Scanning. Multi Host"
                         echo -e "Press any key to continue..."
                         read             
-                        tmux send-keys -t $WINDOW_NAME "$SCAN $TARGETS 2 Default M" C-m
+                        tmux send-keys -t $WINDOW_NAME.1 "$SCAN $TARGETS 2 Default M" C-m
                         tmux select-pane -t $WINDOW_NAME.0
                     else
                         echo -e "Press any key to continue..."

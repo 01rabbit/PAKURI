@@ -44,23 +44,23 @@ if [ $2 = 1 ];then
     case $3 in
         Quick )
             if [ $4 = "S" ];then
-                $AUTORECON $1 --profile quicK
+                $AUTORECON --profile quicK -o $WDIR $1
             else 
                 if [ $4 = "M" ];then
                     cat $1 | while read line
                     do
-                        $AUTORECON $line --profile quicK
+                        $AUTORECON --profile quicK -o $WDIR $line
                     done
                 fi
             fi ;;
         Default )
             if [ $4 = "S" ];then
-                $AUTORECON $1 
+                $AUTORECON -o $WDIR $1 
             else 
                 if [ $4 = "M" ];then
                     cat $1 | while read line
                     do
-                        $AUTORECON $line
+                        $AUTORECON -o $WDIR $line
                     done
                 fi
             fi ;;
