@@ -79,21 +79,21 @@ function menu()
         date
         echo -e "Working Directory : $WDIR"
         echo -e "---------------------- Main Menu -----------------------"
-        echo -e "+---+"
+        echo -e "${GREEN}+---+"
         echo -e "| 1 | Scanning Targets"
         echo -e "+---+"
-        echo -e "+---+"
+        echo -e "${RED}+---+"
         echo -e "| 2 | Exploit Mode"
         echo -e "+---+"
-        echo -e "+---+"
+        echo -e "${YELLOW}+---+"
         echo -e "| 3 | Config"
         echo -e "+---+"
-        echo -e "+---+"
+        echo -e "${BLUE}+---+"
         echo -e "| 4 | Project Management"
         echo -e "+---+"
-        echo -e "+---+"        
+        echo -e "${BLACK}+---+"        
         echo -e "| 9 | Exit"
-        echo -e "+---+"
+        echo -e "+---+${NC}"
 
         read -n 1 -t 10 -s key
         echo
