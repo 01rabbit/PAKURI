@@ -2,6 +2,10 @@
 
 PAKURI=$0
 source source.conf
+source module/scan_module.sh
+source module/exploit_module.sh
+source module/config_module.sh
+source module/project_module.sh
 
 # Opening Banner
 function op_banner()
@@ -95,13 +99,13 @@ function menu()
         echo
         case "$key" in
             1 )
-                module/scan_module.sh ;;
+                scan_manage ;;
             2 )
-                module/exploit_module.sh ;;
+                exploit_manage ;;
             3 )
-                module/config_module.sh ;;
+                config_manage ;;
             4 )
-                module/project_module.sh ;;
+                pj_manage ;;
             9 ) 
                 tmux kill-pane -t $SESSION_NAME.1
                 tmux kill-pane -t $SESSION_NAME.0

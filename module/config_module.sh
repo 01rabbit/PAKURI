@@ -1,6 +1,3 @@
-#!/bin/bash
-source source.conf
-
 function config_banner()
 {
     echo -e "${GREEN_b}"
@@ -151,4 +148,3 @@ function config_manage()
         esac
     done
 }
-config_manage

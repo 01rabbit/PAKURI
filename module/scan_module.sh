@@ -1,6 +1,3 @@
-#!/bin/bash
-source source.conf
-
 function scan_banner()
 {
     echo -e "${RED}"
@@ -172,5 +169,3 @@ function scan_manage()
         esac
     done
 }
-
-scan_manage

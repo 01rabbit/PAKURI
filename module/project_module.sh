@@ -1,6 +1,3 @@
-#!/bin/bash
-source source.conf
-
 function pj_banner()
 {
     echo -e "${BLUE_b}"
@@ -74,5 +71,3 @@ function pj_manage()
         esac
     done
 }
-
-pj_manage
