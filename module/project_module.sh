@@ -13,7 +13,6 @@ function pj_banner()
 # Project management main menu
 function pj_manage()
 {
-    #local wdir
     local key
     local name
 
