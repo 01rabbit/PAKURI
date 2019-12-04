@@ -6,6 +6,7 @@ source module/scan_module.sh
 source module/exploit_module.sh
 source module/config_module.sh
 source module/project_module.sh
+source module/import-faraday.sh
 
 # Opening Banner
 function op_banner()
@@ -79,19 +80,19 @@ function menu()
         date
         echo -e "Working Directory : $WDIR"
         echo -e "---------------------- Main Menu -----------------------"
-        echo -e "${GREEN}+---+"
+        echo -e "${BLUE_b}+---+"
         echo -e "| 1 | Scanning Targets"
         echo -e "+---+"
-        echo -e "${RED}+---+"
+        echo -e "${RED_b}+---+"
         echo -e "| 2 | Exploit Mode"
         echo -e "+---+"
-        echo -e "${YELLOW}+---+"
+        echo -e "${YELLOW_b}+---+"
         echo -e "| 3 | Config"
         echo -e "+---+"
-        echo -e "${BLUE}+---+"
+        echo -e "${GREEN_b}+---+"
         echo -e "| 4 | Project Management"
         echo -e "+---+"
-        echo -e "${BLACK}+---+"        
+        echo -e "${BLACK_b}+---+"        
         echo -e "| 9 | Exit"
         echo -e "+---+${NC}"
 
