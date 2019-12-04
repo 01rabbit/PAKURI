@@ -80,6 +80,8 @@ function scan_manage()
                 echo -e "${BLUE_b}+---+"
                 echo -e "| 1 | Check Host"
                 echo -e "+---+"
+                echo -e "${NC}"
+                echo -e "---------------------- Select Action -----------------------"
                 echo -e ""
                 echo -e "${BLUE_b}+---+"
                 echo -e "| 1 | Single"
@@ -106,15 +108,14 @@ function scan_manage()
                         tmux select-pane -t $WINDOW_NAME.0
                         echo -e "Press any key to continue..."
                         read
-                    else
-                        echo -e "Press any key to continue..."
-                        read
                     fi
                 fi ;;
             2 )
                 echo -e "${RED_b}+---+"
                 echo -e "| 2 | PortScan(Quick)"
                 echo -e "+---+"
+                echo -e "${NC}"
+                echo -e "---------------------- Select Action -----------------------"
                 echo -e ""
                 echo -e "${BLUE_b}+---+"
                 echo -e "| 1 | Single"
@@ -141,15 +142,14 @@ function scan_manage()
                         tmux select-pane -t $WINDOW_NAME.0
                         echo -e "Press any key to continue..."
                         read
-                    else
-                        echo -e "Press any key to continue..."
-                        read
                     fi
                 fi ;;
             3 )
                 echo -e "${YELLOW_b}+---+"
                 echo -e "| 3 | PortScan(Full)"
                 echo -e "+---+"
+                echo -e "${NC}"
+                echo -e "---------------------- Select Action -----------------------"
                 echo -e ""
                 echo -e "${BLUE_b}+---+"
                 echo -e "| 1 | Single"
@@ -176,15 +176,14 @@ function scan_manage()
                         tmux select-pane -t $WINDOW_NAME.0
                         echo -e "Press any key to continue..."
                         read
-                    else
-                        echo -e "Press any key to continue..."
-                        read
                     fi
                 fi ;;
             4 )
                 echo -e "${GREEN_b}+---+"
                 echo -e "| 4 | Service Scan"
                 echo -e "+---+"
+                echo -e "${NC}"
+                echo -e "---------------------- Select Action -----------------------"
                 echo -e ""
                 echo -e "${BLUE_b}+---+"
                 echo -e "| 1 | Single"
@@ -209,9 +208,6 @@ function scan_manage()
                         echo -e "Start Service Scanning. Multi Host"             
                         tmux send-keys -t $WINDOW_NAME.1 "$SCRIPT_DIR/$SCAN $SCRIPT_DIR/$TARGETS 2 Default M" C-m
                         tmux select-pane -t $WINDOW_NAME.0
-                        echo -e "Press any key to continue..."
-                        read
-                    else
                         echo -e "Press any key to continue..."
                         read
                     fi
