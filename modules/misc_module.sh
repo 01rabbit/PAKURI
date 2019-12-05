@@ -1,13 +1,3 @@
-function check_faraday()
-{
-    if ps -ef |grep faraday-server|grep -v "grep" > /dev/null;then
-        echo "Faraday Server is already running."
-    else
-        echo "Start Faraday Server."
-        tmux send-keys -t $WINDOW_NAME.1 "faraday-server &" C-m
-    fi
-}
-
 # Opening Banner
 function op_banner()
 {
@@ -121,19 +111,19 @@ function select_4()
 {
     echo -e "${BLUE_b}+---+"
     echo -e "| 1 | $1"
-    echo -e "+---+"
+    echo -e "${BLUE_b}+---+"
     echo -e "${RED_b}+---+"
     echo -e "| 2 | $2"
-    echo -e "+---+"
+    echo -e "${RED_b}+---+"
     echo -e "${YELLOW_b}+---+"
     echo -e "| 3 | $3"
-    echo -e "+---+"
+    echo -e "${YELLOW_b}+---+"
     echo -e "${GREEN_b}+---+"
     echo -e "| 4 | $3"
-    echo -e "+---+"
+    echo -e "${GREEN_b}+---+"
     echo -e "${BLACK_b}+---+"
     echo -e "| 9 | Back"
-    echo -e "+---+"
+    echo -e "${BLACK_b}+---+"
     echo -e "${NC}"
 }
 
@@ -141,16 +131,16 @@ function select_3()
 {
     echo -e "${BLUE_b}+---+"
     echo -e "| 1 | $1"
-    echo -e "+---+"
+    echo -e "${BLUE_b}+---+"
     echo -e "${RED_b}+---+"
     echo -e "| 2 | $2"
-    echo -e "+---+"
+    echo -e "${RED_b}+---+"
     echo -e "${YELLOW_b}+---+"
     echo -e "| 3 | $3"
-    echo -e "+---+"
+    echo -e "${YELLOW_b}+---+"
     echo -e "${BLACK_b}+---+"
     echo -e "| 9 | Back"
-    echo -e "+---+"
+    echo -e "${BLACK_b}+---+"
     echo -e "${NC}"
 }
 
@@ -158,14 +148,50 @@ function select_2()
 {
     echo -e "${BLUE_b}+---+"
     echo -e "| 1 | $1"
-    echo -e "+---+"
+    echo -e "${BLUE_b}+---+"
     echo -e "${RED_b}+---+"
     echo -e "| 2 | $2"
-    echo -e "+---+"
+    echo -e "${RED_b}+---+"
     echo -e "${BLACK_b}+---+"
     echo -e "| 9 | Back"
-    echo -e "+---+"
+    echo -e "${BLACK_b}+---+"
     echo -e "${NC}"
+}
+
+function box_1()
+{
+    echo -e "${BLUE_b}+---+"
+    echo -e "| 1 | $1"
+    echo -e "${BLUE_b}+---+${NC}"
+}
+
+function box_2()
+{
+    echo -e "${RED_b}+---+"
+    echo -e "| 2 | $2"
+    echo -e "${RED_b}+---+${NC}"
+}
+
+function box_3()
+{
+    echo -e "${YELLOW_b}+---+"
+    echo -e "| 3 | $3"
+    echo -e "${YELLOW_b}+---+${NC}"
+}
+
+function box_4()
+{
+    echo -e "${GREEN_b}+---+"
+    echo -e "| 4 | $3"
+    echo -e "${GREEN_b}+---+${NC}"
+}
+
+function box_9()
+{
+    echo -e "${BLACK_b}+---+"
+    echo -e "| 9 | Back"
+    echo -e "${BLACK_b}+---+${NC}"
+
 }
 
 # function pj_banner()
