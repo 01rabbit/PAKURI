@@ -40,16 +40,21 @@ function modeswitching()
         clear
         config_banner
         date
+        echo -e "------------------- Config Menu --------------------"
+        echo -e "${RED_b}+---+"
+        echo -e "| 2 | Mode Switching"
+        echo -e "+---+${NC}"
         echo -e "-------------------- Now mode $mode_v -------------------"
-        echo -e "+---+"
+        echo -e "${BLUE_b}+---+"
         echo -e "| 1 |:Switch CUI mode"
         echo -e "+---+"
-        echo -e "+---+"
+        echo -e "${RED_b}+---+"
         echo -e "| 2 |:Switch GUI mode"
         echo -e "+---+"
-        echo -e "+---+"
+        echo -e "${BLACK_b}+---+"
         echo -e "| 9 |:Back"
         echo -e "+---+"
+        echo -e "${NC}"
         read -n 1 -s key
         clear
         config_banner
@@ -57,15 +62,15 @@ function modeswitching()
         echo -e "-------------------- Now mode $mode_v -------------------"
         case "$key" in
             1 )
-                echo -e "+---+"
+                echo -e "${BLUE_b}+---+"
                 echo -e "| 1 |:Switch CUI mode"
-                echo -e "+---+"
+                echo -e "+---+${NC}"
                 echo -e "CUI mode enabled after reboot"
                 systemctl set-default -f multi-user.target ;;
             2 )
-                echo -e "+---+"
+                echo -e "${RED_b}+---+"
                 echo -e "| 2 |:Switch GUI mode"
-                echo -e "+---+"
+                echo -e "+---+${NC}"
                 echo -e "GUI mode enabled after reboot"
                 systemctl set-default -f graphical.target ;;
             9 )
@@ -91,22 +96,23 @@ function config_manage()
         date
         echo -e "------------------- Config Menu --------------------"
         if systemctl status postgresql|grep exited >/dev/null ;then
-            echo -e "+---+"
-            echo -e "| 1 | PpstgreSQL [${GREEN_b}Running${NC}]"
-            echo -e "+---+"
+            echo -e "${BLUE_b}+---+"
+            echo -e "| 1 | PpstgreSQL ${NC}[${GREEN_b}Running${NC}]"
+            echo -e "${BLUE_b}+---+${NC}"
             flg_p=1
         else
-            echo -e "+---+"
-            echo -e "| 1 | PostgreSQL [${RED_b}DOWN${NC}]"
-            echo -e "+---+"
+            echo -e "${BLUE_b}+---+"
+            echo -e "| 1 | PostgreSQL ${NC}[${RED_b}DOWN${NC}]"
+            echo -e "${BLUE_b}+---+${NC}"
             flg_p=0
         fi
-        echo -e "+---+"
+        echo -e "${RED_b}+---+"
         echo -e "| 2 | Mode Switching"
         echo -e "+---+"
-        echo -e "+---+"
+        echo -e "${BLACK_b}+---+"
         echo -e "| 9 | Back"
         echo -e "+---+"
+        echo -e "${NC}"
         read -n 1 -t 5 -s key
         clear
         config_banner
@@ -115,25 +121,27 @@ function config_manage()
         case "$key" in
             1 )
                 if [ $flg_p = 1 ];then
-                    echo -e "+---+"
+                    echo -e "${BLUE_b}+---+"
                     echo -e "| 1 | PpstgreSQL [${GREEN_b}Running${NC}]"
-                    echo -e "+---+"
+                    echo -e "${BLUE_b}+---+${NC}"
                     echo -e "Do you really want to ${RED_b}stop${NC}?"
-                    echo -e "${GREEN_b}+---+         ${RED_b}+---+${NC}"
-                    echo -e "${GREEN_b}| 1 | yes  ${NC}|  ${RED_b}| 2 | no${NC}"
-                    echo -e "${GREEN_b}+---+         ${RED_b}+---+${NC}"
+                    echo -e "${GREEN_b}+---+         ${RED_b}+---+"
+                    echo -e "${GREEN_b}| 1 | yes  ${NC}|  ${RED_b}| 2 | no"
+                    echo -e "${GREEN_b}+---+         ${RED_b}+---+"
+                    echo -e "${NC}"
                     read -n 1 -s ans
                     if [ $ans -eq 1 ];then
                         service_stop postgresql
                     fi
                 else
-                    echo -e "+---+"
+                    echo -e "${BLUE_b}+---+"
                     echo -e "| 1 | PostgreSQL [${RED_b}DOWN${NC}]"
-                    echo -e "+---+"
+                    echo -e "${BLUE_b}+---+${NC}"
                     echo -e "Do you really want to ${GREEN_b}start${NC}?"
-                    echo -e "${GREEN_b}+---+         ${RED_b}+---+${NC}"
-                    echo -e "${GREEN_b}| 1 | yes  ${NC}|  ${RED_b}| 2 | no${NC}"
-                    echo -e "${GREEN_b}+---+         ${RED_b}+---+${NC}"
+                    echo -e "${GREEN_b}+---+         ${RED_b}+---+"
+                    echo -e "${GREEN_b}| 1 | yes  ${NC}|  ${RED_b}| 2 | no"
+                    echo -e "${GREEN_b}+---+         ${RED_b}+---+"
+                    echo -e "${NC}"
                     read -n 1 -s ans
                     if [ $ans -eq 1 ];then
                         service_start postgresql

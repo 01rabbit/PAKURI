@@ -52,8 +52,8 @@ function pj_manage()
                 echo -e "| 1 | Configure Targets"
                 echo -e "+---+"
                 echo -e "${NC}"
-                tmux send-keys -t $SESSION_NAME.1 "nano $TARGETS" C-m
-                tmux select-pane -t $SESSION_NAME.0
+                tmux send-keys -t $SESSION_NAME.1 "nano $TARGETS;tmux select-pane -t $SESSION_NAME.0" C-m
+                tmux select-pane -t $SESSION_NAME.1
                 echo -e "Press any key to continue..."
                 read ;;
             2)
