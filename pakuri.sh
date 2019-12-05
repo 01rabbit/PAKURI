@@ -2,72 +2,11 @@
 
 PAKURI=$0
 source source.conf
-source module/scan_module.sh
-source module/exploit_module.sh
-source module/config_module.sh
-source module/project_module.sh
-source module/import-faraday.sh
+source modules/scan_module.sh
+source modules/exploit_module.sh
+source modules/config_module.sh
+source modules/misc_module.sh
 
-# Opening Banner
-function op_banner()
-{
-    clear
-    echo -e ""
-    echo -e "                ${BLACK_b}...(gMMMMMNg,."
-    echo -e "             ${BLACK_b}.(MMMMMMMMMMMMMMMMa,"
-    echo -e "       ${BLACK_b}..NMMMMMMMMMMMMMMMMMMMMMMMN,"
-    echo -e "     ${BLACK_b}.dMMMMMMMMMMMMMMMMMMMMMMMMMMMMMa.."
-    echo -e "    ${BLACK_b}JMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNJ."
-    echo -e "   ${BLACK_b}.MMMMMTMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNg,"
-    echo -e "  ${BLACK_b}.MMMM[${GREEN}00.${BLACK_b}MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMm."
-    echo -e "   ${BLACK_b}MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMm."
-    echo -e "   ${BLACK_b}(MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMa."
-    echo -e "    ${BLACK_b}?MMMMMMM{ 7HMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMF"
-    echo -e "       ${BLACK_b},MMMM]    7MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
-    echo -e "         ${BLACK_b}WMMb      ?WMMMMMMMMMMMMMMMMMMMMMMMMMMMMMN,"
-    echo -e "         ${YELLOW}J${BLACK_b}dMM${YELLOW}L        ${BLACK_b}?WMMMMMMMMMMMMMMMMMMMMMMMMMMMMN,"
-    echo -e "      ${RED_b}.Jy${YELLOW}yt${BLACK_b}dMb${YELLOW}++.       ${BLACK_b}.WMMMMMMMMMMMMMMMMMMMMMMMMMMMMN,"
-    echo -e "     ${RED_b}?7777uww${BLACK_b}w${RED_b}XXZV!      ${BLACK_b} .TMMMMMMMMMMMMMMMMMMMMMMMMMMMMN,"
-    echo -e "          ${RED_b}.XyyX0Z${YELLOW}>          ${BLACK_b}JMMMM#    ?THMMMMMMMMMMMMMMMMMm,"
-    echo -e "           ${RED_b}.UVtZ${YELLOW}>!          ${BLACK_b}(MMMD          -TMMMMMMMMMMMMMMMNx"
-    echo -e "          ${RED_b}.JktZ${YELLOW}><         ${BLACK_b}..M@'                ?TMMMMMHMMMMMMMp."
-    echo -e "        ${RED_b}.ZVVY=${YELLOW}<!! ${BLACK_b}dMJ,.. gM@'                     -HMMMN, ?TMMMMN,"
-    echo -e "                     ${BLACK_b}dMMMML.,                       ?MMMMm.   7WMMM_"
-    echo -e "                 ${BLACK_b}.dMNMMM  MMN,                        ?MMMN,     (TF"
-    echo -e "                             ${BLACK_b}T                          (HMMN,"
-    echo -e "                                                           ${BLACK_b}TMMe"
-    echo -e "                                                             ${BLACK_b}.^'${GREEN_b}"
-    echo -e " ██▓███        ▄▄▄            ██ ▄█▀      █    ██       ██▀███        ██▓"
-    echo -e "▓██░  ██▒     ▒████▄          ██▄█▒       ██  ▓██▒     ▓██ ▒ ██▒     ▓██▒"
-    echo -e "▓██░ ██▓▒     ▒██  ▀█▄       ▓███▄░      ▓██  ▒██░     ▓██ ░▄█ ▒     ▒██▒"
-    echo -e "▒██▄█▓▒ ▒     ░██▄▄▄▄██      ▓██ █▄      ▓▓█  ░██░     ▒██▀▀█▄       ░██░"
-    echo -e "▒██▒ ░  ░ ██▓  ▓█   ▓██▒ ██▓ ▒██▒ █▄ ██▓ ▒▒█████▓  ██▓ ░██▓ ▒██▒ ██▓ ░██░"
-    echo -e "▒▓▒░ ░  ░ ▒▓▒  ▒▒   ▓▒█░ ▒▓▒ ▒ ▒▒ ▓▒ ▒▓▒ ░▒▓▒ ▒ ▒  ▒▓▒ ░ ▒▓ ░▒▓░ ▒▓▒ ░▓  "
-    echo -e "░▒ ░      ░▒    ▒   ▒▒ ░ ░▒  ░ ░▒ ▒░ ░▒  ░░▒░ ░ ░  ░▒    ░▒ ░ ▒░ ░▒   ▒ ░"
-    echo -e "░░        ░     ░   ▒    ░   ░ ░░ ░  ░    ░░░ ░ ░  ░     ░░   ░  ░    ▒ ░"
-    echo -e "           ░        ░  ░  ░  ░  ░     ░     ░       ░     ░       ░   ░  "
-    echo -e "           ░              ░           ░             ░             ░      "
-    sleep 2
-}
-
-# Main Banner
-function main_banner()
-{
-    echo -e "${BLACK}"
-    echo -e " ██████╗   █████╗    ██╗  ██╗   ██╗   ██╗   ██████╗    ██╗"
-    echo -e " ██╔══██╗ ██╔══██╗   ██║ ██╔╝   ██║   ██║   ██╔══██╗   ██║"
-    echo -e " ██████╔╝ ███████║   █████╔╝    ██║   ██║   ██████╔╝   ██║"
-    echo -e " ██╔═══╝  ██╔══██║   ██╔═██╗    ██║   ██║   ██╔══██╗   ██║"
-    echo -e " ██║   ██╗██║  ██║██╗██║  ██╗██╗╚██████╔╝██╗██║  ██║██╗██║"
-    echo -e " ╚═╝   ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝╚═╝  ╚═╝╚═╝╚═╝"
-    echo -e "${NC}"
-    echo -e "- ${RED_b}P${NC}enetration Test ${RED_b}A${NC}chive ${RED_b}K${NC}nowledge ${RED_b}U${NC}nite ${RED_b}R${NC}apid ${RED_b}I${NC}nterface -"
-    echo -e "                    inspired by ${GREEN_b}CDI"
-    echo -e "${NC}"
-    echo -e "                                               v0.0.1-beta"
-    echo -e "                                       Author  : Mr.Rabbit" 
-    echo -e ""                                                                                                       
-}
 
 # Main Menu
 function menu()
@@ -80,21 +19,7 @@ function menu()
         date
         echo -e "Working Directory : $WDIR"
         echo -e "---------------------- Main Menu -----------------------"
-        echo -e "${BLUE_b}+---+"
-        echo -e "| 1 | Scanning"
-        echo -e "+---+"
-        echo -e "${RED_b}+---+"
-        echo -e "| 2 | Exploit"
-        echo -e "+---+"
-        echo -e "${YELLOW_b}+---+"
-        echo -e "| 3 | Config"
-        echo -e "+---+"
-        echo -e "${GREEN_b}+---+"
-        echo -e "| 4 | Project Management"
-        echo -e "+---+"
-        echo -e "${BLACK_b}+---+"        
-        echo -e "| 9 | Exit"
-        echo -e "+---+${NC}"
+        select_3 "Scanning" "Exploit" "Config"
 
         read -n 1 -t 10 -s key
         echo
@@ -105,8 +30,6 @@ function menu()
                 exploit_manage ;;
             3 )
                 config_manage ;;
-            4 )
-                pj_manage ;;
             9 ) 
                 tmux kill-pane -t $SESSION_NAME.1
                 tmux kill-pane -t $SESSION_NAME.0

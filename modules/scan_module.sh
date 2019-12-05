@@ -1,15 +1,3 @@
-function scan_banner()
-{
-    echo -e "${BLUE}"
-    echo -e " ███████╗ ██████╗ █████╗ ███╗   ██╗███╗   ██╗██╗███╗   ██╗ ██████╗ "
-    echo -e " ██╔════╝██╔════╝██╔══██╗████╗  ██║████╗  ██║██║████╗  ██║██╔════╝ "
-    echo -e " ███████╗██║     ███████║██╔██╗ ██║██╔██╗ ██║██║██╔██╗ ██║██║  ███╗"
-    echo -e " ╚════██║██║     ██╔══██║██║╚██╗██║██║╚██╗██║██║██║╚██╗██║██║   ██║"
-    echo -e " ███████║╚██████╗██║  ██║██║ ╚████║██║ ╚████║██║██║ ╚████║╚██████╔╝"
-    echo -e " ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═══╝ ╚═════╝ "
-    echo -e "${NC}"
-}
-
 # $1 IP Address or IP list
 # $2 Arguments
 # $3 S or M S:Sngle Host M:Multi Host
@@ -119,17 +107,7 @@ function scan_manage()
                 echo -e "| 1 | Host Scan"
                 echo -e "+---+${NC}"
                 echo -e "---------------------- Select Action -----------------------"
-                echo -e ""
-                echo -e "${BLUE_b}+---+"
-                echo -e "| 1 | Single"
-                echo -e "+---+"
-                echo -e "${RED_b}+---+"
-                echo -e "| 2 | Multi"
-                echo -e "+---+"
-                echo -e "${BLACK_b}+---+"
-                echo -e "| 9 | Back"
-                echo -e "+---+"
-                echo -e "${NC}"
+                select_2 "Single" "Multi"
                 read -n 1 -s ans
                 clear
                 scan_banner
@@ -164,17 +142,7 @@ function scan_manage()
                 echo -e "| 2 | PortScan"
                 echo -e "+---+${NC}"
                 echo -e "---------------------- Select Action -----------------------"
-                echo -e ""
-                echo -e "${BLUE_b}+---+"
-                echo -e "| 1 | Quick"
-                echo -e "+---+"
-                echo -e "${RED_b}+---+"
-                echo -e "| 2 | Full"
-                echo -e "+---+"
-                echo -e "${BLACK_b}+---+"
-                echo -e "| 9 | Back"
-                echo -e "+---+"
-                echo -e "${NC}"
+                select_2 "Quick" "Full" 
                 read -n 1 -s ans
                 clear
                 scan_banner
@@ -205,17 +173,7 @@ function scan_manage()
                 echo -e "| 3 | Service Scan"
                 echo -e "+---+${NC}"
                 echo -e "---------------------- Select Action -----------------------"
-                echo -e ""
-                echo -e "${BLUE_b}+---+"
-                echo -e "| 1 | Single"
-                echo -e "+---+"
-                echo -e "${RED_b}+---+"
-                echo -e "| 2 | Multi"
-                echo -e "+---+"
-                echo -e "${BLACK_b}+---+"
-                echo -e "| 9 | Back"
-                echo -e "+---+"
-                echo -e "${NC}"
+                select_2 "Single" "Multi"
                 read -n 1 -s ans
                 clear
                 scan_banner

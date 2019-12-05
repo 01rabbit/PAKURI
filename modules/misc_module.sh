@@ -1,0 +1,181 @@
+function check_faraday()
+{
+    if ps -ef |grep faraday-server|grep -v "grep" > /dev/null;then
+        echo "Faraday Server is already running."
+    else
+        echo "Start Faraday Server."
+        tmux send-keys -t $WINDOW_NAME.1 "faraday-server &" C-m
+    fi
+}
+
+# Opening Banner
+function op_banner()
+{
+    clear
+    echo -e ""
+    echo -e "                ${BLACK_b}...(gMMMMMNg,."
+    echo -e "             ${BLACK_b}.(MMMMMMMMMMMMMMMMa,"
+    echo -e "       ${BLACK_b}..NMMMMMMMMMMMMMMMMMMMMMMMN,"
+    echo -e "     ${BLACK_b}.dMMMMMMMMMMMMMMMMMMMMMMMMMMMMMa.."
+    echo -e "    ${BLACK_b}JMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNJ."
+    echo -e "   ${BLACK_b}.MMMMMTMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNg,"
+    echo -e "  ${BLACK_b}.MMMM[${GREEN}00.${BLACK_b}MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMm."
+    echo -e "   ${BLACK_b}MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMm."
+    echo -e "   ${BLACK_b}(MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMa."
+    echo -e "    ${BLACK_b}?MMMMMMM{ 7HMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMF"
+    echo -e "       ${BLACK_b},MMMM]    7MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
+    echo -e "         ${BLACK_b}WMMb      ?WMMMMMMMMMMMMMMMMMMMMMMMMMMMMMN,"
+    echo -e "         ${YELLOW}J${BLACK_b}dMM${YELLOW}L        ${BLACK_b}?WMMMMMMMMMMMMMMMMMMMMMMMMMMMMN,"
+    echo -e "      ${RED_b}.Jy${YELLOW}yt${BLACK_b}dMb${YELLOW}++.       ${BLACK_b}.WMMMMMMMMMMMMMMMMMMMMMMMMMMMMN,"
+    echo -e "     ${RED_b}?7777uww${BLACK_b}w${RED_b}XXZV!      ${BLACK_b} .TMMMMMMMMMMMMMMMMMMMMMMMMMMMMN,"
+    echo -e "          ${RED_b}.XyyX0Z${YELLOW}>          ${BLACK_b}JMMMM#    ?THMMMMMMMMMMMMMMMMMm,"
+    echo -e "           ${RED_b}.UVtZ${YELLOW}>!          ${BLACK_b}(MMMD          -TMMMMMMMMMMMMMMMNx"
+    echo -e "          ${RED_b}.JktZ${YELLOW}><         ${BLACK_b}..M@'                ?TMMMMMHMMMMMMMp."
+    echo -e "        ${RED_b}.ZVVY=${YELLOW}<!! ${BLACK_b}dMJ,.. gM@'                     -HMMMN, ?TMMMMN,"
+    echo -e "                     ${BLACK_b}dMMMML.,                       ?MMMMm.   7WMMM_"
+    echo -e "                 ${BLACK_b}.dMNMMM  MMN,                        ?MMMN,     (TF"
+    echo -e "                             ${BLACK_b}T                          (HMMN,"
+    echo -e "                                                           ${BLACK_b}TMMe"
+    echo -e "                                                             ${BLACK_b}.^'${GREEN_b}"
+    echo -e " ██▓███        ▄▄▄            ██ ▄█▀      █    ██       ██▀███        ██▓"
+    echo -e "▓██░  ██▒     ▒████▄          ██▄█▒       ██  ▓██▒     ▓██ ▒ ██▒     ▓██▒"
+    echo -e "▓██░ ██▓▒     ▒██  ▀█▄       ▓███▄░      ▓██  ▒██░     ▓██ ░▄█ ▒     ▒██▒"
+    echo -e "▒██▄█▓▒ ▒     ░██▄▄▄▄██      ▓██ █▄      ▓▓█  ░██░     ▒██▀▀█▄       ░██░"
+    echo -e "▒██▒ ░  ░ ██▓  ▓█   ▓██▒ ██▓ ▒██▒ █▄ ██▓ ▒▒█████▓  ██▓ ░██▓ ▒██▒ ██▓ ░██░"
+    echo -e "▒▓▒░ ░  ░ ▒▓▒  ▒▒   ▓▒█░ ▒▓▒ ▒ ▒▒ ▓▒ ▒▓▒ ░▒▓▒ ▒ ▒  ▒▓▒ ░ ▒▓ ░▒▓░ ▒▓▒ ░▓  "
+    echo -e "░▒ ░      ░▒    ▒   ▒▒ ░ ░▒  ░ ░▒ ▒░ ░▒  ░░▒░ ░ ░  ░▒    ░▒ ░ ▒░ ░▒   ▒ ░"
+    echo -e "░░        ░     ░   ▒    ░   ░ ░░ ░  ░    ░░░ ░ ░  ░     ░░   ░  ░    ▒ ░"
+    echo -e "           ░        ░  ░  ░  ░  ░     ░     ░       ░     ░       ░   ░  "
+    echo -e "           ░              ░           ░             ░             ░      "
+    sleep 2
+}
+
+# Main Banner
+function main_banner()
+{
+    echo -e "${BLACK}"
+    echo -e " ██████╗   █████╗    ██╗  ██╗   ██╗   ██╗   ██████╗    ██╗"
+    echo -e " ██╔══██╗ ██╔══██╗   ██║ ██╔╝   ██║   ██║   ██╔══██╗   ██║"
+    echo -e " ██████╔╝ ███████║   █████╔╝    ██║   ██║   ██████╔╝   ██║"
+    echo -e " ██╔═══╝  ██╔══██║   ██╔═██╗    ██║   ██║   ██╔══██╗   ██║"
+    echo -e " ██║   ██╗██║  ██║██╗██║  ██╗██╗╚██████╔╝██╗██║  ██║██╗██║"
+    echo -e " ╚═╝   ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝╚═╝  ╚═╝╚═╝╚═╝"
+    echo -e "${NC}"
+    echo -e "- ${RED_b}P${NC}enetration Test ${RED_b}A${NC}chive ${RED_b}K${NC}nowledge ${RED_b}U${NC}nite ${RED_b}R${NC}apid ${RED_b}I${NC}nterface -"
+    echo -e "                    inspired by ${GREEN_b}CDI"
+    echo -e "${NC}"
+    echo -e "                                               v0.0.1-beta"
+    echo -e "                                       Author  : Mr.Rabbit" 
+    echo -e ""                                                                                                       
+}
+
+# Scanning banner
+function scan_banner()
+{
+    echo -e "${BLUE}"
+    echo -e " ███████╗ ██████╗ █████╗ ███╗   ██╗███╗   ██╗██╗███╗   ██╗ ██████╗ "
+    echo -e " ██╔════╝██╔════╝██╔══██╗████╗  ██║████╗  ██║██║████╗  ██║██╔════╝ "
+    echo -e " ███████╗██║     ███████║██╔██╗ ██║██╔██╗ ██║██║██╔██╗ ██║██║  ███╗"
+    echo -e " ╚════██║██║     ██╔══██║██║╚██╗██║██║╚██╗██║██║██║╚██╗██║██║   ██║"
+    echo -e " ███████║╚██████╗██║  ██║██║ ╚████║██║ ╚████║██║██║ ╚████║╚██████╔╝"
+    echo -e " ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═══╝ ╚═════╝ "
+    echo -e "${NC}"
+}
+
+# Exploit banner
+function exploit_banner()
+{
+    echo -e "${RED}"
+    echo -e " ███████╗██╗  ██╗██████╗ ██╗      ██████╗ ██╗████████╗"
+    echo -e " ██╔════╝╚██╗██╔╝██╔══██╗██║     ██╔═══██╗██║╚══██╔══╝"
+    echo -e " █████╗   ╚███╔╝ ██████╔╝██║     ██║   ██║██║   ██║   "
+    echo -e " ██╔══╝   ██╔██╗ ██╔═══╝ ██║     ██║   ██║██║   ██║   "
+    echo -e " ███████╗██╔╝ ██╗██║     ███████╗╚██████╔╝██║   ██║   "
+    echo -e " ╚══════╝╚═╝  ╚═╝╚═╝     ╚══════╝ ╚═════╝ ╚═╝   ╚═╝   "
+    echo -e "   -With great power comes great responsibility.-"
+    echo -e "${NC}"
+}
+
+# Config banner
+function config_banner()
+{
+    echo -e "${YELLOW}"
+    echo -e "  ██████╗ ██████╗ ███╗   ██╗███████╗██╗ ██████╗ "
+    echo -e " ██╔════╝██╔═══██╗████╗  ██║██╔════╝██║██╔════╝ "
+    echo -e " ██║     ██║   ██║██╔██╗ ██║█████╗  ██║██║  ███╗"
+    echo -e " ██║     ██║   ██║██║╚██╗██║██╔══╝  ██║██║   ██║"
+    echo -e " ╚██████╗╚██████╔╝██║ ╚████║██║     ██║╚██████╔╝"
+    echo -e "  ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝     ╚═╝ ╚═════╝ "
+    echo -e "${NC}"
+}
+
+function yes-no()
+{
+    echo -e "${GREEN_b}+---+         ${RED_b}+---+"
+    echo -e "${GREEN_b}| 1 | yes  ${NC}|  ${RED_b}| 2 | no"
+    echo -e "${GREEN_b}+---+         ${RED_b}+---+"
+    echo -e "${NC}"
+}
+
+function select_4()
+{
+    echo -e "${BLUE_b}+---+"
+    echo -e "| 1 | $1"
+    echo -e "+---+"
+    echo -e "${RED_b}+---+"
+    echo -e "| 2 | $2"
+    echo -e "+---+"
+    echo -e "${YELLOW_b}+---+"
+    echo -e "| 3 | $3"
+    echo -e "+---+"
+    echo -e "${GREEN_b}+---+"
+    echo -e "| 4 | $3"
+    echo -e "+---+"
+    echo -e "${BLACK_b}+---+"
+    echo -e "| 9 | Back"
+    echo -e "+---+"
+    echo -e "${NC}"
+}
+
+function select_3()
+{
+    echo -e "${BLUE_b}+---+"
+    echo -e "| 1 | $1"
+    echo -e "+---+"
+    echo -e "${RED_b}+---+"
+    echo -e "| 2 | $2"
+    echo -e "+---+"
+    echo -e "${YELLOW_b}+---+"
+    echo -e "| 3 | $3"
+    echo -e "+---+"
+    echo -e "${BLACK_b}+---+"
+    echo -e "| 9 | Back"
+    echo -e "+---+"
+    echo -e "${NC}"
+}
+
+function select_2()
+{
+    echo -e "${BLUE_b}+---+"
+    echo -e "| 1 | $1"
+    echo -e "+---+"
+    echo -e "${RED_b}+---+"
+    echo -e "| 2 | $2"
+    echo -e "+---+"
+    echo -e "${BLACK_b}+---+"
+    echo -e "| 9 | Back"
+    echo -e "+---+"
+    echo -e "${NC}"
+}
+
+# function pj_banner()
+# {
+#     echo -e "${GREEN}"
+#     echo -e " ██████╗ ██████╗  ██████╗      ██╗███████╗ ██████╗████████╗"
+#     echo -e " ██╔══██╗██╔══██╗██╔═══██╗     ██║██╔════╝██╔════╝╚══██╔══╝"
+#     echo -e " ██████╔╝██████╔╝██║   ██║     ██║█████╗  ██║        ██║   "
+#     echo -e " ██╔═══╝ ██╔══██╗██║   ██║██   ██║██╔══╝  ██║        ██║   "
+#     echo -e " ██║     ██║  ██║╚██████╔╝╚█████╔╝███████╗╚██████╗   ██║   "
+#     echo -e " ╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚════╝ ╚══════╝ ╚═════╝   ╚═╝   "
+#     echo -e "${NC}"
+# }
