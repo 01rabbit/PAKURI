@@ -1,7 +1,5 @@
-# PAKURI
-**Penetration test Achieve Knowledge Unite Rapid Interface**
 
-![SS1](https://github.com/01rabbit/PAKURI/blob/master/pakuri_s.png)
+![SS1](https://github.com/01rabbit/PAKURI/blob/master/logo.png)
 
 ---
 
