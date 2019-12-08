@@ -79,25 +79,12 @@ function config_manage()
         date
         echo -e "------------------- Config Menu --------------------"
         if systemctl status postgresql|grep exited >/dev/null ;then
-            box_1 "PpstgreSQL ${NC}[${GREEN_b}Running${NC}]"
+            select_4 "PpstgreSQL ${NC}[${GREEN_b}Running${NC}]" "Import data into Faraday" "Mode Switching" "Configure Targets"
             flg_p=1
         else
-            box_1 "PostgreSQL ${NC}[${RED_b}DOWN${NC}]"
+            select_4 "PostgreSQL ${NC}[${RED_b}DOWN${NC}]" "Import data into Faraday" "Mode Switching" "Configure Targets"
             flg_p=0
         fi
-        echo -e "${RED_b}+---+"
-        echo -e "| 2 | Import data into Faraday"
-        echo -e "+---+"
-        echo -e "${YELLOW_b}+---+"
-        echo -e "| 3 | Mode Switching"
-        echo -e "+---+"
-        echo -e "${GREEN_b}+---+"
-        echo -e "| 4 | Configure Targets"
-        echo -e "+---+"
-        echo -e "${BLACK_b}+---+"
-        echo -e "| 9 | Back"
-        echo -e "+---+"
-        echo -e "${NC}"
         read -n 1 -t 5 -s key
         clear
         config_banner
@@ -106,9 +93,7 @@ function config_manage()
         case "$key" in
             1 )
                 if [ $flg_p = 1 ];then
-                    echo -e "${BLUE_b}+---+"
-                    echo -e "| 1 | PpstgreSQL [${GREEN_b}Running${NC}]"
-                    echo -e "${BLUE_b}+---+${NC}"
+                    box_1 "PpstgreSQL [${GREEN_b}Running${NC}]"
                     echo -e "Do you really want to ${RED_b}stop${NC}?"
                     yes-no
                     read -n 1 -s ans
@@ -116,9 +101,7 @@ function config_manage()
                         service_stop postgresql
                     fi
                 else
-                    echo -e "${BLUE_b}+---+"
-                    echo -e "| 1 | PostgreSQL [${RED_b}DOWN${NC}]"
-                    echo -e "${BLUE_b}+---+${NC}"
+                    box_1 "PostgreSQL [${RED_b}DOWN${NC}]"
                     echo -e "Do you really want to ${GREEN_b}start${NC}?"
                     yes-no
                     read -n 1 -s ans
@@ -127,10 +110,7 @@ function config_manage()
                     fi
                 fi ;;
             2 )
-                echo -e "${RED_b}+---+"
-                echo -e "| 2 | Import data into Faraday"
-                echo -e "+---+"
-                echo -e "${NC}"
+                box_2 "Import data into Faraday"
                 echo -e "Is the faraday's workspace name is $WORKSPACE? "
                 yes-no
                 read -n 1 -s ans
@@ -145,10 +125,7 @@ function config_manage()
             3 )
                 modeswitching ;;
             4 )
-                echo -e "${GREEN_b}+---+"
-                echo -e "| 4 | Configure Targets"
-                echo -e "+---+"
-                echo -e "${NC}"
+                box_4 "Configure Targets"
                 tmux send-keys -t $SESSION_NAME.1 "nano $TARGETS;tmux select-pane -t $SESSION_NAME.0" C-m
                 tmux select-pane -t $SESSION_NAME.1
                 echo -e "Press any key to continue..."

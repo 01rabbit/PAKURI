@@ -43,7 +43,7 @@ function op_banner()
 # Main Banner
 function main_banner()
 {
-    echo -e "${BLACK}"
+    echo -e "${BLACK_b}"
     echo -e " ██████╗   █████╗    ██╗  ██╗   ██╗   ██╗   ██████╗    ██╗"
     echo -e " ██╔══██╗ ██╔══██╗   ██║ ██╔╝   ██║   ██║   ██╔══██╗   ██║"
     echo -e " ██████╔╝ ███████║   █████╔╝    ██║   ██║   ██████╔╝   ██║"
@@ -119,7 +119,7 @@ function select_4()
     echo -e "| 3 | $3"
     echo -e "${YELLOW_b}+---+"
     echo -e "${GREEN_b}+---+"
-    echo -e "| 4 | $3"
+    echo -e "| 4 | $4"
     echo -e "${GREEN_b}+---+"
     echo -e "${BLACK_b}+---+"
     echo -e "| 9 | Back"
@@ -168,21 +168,21 @@ function box_1()
 function box_2()
 {
     echo -e "${RED_b}+---+"
-    echo -e "| 2 | $2"
+    echo -e "| 2 | $1"
     echo -e "${RED_b}+---+${NC}"
 }
 
 function box_3()
 {
     echo -e "${YELLOW_b}+---+"
-    echo -e "| 3 | $3"
+    echo -e "| 3 | $1"
     echo -e "${YELLOW_b}+---+${NC}"
 }
 
 function box_4()
 {
     echo -e "${GREEN_b}+---+"
-    echo -e "| 4 | $3"
+    echo -e "| 4 | $1"
     echo -e "${GREEN_b}+---+${NC}"
 }
 
