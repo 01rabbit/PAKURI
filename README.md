@@ -18,6 +18,7 @@
 ## Features
 - Scan
   - [AutoRecon](https://github.com/Tib3rius/AutoRecon.git)
+  - [OpenVAS](https://tools.kali.org/vulnerability-analysis/openvas)
 - Visualize
   - [Faraday](https://github.com/infobyte/faraday.git)
 - CUI-GUI switching
