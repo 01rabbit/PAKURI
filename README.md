@@ -15,8 +15,12 @@
 * Front-end operation is only possible with the numeric keypad.
 ## Features
 - Scan
+  - [Nmap](https://tools.kali.org/information-gathering/nmap)
   - [AutoRecon](https://github.com/Tib3rius/AutoRecon.git)
   - [OpenVAS](https://tools.kali.org/vulnerability-analysis/openvas)
+- Exploit
+  - [BruteSpray](https://tools.kali.org/password-attacks/brutespray)
+  - [Metasploit](https://tools.kali.org/exploitation-tools/metasploit-framework)
 - Visualize
   - [Faraday](https://github.com/infobyte/faraday.git)
 - CUI-GUI switching
