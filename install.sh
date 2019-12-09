@@ -31,5 +31,3 @@ cd $PLUGINS/AutoRecon && pip3 install -r requirements.txt 2> /dev/null
 
 chmod +x $INSTALL_DIR/pakuri.sh
 chmod +x $INSTALL_DIR/modules/import-faraday.sh
-
-ln -s $INSTALL_DIR/pakuri.sh /usr/bin/pakuri
