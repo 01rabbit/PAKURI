@@ -24,6 +24,7 @@ apt install -y python3-pip
 
 openvas-setup
 
+mkdir -p $PLUGINS
 cd $PLUGINS
 git clone https://github.com/Tib3rius/AutoRecon.git
 cd $PLUGINS/AutoRecon && pip3 install -r requirements.txt 2> /dev/null
