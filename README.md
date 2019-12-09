@@ -1,5 +1,5 @@
 
-![SS1](https://github.com/01rabbit/PAKURI/blob/master/logo.png)
+![logo](https://user-images.githubusercontent.com/16553787/70399114-c4db9c80-1a64-11ea-8d8e-5cf2f4f43ee0.png)
 
 ---
 
