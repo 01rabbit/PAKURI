@@ -30,9 +30,9 @@ For redteam:
 
 For blueteam:  
   (c) Attack packets can be generated with a simple operation.  
-| Note |
-|:------|
-|If you are interested, please use them in an environment **under your control and at your own risk**. And, if you execute the PAKURI on systems that are not under your control, it may be considered an attack and you may have legally liabillity for your action. |
+
+**NOTE**  
+If you are interested, please use them in an environment **under your control and at your own risk**. And, if you execute the PAKURI on systems that are not under your control, it may be considered an attack and you may have legally liabillity for your action.
 
 
 ## Features
