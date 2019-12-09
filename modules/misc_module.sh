@@ -54,7 +54,7 @@ function main_banner()
     echo -e "- ${RED_b}P${NC}enetration Test ${RED_b}A${NC}chive ${RED_b}K${NC}nowledge ${RED_b}U${NC}nite ${RED_b}R${NC}apid ${RED_b}I${NC}nterface -"
     echo -e "                    inspired by ${GREEN_b}CDI"
     echo -e "${NC}"
-    echo -e "                                               v0.0.1-beta"
+    echo -e "                                                    v$VERSION"
     echo -e "                                       Author  : Mr.Rabbit" 
     echo -e ""                                                                                                       
 }
@@ -193,15 +193,3 @@ function box_9()
     echo -e "${BLACK_b}+---+${NC}"
 
 }
-
-# function pj_banner()
-# {
-#     echo -e "${GREEN}"
-#     echo -e " ██████╗ ██████╗  ██████╗      ██╗███████╗ ██████╗████████╗"
-#     echo -e " ██╔══██╗██╔══██╗██╔═══██╗     ██║██╔════╝██╔════╝╚══██╔══╝"
-#     echo -e " ██████╔╝██████╔╝██║   ██║     ██║█████╗  ██║        ██║   "
-#     echo -e " ██╔═══╝ ██╔══██╗██║   ██║██   ██║██╔══╝  ██║        ██║   "
-#     echo -e " ██║     ██║  ██║╚██████╔╝╚█████╔╝███████╗╚██████╗   ██║   "
-#     echo -e " ╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚════╝ ╚══════╝ ╚═════╝   ╚═╝   "
-#     echo -e "${NC}"
-# }
