@@ -43,7 +43,7 @@ If you are interested, please use them in an environment **under your control an
 ## Install
 `bash install.sh`  
 ## Usage
-`root@kali:~# pakuri`
+`root@kali:/usr/share/pakuri# ./pakuri.sh`
 ### Main
 ![main](https://user-images.githubusercontent.com/16553787/70429943-08fa8b80-1abd-11ea-8729-659262982bb3.png)
 ### Scanning
