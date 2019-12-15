@@ -1,6 +1,15 @@
 ![logo](https://user-images.githubusercontent.com/16553787/70399114-c4db9c80-1a64-11ea-8d8e-5cf2f4f43ee0.png)
 
 ---
+## What's PAKURI
+I have imitated the good points of many tools.  In Japanese, imitating is called “Pakuru”.
+>> ぱくる (godan conjugation, hiragana and katakana パクる, rōmaji pakuru)
+>> 1. eat with a wide open mouth  
+>> 2. steal when one isn't looking, snatch, swipe  
+>> 3. copy someone's idea or design  
+>> 4. nab, be caught by the police  
+>> 
+>> [Wiktionary:ぱくる](https://en.wiktionary.org/wiki/%E3%81%B1%E3%81%8F%E3%82%8B "ぱくる")
 ## Description
 Pentesters love to move their hands. However, I do not like troublesome work. Simple work is performed semi-automatically with simple operations. PAKURI executes commands frequently used in penetration tests by simply operating the numeric keypad. You can test penetration as if you were playing a fighting game.
 
