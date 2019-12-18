@@ -111,19 +111,19 @@ function scan_manage()
         date
         echo -e "------------------------ Scan Menu -------------------------"
         if ps -ef|grep nmap|grep -v "grep" > /dev/null;then
-            box_1 "Host Scan ${RED} Running"
-            box_2 "Port Scan ${RED} Running"
+            box_1 "Discovery Host ${RED} Running"
+            box_2 "Well-known ports Scan ${RED} Running"
             flg_nm=1
         else
-            box_1 "Host Scan"
-            box_2 "Port Scan"
+            box_1 "Discovery Host"
+            box_2 "Well-known ports Scan"
             flg_nm=0
         fi
         if ps -ef|grep autorecon.py|grep -v "grep" > /dev/null;then
-            box_3 "Service Scan ${RED} Running"
+            box_3 "AutoRecon ${RED} Running"
             flg_ar=1
         else
-            box_3 "Service Scan"
+            box_3 "AutoRecon"
             flg_ar=0
         fi
         TASK_ID=`omp --get-tasks -u $OMPUSER -w $OMPPASS|grep $TASK_NAME|cut -d " " -f1`
@@ -155,7 +155,7 @@ function scan_manage()
         echo -e "------------------------ Scan Menu -------------------------"
         case "$key" in
             1 )
-                box_1 "Host Scan"
+                box_1 "Discovery Host"
                 echo -e "---------------------- Select Action -----------------------"
                 if [ $flg_nm = 1 ] || [ $flg_ar = 1 ] || [ $flg_omp = 1 ];then
                     echo -e "Scan process is Running!"
@@ -163,32 +163,24 @@ function scan_manage()
                     read
                     break
                 fi
-                select_2 "Single" "Multi"
+                echo -e "Do you want to start ${BLUE}Discovery Host${NC}?" 
+                yes-no
                 read -n 1 -s ans
-                clear
-                scan_banner
-                date
-                echo -e "------------------------ Scan Menu -------------------------"
-                box_1 "Host Scan"
-                echo -e "---------------------- Select Action -----------------------"
-                if [ $ans = 1 ];then
-                    box_1 "Single"
-                    read -p "IP Address :" addr
-                    echo -e "Start Host Up Checking. Single Host"            
-                    scan_nmap $addr Check S
-                    tmux select-pane -t $WINDOW_NAME.0
-                    echo -e "Press any key to continue..."
-                    read
-                elif [ $ans = 2 ];then
-                    box_2 "Multi"
-                    echo -e "Start Host Up Checking. Multi Host"             
+                if [ $ans -eq 1 ];then
                     scan_nmap $SCRIPT_DIR/$TARGETS Check M
                     tmux select-pane -t $WINDOW_NAME.0
-                    echo -e "Press any key to continue..."
-                    read
-                fi ;;
+                elif [ $ans -eq 3 ];then
+                    tmux send-keys -t $WINDOW_NAME.1 "less documents/learn_discoveryhost.txt" C-m 
+                    tmux select-pane -t $WINDOW_NAME.0
+                fi
+                echo -e "Press any key to continue..."
+                read
+                tmux kill-pane -t $SESSION_NAME.1
+                tmux split-window -t $SESSION_NAME.0 -h
+                tmux select-pane -t $WINDOW_NAME.0
+                 ;;
             2 )
-                box_2 "PortScan"
+                box_2 "Well-known ports Scan"
                 echo -e "---------------------- Select Action -----------------------"
                 if [ $flg_nm = 1 ] || [ $flg_ar = 1 ] || [ $flg_omp = 1 ];then
                     echo -e "Scan process is Running!"
@@ -202,25 +194,33 @@ function scan_manage()
                 scan_banner
                 date
                 echo -e "------------------------ Scan Menu -------------------------"
-                box_2 "PortScan"
+                box_2 "Well-known ports Scan"
                 echo -e "---------------------- Select Action -----------------------"
                 if [ $ans = 1 ];then
                     box_1 "Quick"
-                    echo -e "Start Quick Port Scanning." 
-                    scan_nmap $SCRIPT_DIR/$TARGETS Quick
-                    tmux select-pane -t $WINDOW_NAME.0
+                    echo -e "Do you want to start ${RED}Well-known ports Scan(Quick)${NC}?" 
+                    yes-no
+                    read -n 1 -s ans
+                    if [ $ans -eq 1 ];then
+                        scan_nmap $SCRIPT_DIR/$TARGETS Quick
+                        tmux select-pane -t $WINDOW_NAME.0
+                    fi
                     echo -e "Press any key to continue..."
                     read
                 elif [ $ans = 2 ];then
                     box_2 "Full"
-                    echo -e "Start Full Port Scanning." 
-                    scan_nmap $SCRIPT_DIR/$TARGETS Full
-                    tmux select-pane -t $WINDOW_NAME.0
+                    echo -e "Do you want to start ${RED}Well-known ports Scan(Full)${NC}?" 
+                    yes-no
+                    read -n 1 -s ans
+                    if [ $ans -eq 1 ];then
+                        scan_nmap $SCRIPT_DIR/$TARGETS Full
+                        tmux select-pane -t $WINDOW_NAME.0
+                    fi
                     echo -e "Press any key to continue..."
                     read
                 fi ;;
             3 )
-                box_3 "Service Scan"
+                box_3 "AutoRecon"
                 echo -e "---------------------- Select Action -----------------------"
                 if [ $flg_nm = 1 ] || [ $flg_ar = 1 ] || [ $flg_omp = 1 ];then
                     echo -e "Scan process is Running!"
@@ -228,30 +228,15 @@ function scan_manage()
                     read
                     break
                 fi
-                select_2 "Single" "Multi"
+                echo -e "Do you want to start ${YELLOW}AutoRecon${NC}?" 
+                yes-no
                 read -n 1 -s ans
-                clear
-                scan_banner
-                date
-                echo -e "------------------------ Scan Menu -------------------------"
-                box_3 "Service Scan"
-                echo -e "---------------------- Select Action -----------------------"
-                if [ $ans = 1 ];then
-                    box_1 "Single"
-                    read -p "IP Address :" addr
-                    echo -e "Start Service Scanning. Single Host"             
-                    scan_autorecon $addr S
-                    tmux select-pane -t $WINDOW_NAME.0
-                    echo -e "Press any key to continue..."
-                    read
-                elif [ $ans = 2 ];then
-                    box_2 "Multi"
-                    echo -e "Start Service Scanning. Multi Host"             
+                if [ $ans -eq 1 ];then
                     scan_autorecon $SCRIPT_DIR/$TARGETS M
                     tmux select-pane -t $WINDOW_NAME.0
-                    echo -e "Press any key to continue..."
-                    read
-                fi ;;
+                fi
+                echo -e "Press any key to continue..."
+                read ;;
             4 )
                 box_4 "Vulnerability Scan"
                 echo -e "---------------------- Select Action -----------------------"

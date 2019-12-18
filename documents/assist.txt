@@ -1,0 +1,18 @@
+Scanning
+-------------------------------------------------------
+1 Discovery Host
+2 Well-known ports Scan
+3 AutoRecon
+4 Vulnerability Scan
+
+Exploit
+-------------------------------------------------------
+1 Password Crack
+2 Metasploit
+
+Config
+-------------------------------------------------------
+1 PostgreSQL
+2 Import data into Faraday
+3 Mode Switching
+4 Configure Targets

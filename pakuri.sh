@@ -19,7 +19,7 @@ function menu()
         date
         echo -e "Working Directory : $WDIR"
         echo -e "---------------------- Main Menu -----------------------"
-        select_3 "Scanning" "Exploit" "Config"
+        select_4 "Scanning" "Exploit" "Config" "Assist"
 
         read -n 1 -t 10 -s key
         echo
@@ -30,6 +30,9 @@ function menu()
                 exploit_manage ;;
             3 )
                 config_manage ;;
+            4 )
+                tmux send-keys -t $WINDOW_NAME.1 "cat documents/assist.txt" C-m 
+                tmux select-pane -t $WINDOW_NAME.0 ;;
             9 ) 
                 tmux kill-pane -t $SESSION_NAME.1
                 tmux kill-pane -t $SESSION_NAME.0
@@ -55,6 +58,7 @@ if [ -z ${TMUX} ]; then
     tmux split-window -t $SESSION_NAME.0 -h
     tmux send-keys -t $SESSION_NAME.0 "$PAKURI" C-m
     tmux select-pane -t $SESSION_NAME.0
+    tmux set-option -g mouse on
     tmux -2 attach -t $SESSION_NAME
 else
     menu
