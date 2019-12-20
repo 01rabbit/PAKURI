@@ -2,8 +2,8 @@ Well-known ports Scan
 ------------------------------------
 Commands:
 
-Full
-nmap -T4 -p1-1023 -A --max-retries 1 --max-scan-delay 20 --max-rate 300 -oN <filename>.nmap -oX <filename>.xml -iL <targetfile>
+Details
+nmap -T4 -p1-1023 -v -A --max-retries 1 --max-scan-delay 20 --max-rate 300 -oN <filename>.nmap -oX <filename>.xml -iL <targetfile>
 
 Options:
 -T paranoid|sneaky|polite|normal|aggressive|insane
@@ -13,6 +13,9 @@ Options:
 
 -p <port ranges>
     Only scan specified ports
+
+-v
+    Increase verbosity level
 
 -A
     Enables OS detection and Version detection
