@@ -19,7 +19,7 @@ function scan_nmap()
         ;;
     Quick )
         QUICK="$WDIR/nmap/$DATE-Quick"
-        tmux send-keys -t $WINDOW_NAME.1 "nmap -T4 -p1-1023 -v --max-retries 1 --max-scan-delay 20 --defeat-rst-ratelimit --open -oN $QUICK.nmap -oX $QUICK.xml -iL $1" C-m-
+        tmux send-keys -t $WINDOW_NAME.1 "nmap -T4 -p1-1023 -v --max-retries 1 --max-scan-delay 20 --defeat-rst-ratelimit --open -oN $QUICK.nmap -oX $QUICK.xml -iL $1" C-m
         ;;
     Details )
         DETAILS="$WDIR/nmap/$DATE-Details"
