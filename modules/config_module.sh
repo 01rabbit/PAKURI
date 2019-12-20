@@ -126,7 +126,7 @@ function config_manage()
                 modeswitching ;;
             4 )
                 box_4 "Configure Targets"
-                tmux send-keys -t $SESSION_NAME.1 "nano $TARGETS;tmux select-pane -t $SESSION_NAME.0" C-m
+                tmux send-keys -t $SESSION_NAME.1 "nano $INSTALL_DIR/$TARGETS;tmux select-pane -t $SESSION_NAME.0" C-m
                 tmux select-pane -t $SESSION_NAME.1
                 echo -e "Press any key to continue..."
                 read ;;

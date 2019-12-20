@@ -168,7 +168,7 @@ function scan_manage()
                 yes-no
                 read -n 1 -s ans
                 if [ $ans -eq 1 ];then
-                    scan_nmap $SCRIPT_DIR/$TARGETS Check
+                    scan_nmap $INSTALL_DIR/$TARGETS Check
                     tmux select-pane -t $WINDOW_NAME.0
                 elif [ $ans -eq 3 ];then
                 pwd
