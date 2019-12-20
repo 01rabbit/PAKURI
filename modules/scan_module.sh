@@ -19,11 +19,11 @@ function scan_nmap()
         ;;
     Quick )
         QUICK="$WDIR/nmap/$DATE-Quick"
-        tmux send-keys -t $WINDOW_NAME.1 "nmap -T4 -p- --max-retries 1 --max-scan-delay 20 --defeat-rst-ratelimit --open -oN $QUICK.nmap -oX $QUICK.xml -iL $1" C-m
+        tmux send-keys -t $WINDOW_NAME.1 "nmap -T4 -p1-1023 -v --max-retries 1 --max-scan-delay 20 --defeat-rst-ratelimit --open -oN $QUICK.nmap -oX $QUICK.xml -iL $1" C-m-
         ;;
-    Full )
-        FULL="$WDIR/nmap/$DATE-Full"
-        tmux send-keys -t $WINDOW_NAME.1 "nmap -T4 -p- -v --max-retries 1 --max-scan-delay 20 --max-rate 300 -oN $FULL.nmap -oX $FULL.xml -iL $1" C-m
+    Details )
+        DETAILS="$WDIR/nmap/$DATE-Details"
+        tmux send-keys -t $WINDOW_NAME.1 "nmap -T4 -p1-1023 -v -A --max-retries 1 --max-scan-delay 20 --max-rate 300 --open -oN $DETAILS.nmap -oX $DETAILS.xml -iL $1" C-m
         ;;
     esac
 }
@@ -196,7 +196,7 @@ function scan_manage()
                     read
                     break
                 fi
-                select_2 "Quick" "Full" 
+                select_2 "Quick" "Details" 
                 read -n 1 -s ans
                 clear
                 scan_banner
@@ -222,15 +222,15 @@ function scan_manage()
                     tmux split-window -t $SESSION_NAME.0 -h
                     tmux select-pane -t $WINDOW_NAME.0
                 elif [ $ans = 2 ];then
-                    box_2 "Full"
-                    echo -e "Do you want to start ${RED}Well-known ports Scan(Full)${NC}?" 
+                    box_2 "Details"
+                    echo -e "Do you want to start ${RED}Well-known ports Scan(Details)${NC}?" 
                     yes-no
                     read -n 1 -s ans
                     if [ $ans -eq 1 ];then
-                        scan_nmap $WDIR/hostup.txt Full
+                        scan_nmap $WDIR/hostup.txt Details
                         tmux select-pane -t $WINDOW_NAME.0
                     elif [ $ans -eq 3 ];then
-                        tmux send-keys -t $WINDOW_NAME.1 "less documents/learn_well-knownfull.txt" C-m 
+                        tmux send-keys -t $WINDOW_NAME.1 "less documents/learn_well-knowndetails.txt" C-m 
                         tmux select-pane -t $WINDOW_NAME.0
                     fi
                     echo -e "Press any key to continue..."
