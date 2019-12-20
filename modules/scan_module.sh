@@ -213,7 +213,7 @@ function scan_manage()
                         scan_nmap $WDIR/hostup.txt Quick
                         tmux select-pane -t $WINDOW_NAME.0
                     elif [ $ans -eq 3 ];then
-                        tmux send-keys -t $WINDOW_NAME.1 "less documents/learn_well-knownquick.txt" C-m 
+                        tmux send-keys -t $WINDOW_NAME.1 "less $DOCUMENTS/learn_well-knownquick.txt" C-m 
                         tmux select-pane -t $WINDOW_NAME.0
                     fi
                     echo -e "Press any key to continue..."
@@ -230,7 +230,7 @@ function scan_manage()
                         scan_nmap $WDIR/hostup.txt Details
                         tmux select-pane -t $WINDOW_NAME.0
                     elif [ $ans -eq 3 ];then
-                        tmux send-keys -t $WINDOW_NAME.1 "less documents/learn_well-knowndetails.txt" C-m 
+                        tmux send-keys -t $WINDOW_NAME.1 "less $DOCUMENTS/learn_well-knowndetails.txt" C-m 
                         tmux select-pane -t $WINDOW_NAME.0
                     fi
                     echo -e "Press any key to continue..."
@@ -301,7 +301,7 @@ function scan_manage()
                     scan_autorecon $SCRIPT_DIR/$TARGETS M
                     tmux select-pane -t $WINDOW_NAME.0
                 elif [ $ans -eq 3 ];then
-                    tmux send-keys -t $WINDOW_NAME.1 "less documents/learn_autorecon.txt" C-m 
+                    tmux send-keys -t $WINDOW_NAME.1 "less $DOCUMENTS/learn_autorecon.txt" C-m 
                     tmux select-pane -t $WINDOW_NAME.0
                 fi
                 echo -e "Press any key to continue..."
@@ -311,7 +311,7 @@ function scan_manage()
                 tmux select-pane -t $WINDOW_NAME.0
                 ;;
             5 )
-                tmux send-keys -t $WINDOW_NAME.1 "clear && cat documents/assist_scanning.txt" C-m 
+                tmux send-keys -t $WINDOW_NAME.1 "clear && cat $DOCUMENTS/assist_scanning.txt" C-m 
                 tmux select-pane -t $WINDOW_NAME.0 ;;
             9 )
                 break ;;
