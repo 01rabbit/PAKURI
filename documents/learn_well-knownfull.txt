@@ -1,0 +1,36 @@
+Well-known ports Scan
+------------------------------------
+Commands:
+
+Full
+nmap -T4 -p1-1023 -A --max-retries 1 --max-scan-delay 20 --max-rate 300 -oN <filename>.nmap -oX <filename>.xml -iL <targetfile>
+
+Options:
+-T paranoid|sneaky|polite|normal|aggressive|insane
+    Set a timing template
+    paranoid (0), sneaky (1), polite (2), normal (3), aggressive (4), and insane (5)
+
+
+-p <port ranges>
+    Only scan specified ports
+
+-A
+    Enables OS detection and Version detection
+
+--max-retries <numtries>
+    Specify the maximum number of port scan probe retransmissions
+
+--scan-delay <time>; --max-scan-delay <time>
+    Adjust delay between probes
+
+--min-rate <number>; --max-rate <number>
+    Directly control the scanning rate
+
+-oN <filespec> (normal output)
+    Requests that normal output be directed to the given filename. 
+
+-oX <filespec> (XML output)
+    Requests that XML output be directed to the given filename. 
+
+-iL <inputfilename>
+    Input from list of hosts/networks

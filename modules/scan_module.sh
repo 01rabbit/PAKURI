@@ -11,12 +11,12 @@ function scan_nmap()
 
     case $2 in
     Check )
-        CHECK="$WDIR/nmap/$DATE-hostup"
-        if [ $3 = "S" ];then
-            tmux send-keys -t $WINDOW_NAME.1 "nmap -sn -PE $1 -oN $CHECK-$1.nmap -oX $CHECK-$1.xml" C-m
-        elif [ $3 = "M" ];then
-            tmux send-keys -t $WINDOW_NAME.1 "nmap -sn -PE -iL $1 --exclude $MYIP -oN $CHECK-multi.nmap -oX $CHECK-multi.xml" C-m
-        fi ;;
+        DISCOVERY="$WDIR/nmap/$DATE-DiscoveryHost"
+        if [[ -f ./$WIDR/hostup.txt ]];then
+            rm $WDIR/hostup.txt
+        fi
+        tmux send-keys -t $WINDOW_NAME.1 "nmap -sn -PE -iL $1 --exclude $MYIP -oN $DISCOVERY.nmap -oX $DISCOVERY.xml;cat $DISCOVERY.nmap |grep report|cut -d \" \" -f5 > $WDIR/hostup.txt" C-m
+        ;;
     Quick )
         QUICK="$WDIR/nmap/$DATE-Quick"
         tmux send-keys -t $WINDOW_NAME.1 "nmap -T4 -p- --max-retries 1 --max-scan-delay 20 --defeat-rst-ratelimit --open -oN $QUICK.nmap -oX $QUICK.xml -iL $1" C-m
@@ -119,18 +119,11 @@ function scan_manage()
             box_2 "Well-known ports Scan"
             flg_nm=0
         fi
-        if ps -ef|grep autorecon.py|grep -v "grep" > /dev/null;then
-            box_3 "AutoRecon ${RED} Running"
-            flg_ar=1
-        else
-            box_3 "AutoRecon"
-            flg_ar=0
-        fi
         TASK_ID=`omp --get-tasks -u $OMPUSER -w $OMPPASS|grep $TASK_NAME|cut -d " " -f1`
         if [ ! -z $TASK_ID ];then
             status=`omp --get-tasks -u $OMPUSER -w $OMPPASS|grep $TASK_NAME|cut -d " " -f3`
             if [ $status = "Done" ];then
-                box_4 "Vulnerability Scan [Task Complete]"
+                box_3 "Vulnerability Scan [Task Complete]"
                 flg_omp=0
                 if [[ ! -d $WDIR/OpenVAS ]]; then
 	                mkdir -p $WDIR/OpenVAS
@@ -140,13 +133,21 @@ function scan_manage()
                 sleep 2
                 omp_delete
             else
-                box_4 "Vulnerability Scan ${RED} Running"
+                box_3 "Vulnerability Scan ${RED} Running"
                 flg_omp=1
             fi
         else
-            box_4 "Vulnerability Scan"
+            box_3 "Vulnerability Scan"
             flg_omp=0
         fi
+        if ps -ef|grep autorecon.py|grep -v "grep" > /dev/null;then
+            box_4 "AutoRecon ${RED} Running"
+            flg_ar=1
+        else
+            box_4 "AutoRecon"
+            flg_ar=0
+        fi
+        box_5 "Assist"
         box_9
         read -n 1 -t 25 -s key
         clear
@@ -167,10 +168,11 @@ function scan_manage()
                 yes-no
                 read -n 1 -s ans
                 if [ $ans -eq 1 ];then
-                    scan_nmap $SCRIPT_DIR/$TARGETS Check M
+                    scan_nmap $SCRIPT_DIR/$TARGETS Check
                     tmux select-pane -t $WINDOW_NAME.0
                 elif [ $ans -eq 3 ];then
-                    tmux send-keys -t $WINDOW_NAME.1 "less documents/learn_discoveryhost.txt" C-m 
+                pwd
+                    tmux send-keys -t $WINDOW_NAME.1 "less $DOCUMENTS/learn_discoveryhost.txt" C-m 
                     tmux select-pane -t $WINDOW_NAME.0
                 fi
                 echo -e "Press any key to continue..."
@@ -178,12 +180,18 @@ function scan_manage()
                 tmux kill-pane -t $SESSION_NAME.1
                 tmux split-window -t $SESSION_NAME.0 -h
                 tmux select-pane -t $WINDOW_NAME.0
-                 ;;
+                ;;
             2 )
                 box_2 "Well-known ports Scan"
                 echo -e "---------------------- Select Action -----------------------"
                 if [ $flg_nm = 1 ] || [ $flg_ar = 1 ] || [ $flg_omp = 1 ];then
                     echo -e "Scan process is Running!"
+                    echo -e "Press any key to continue..."
+                    read
+                    break
+                fi
+                if [ ! -f ./$WIDR/hostup.txt ];then
+                    echo -e "First, run \"${BLUE_b}Discovery Host${NC}\""
                     echo -e "Press any key to continue..."
                     read
                     break
@@ -202,43 +210,37 @@ function scan_manage()
                     yes-no
                     read -n 1 -s ans
                     if [ $ans -eq 1 ];then
-                        scan_nmap $SCRIPT_DIR/$TARGETS Quick
+                        scan_nmap $WDIR/hostup.txt Quick
+                        tmux select-pane -t $WINDOW_NAME.0
+                    elif [ $ans -eq 3 ];then
+                        tmux send-keys -t $WINDOW_NAME.1 "less documents/learn_well-knownquick.txt" C-m 
                         tmux select-pane -t $WINDOW_NAME.0
                     fi
                     echo -e "Press any key to continue..."
                     read
+                    tmux kill-pane -t $SESSION_NAME.1
+                    tmux split-window -t $SESSION_NAME.0 -h
+                    tmux select-pane -t $WINDOW_NAME.0
                 elif [ $ans = 2 ];then
                     box_2 "Full"
                     echo -e "Do you want to start ${RED}Well-known ports Scan(Full)${NC}?" 
                     yes-no
                     read -n 1 -s ans
                     if [ $ans -eq 1 ];then
-                        scan_nmap $SCRIPT_DIR/$TARGETS Full
+                        scan_nmap $WDIR/hostup.txt Full
+                        tmux select-pane -t $WINDOW_NAME.0
+                    elif [ $ans -eq 3 ];then
+                        tmux send-keys -t $WINDOW_NAME.1 "less documents/learn_well-knownfull.txt" C-m 
                         tmux select-pane -t $WINDOW_NAME.0
                     fi
                     echo -e "Press any key to continue..."
                     read
+                    tmux kill-pane -t $SESSION_NAME.1
+                    tmux split-window -t $SESSION_NAME.0 -h
+                    tmux select-pane -t $WINDOW_NAME.0
                 fi ;;
             3 )
-                box_3 "AutoRecon"
-                echo -e "---------------------- Select Action -----------------------"
-                if [ $flg_nm = 1 ] || [ $flg_ar = 1 ] || [ $flg_omp = 1 ];then
-                    echo -e "Scan process is Running!"
-                    echo -e "Press any key to continue..."
-                    read
-                    break
-                fi
-                echo -e "Do you want to start ${YELLOW}AutoRecon${NC}?" 
-                yes-no
-                read -n 1 -s ans
-                if [ $ans -eq 1 ];then
-                    scan_autorecon $SCRIPT_DIR/$TARGETS M
-                    tmux select-pane -t $WINDOW_NAME.0
-                fi
-                echo -e "Press any key to continue..."
-                read ;;
-            4 )
-                box_4 "Vulnerability Scan"
+                box_3 "Vulnerability Scan"
                 echo -e "---------------------- Select Action -----------------------"
                 if [ $flg_nm = 1 ] || [ $flg_ar = 1 ] || [ $flg_omp = 1 ];then
                     echo -e "Scan process is Running!"
@@ -252,7 +254,7 @@ function scan_manage()
                 scan_banner
                 date
                 echo -e "------------------------ Scan Menu -------------------------"
-                box_4 "Vulnerability Scan"
+                box_3 "Vulnerability Scan"
                 echo -e "---------------------- Select Action -----------------------"
                 if [ $ans = 1 ];then
                     box_1 "Single"
@@ -283,6 +285,34 @@ function scan_manage()
                     echo -e "Press any key to continue..."
                     read
                 fi ;;
+            4 )
+                box_4 "AutoRecon"
+                echo -e "---------------------- Select Action -----------------------"
+                if [ $flg_nm = 1 ] || [ $flg_ar = 1 ] || [ $flg_omp = 1 ];then
+                    echo -e "Scan process is Running!"
+                    echo -e "Press any key to continue..."
+                    read
+                    break
+                fi
+                echo -e "Do you want to start ${YELLOW}AutoRecon${NC}?" 
+                yes-no
+                read -n 1 -s ans
+                if [ $ans -eq 1 ];then
+                    scan_autorecon $SCRIPT_DIR/$TARGETS M
+                    tmux select-pane -t $WINDOW_NAME.0
+                elif [ $ans -eq 3 ];then
+                    tmux send-keys -t $WINDOW_NAME.1 "less documents/learn_autorecon.txt" C-m 
+                    tmux select-pane -t $WINDOW_NAME.0
+                fi
+                echo -e "Press any key to continue..."
+                read
+                tmux kill-pane -t $SESSION_NAME.1
+                tmux split-window -t $SESSION_NAME.0 -h
+                tmux select-pane -t $WINDOW_NAME.0
+                ;;
+            5 )
+                tmux send-keys -t $WINDOW_NAME.1 "clear && cat documents/assist_scanning.txt" C-m 
+                tmux select-pane -t $WINDOW_NAME.0 ;;
             9 )
                 break ;;
             * )

@@ -186,6 +186,13 @@ function box_4()
     echo -e "${GREEN_b}+---+${NC}"
 }
 
+function box_5()
+{
+    echo -e "${PURPLE_b}+---+"
+    echo -e "| 5 | $1"
+    echo -e "${PURPLE_b}+---+${NC}"
+}
+
 function box_9()
 {
     echo -e "${BLACK_b}+---+"

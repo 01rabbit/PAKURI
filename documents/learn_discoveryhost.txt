@@ -1,5 +1,5 @@
 Discovery Host
--------------------------------------------------------
+------------------------------------
 Use Command:
 
 nmap -sn -PE -iL <Target IP List> --exclude <My IP Address> -oN <filename>.nmap -oX <filename>.xml
@@ -11,9 +11,9 @@ Option:
 -PE; -PP; -PM (ICMP Ping Types)
     Nmap sends an ICMP type 8 (echo request) packet to the target IP addresses, expecting a type 0 (echo reply) in return from available hosts. 
 
--iL (List Scan)
-    The list scan is a degenerate form of host discovery that simply lists each host of the network(s) specified, without sending any packets to the target hosts.
-
+-iL <inputfilename>
+    Input from list of hosts/networks
+    
 --exclude <host1>[,<host2>[,...]] (Exclude hosts/networks)
     Specifies a comma-separated list of targets to be excluded from the scan even if they are part of the overall network range you specify. 
 
