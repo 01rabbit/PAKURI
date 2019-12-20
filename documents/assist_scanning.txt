@@ -1,0 +1,26 @@
+Discovery Host
+-------------------------------------------------------
+Check the status of the host using the Targets.txt entered in advance.
+
+well-known ports Scan
+-------------------------------------------------------
+Port scan is executed for well-known port(1-1023).
+Quick will check if the port is open.
+Details is acquired including banner information.
+
+Vulnerability Scan
+-------------------------------------------------------
+Investigate vulnerabilities using OpenVAS.
+The result is output in xml, PDF, html.
+
+AutoRecon
+-------------------------------------------------------
+AutoRecon is a multi-threaded network reconnaissance tool which performs automated enumeration of services. It is intended as a time-saving tool for use in CTFs and other penetration testing environments (e.g. OSCP). It may also be useful in real-world engagements.
+Everything in the tool is highly configurable. The default configuration performs no automated exploitation to keep the tool in line with OSCP exam rules. If you wish to add automatic exploit tools to the configuration, you do so at your own risk. The author will not be held responsible for negative actions that result from the mis-use of this tool.
+
+
+First, run Discovery Host to find hosts that are within the scope of the survey.
+Second, run Well-known ports Scan to determine which ports are open.
+Third, run a Vulnerability Scan to check for vulnerabilities.
+
+When AutoRecon is used, Port Scan, Service Scan, and Vulnerability Scan are automatically executed.(Depending on the host, it may take some time to finish.)

@@ -101,9 +101,9 @@ function config_banner()
 
 function yes-no()
 {
-    echo -e "${BLUE_b}+---+         ${RED_b}+---+"
-    echo -e "${BLUE_b}| 1 | yes  ${NC}|  ${RED_b}| 2 | no"
-    echo -e "${BLUE_b}+---+         ${RED_b}+---+"
+    echo -e "${BLUE_b}+---+         ${RED_b}+---+        ${YELLOW_b}+---+"
+    echo -e "${BLUE_b}| 1 | yes  ${NC}|  ${RED_b}| 2 | no  ${NC}|  ${YELLOW_b}| 3 | learn to"
+    echo -e "${BLUE_b}+---+         ${RED_b}+---+        ${YELLOW_b}+---+"
     echo -e "${NC}"
 }
 
@@ -184,6 +184,13 @@ function box_4()
     echo -e "${GREEN_b}+---+"
     echo -e "| 4 | $1"
     echo -e "${GREEN_b}+---+${NC}"
+}
+
+function box_5()
+{
+    echo -e "${PURPLE_b}+---+"
+    echo -e "| 5 | $1"
+    echo -e "${PURPLE_b}+---+${NC}"
 }
 
 function box_9()
