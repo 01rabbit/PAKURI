@@ -6,7 +6,7 @@ well-known ports Scan
 -------------------------------------------------------
 Port scan is executed for well-known port(1-1023).
 Quick will check if the port is open.
-Full is acquired including banner information.
+Details is acquired including banner information.
 
 Vulnerability Scan
 -------------------------------------------------------
