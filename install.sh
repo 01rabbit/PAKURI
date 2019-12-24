@@ -37,8 +37,12 @@ echo -e "${NC}"
 
 apt update
 apt install -y brutespray
-apt install -y openvas
-openvas-setup
+if [ ! openvas-check-setup >& /dev/null ];then
+    apt install -y openvas
+    openvas-setup
+else
+    echo -e "OpneVAS Installed"
+fi
 
 echo -e "${LIGHTBLUE}"
 echo -e "Installing Plugins."
@@ -51,6 +55,14 @@ mkdir -p $PLUGINS
 cd $PLUGINS
 git clone https://github.com/Tib3rius/AutoRecon.git
 cd $PLUGINS/AutoRecon && pip3 install -r requirements.txt 2> /dev/null
+
+cd $PLUGINS
+wget https://github.com/infobyte/faraday/releases/download/v3.10.0/faraday-server_amd64.deb
+apt install -y ./faraday-server_amd64.deb
+sudo -u postgres dropdb faraday
+sudo -u postgres dropuser faraday_postgresql
+faraday-manage initdb|tee faraday.log
+PASS=`cat faraday.log|grep password:|cut -d " " -f2`
 
 chmod +x $INSTALL_DIR/pakuri.sh
 chmod +x $INSTALL_DIR/modules/import-faraday.sh
