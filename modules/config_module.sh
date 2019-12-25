@@ -116,7 +116,7 @@ function config_manage()
                 read -n 1 -s ans
                 if [ $ans = 1 ];then
                     check_faraday
-                    tmux send-keys -t $SESSION_NAME.1 "$SCRIPT_DIR/$IMPORT $WDIR $WORKSPACE" C-m
+                    tmux send-keys -t $SESSION_NAME.1 "$INSTALL_DIR/$IMPORT $WDIR $WORKSPACE" C-m
                     tmux select-pane -t $SESSION_NAME.0
                     echo -e "Please check Faraday."
                     echo -e "Press any key to continue..."
