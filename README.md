@@ -18,7 +18,8 @@ I have imitated the good points of many tools.  In Japanese, imitating is called
 
 ## Description
 
-Pentesters love to move their hands. However, I do not like troublesome work. Simple work is performed semi-automatically with simple operations. PAKURI executes commands frequently used in penetration tests by simply operating the numeric keypad. You can test penetration as if you were playing a fighting game.
+Sometimes, the penetration testers love to perform a complicated job. However, I always prefer the easy way. PAKURI is an semi-automated user-friendly penetration testing tool framework. You can run the popular pentest tools using only the numeric keypad, just like a game. It is also a good entry tool for the beginners. They can use PAKURI to learn the flow to the penetration testing without struggling with a confusing command line/tools.
+
 
 ---
 
@@ -44,11 +45,15 @@ Pentesters love to move their hands. However, I do not like troublesome work. Si
 By using our PAKURI, you will benefit from the following.  
 
 For redteam:  
-  (a) This saves you the trouble of entering frequently used commands.  
-  (b) Beginner pentester can learn the floe of attacks using PAKURI.
+  (a) Red Teams can easily perform operations such as information enumeration and vulnerability scanning.  
+  (b) Visualizing the survey results is possible only with the numeric keypad.
 
 For blueteam:  
-  (c) Attack packets can be generated with a simple operation.  
+  (c) The Blue Team can experience a dummy attack by simply operating the numeric keypad even they do not have any penetration testing skill.  
+
+For beginner:  
+  (d) PAKURI has been created to support the early stages of penetration testing. These can be achieved with what is included in Kali-Tools. It can be useful for training the entry level pentesters.
+
 
 |**NOTE**  |
 |:----------------|

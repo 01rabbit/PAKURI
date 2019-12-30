@@ -25,8 +25,8 @@ echo -e "Starting installation of PAKURI."
 echo -e "#########################################################################"
 echo -e "${NC}"
 
-INSTALL_DIR=/usr/share/pakuri
-PLUGINS=/usr/share/pakuri/plugins
+INSTALL_DIR=/usr/share/PAKURI
+PLUGINS=/usr/share/PAKURI/plugins
 
 mkdir -p $INSTALL_DIR 2> /dev/null
 cp -Rf . $INSTALL_DIR 2> /dev/null
@@ -37,11 +37,13 @@ echo -e "${NC}"
 
 apt update
 apt install -y brutespray
-if [ ! openvas-check-setup >& /dev/null ];then
+
+which openvas-start >& /dev/null
+if [ $? ];then
+    echo -e "OpneVAS Installed"
+else
     apt install -y openvas
     openvas-setup
-else
-    echo -e "OpneVAS Installed"
 fi
 
 echo -e "${LIGHTBLUE}"
