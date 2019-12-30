@@ -59,8 +59,11 @@ git clone https://github.com/Tib3rius/AutoRecon.git
 cd $PLUGINS/AutoRecon && pip3 install -r requirements.txt 2> /dev/null
 
 cd $PLUGINS
-wget https://github.com/infobyte/faraday/releases/download/v3.10.0/faraday-server_amd64.deb
-apt install -y ./faraday-server_amd64.deb
+systemctl status faraday-server.service > /dev/null
+if [ $? ];then
+    wget https://github.com/infobyte/faraday/releases/download/v3.10.0/faraday-server_amd64.deb
+    apt install -y ./faraday-server_amd64.deb
+fi
 sudo -u postgres dropdb faraday
 sudo -u postgres dropuser faraday_postgresql
 faraday-manage initdb|tee faraday.log
