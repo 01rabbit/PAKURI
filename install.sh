@@ -35,15 +35,19 @@ echo -e "${YELLOW}"
 echo -e "Installing package dependencies."
 echo -e "${NC}"
 
+mkdir -p $PLUGINS
+cd $PLUGINS
+
 apt update
+apt install -y seclists
 apt install -y brutespray
 
 which openvas-start >& /dev/null
-if [ $? ];then
+if [ -z $? ];then
     echo -e "OpneVAS Installed"
 else
     apt install -y openvas
-    openvas-setup
+    openvas-setup|tee openvas.log
 fi
 
 echo -e "${LIGHTBLUE}"
@@ -53,8 +57,6 @@ echo -e "${NC}"
 apt remove -y python3-pip
 apt install -y python3-pip
 
-mkdir -p $PLUGINS
-cd $PLUGINS
 git clone https://github.com/Tib3rius/AutoRecon.git
 cd $PLUGINS/AutoRecon && pip3 install -r requirements.txt 2> /dev/null
 
@@ -67,7 +69,6 @@ fi
 sudo -u postgres dropdb faraday
 sudo -u postgres dropuser faraday_postgresql
 faraday-manage initdb|tee faraday.log
-PASS=`cat faraday.log|grep password:|cut -d " " -f2`
 
 chmod +x $INSTALL_DIR/pakuri.sh
 chmod +x $INSTALL_DIR/modules/import-faraday.sh
