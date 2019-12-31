@@ -134,7 +134,7 @@ function service_menu()
                 fi
             else
                 box_2 "Faraday ${NC}[${RED_b}DOWN${NC}]"
-                if [ $1 = 0 ];then
+                if [ $flg_p = 0 ];then
                     echo -e "Please Start PostgreSQL."
                     echo -e ""
                     echo -e "Press any key to continue..."

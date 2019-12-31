@@ -172,7 +172,6 @@ function scan_manage()
                     scan_nmap $INSTALL_DIR/$TARGETS Check
                     tmux select-pane -t $WINDOW_NAME.0
                 elif [ $ans -eq 3 ];then
-                pwd
                     tmux send-keys -t $WINDOW_NAME.1 "less $DOCUMENTS/learn_discoveryhost.txt" C-m 
                     tmux select-pane -t $WINDOW_NAME.0
                 fi
@@ -302,7 +301,7 @@ function scan_manage()
                     fi
                     echo -e "Press any key to continue..."
                     read
-                elif [ $sns = 4 ];then
+                elif [ $ans = 4 ];then
                     box_4 "learn to"
                     tmux send-keys -t $WINDOW_NAME.1 "less $DOCUMENTS/learn_omp.txt" C-m 
                     tmux select-pane -t $WINDOW_NAME.0
