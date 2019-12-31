@@ -100,8 +100,10 @@ function scan_manage()
     local status
     local flg_omp
 
-    if ! ps -ef|grep [o]penvas > /dev/null; then
-        tmux send-keys -t $WINDOW_NAME.1 "openvas-start" C-m
+    if ps -ef|grep [o]penvas > /dev/null; then
+        TASK_ID=`omp --get-tasks -u $OMPUSER -w $OMPPASS|grep $TASK_NAME|cut -d " " -f1`
+    else
+        tmux send-keys -t $WINDOW_NAME.1 "openvas-start" C-
     fi
 
     while :
@@ -119,7 +121,6 @@ function scan_manage()
             box_2 "Well-known ports Scan"
             flg_nm=0
         fi
-        TASK_ID=`omp --get-tasks -u $OMPUSER -w $OMPPASS|grep $TASK_NAME|cut -d " " -f1`
         if [ ! -z $TASK_ID ];then
             status=`omp --get-tasks -u $OMPUSER -w $OMPPASS|grep $TASK_NAME|cut -d " " -f3`
             if [ $status = "Done" ];then
@@ -165,13 +166,12 @@ function scan_manage()
                     break
                 fi
                 echo -e "Do you want to start ${BLUE}Discovery Host${NC}?" 
-                yes-no
+                yes-no-learn
                 read -n 1 -s ans
                 if [ $ans -eq 1 ];then
                     scan_nmap $INSTALL_DIR/$TARGETS Check
                     tmux select-pane -t $WINDOW_NAME.0
                 elif [ $ans -eq 3 ];then
-                pwd
                     tmux send-keys -t $WINDOW_NAME.1 "less $DOCUMENTS/learn_discoveryhost.txt" C-m 
                     tmux select-pane -t $WINDOW_NAME.0
                 fi
@@ -207,7 +207,7 @@ function scan_manage()
                 if [ $ans = 1 ];then
                     box_1 "Quick"
                     echo -e "Do you want to start ${RED}Well-known ports Scan(Quick)${NC}?" 
-                    yes-no
+                    yes-no-learn
                     read -n 1 -s ans
                     if [ $ans -eq 1 ];then
                         scan_nmap $WDIR/hostup.txt Quick
@@ -224,7 +224,7 @@ function scan_manage()
                 elif [ $ans = 2 ];then
                     box_2 "Details"
                     echo -e "Do you want to start ${RED}Well-known ports Scan(Details)${NC}?" 
-                    yes-no
+                    yes-no-learn
                     read -n 1 -s ans
                     if [ $ans -eq 1 ];then
                         scan_nmap $WDIR/hostup.txt Details
@@ -248,7 +248,7 @@ function scan_manage()
                     read
                     break
                 fi
-                select_3 "Single" "Multi" "Delete"
+                select_4 "Single" "Multi" "Delete" "learn to"
                 read -n 1 -s ans
                 clear
                 scan_banner
@@ -259,32 +259,59 @@ function scan_manage()
                 if [ $ans = 1 ];then
                     box_1 "Single"
                     read -p "IP Address :" addr
-                    echo -e "Start Vulnerability Scanning. Single Host"             
-                    omp_create_target $addr
-                    omp_start
-                    tmux select-pane -t $WINDOW_NAME.0
+                    echo -e "Do you want to start ${YELLO}Vulnerability Scan(Single)${NC} IP:$addr?"
+                    yes-no
+                    read -n 1 -s ans
+                    if [ $ans -eq 1 ];then
+                        echo -e "Start Vulnerability Scanning. Single Host"
+                        omp_create_target $addr
+                        sleep 2
+                        omp_start
+                        tmux select-pane -t $WINDOW_NAME.0
+                    fi
                     echo -e "Press any key to continue..."
                     read
                 elif [ $ans = 2 ];then
                     box_2 "Multi"
-                    echo -e "Start Vulnerability Scanning. Multi Host"
-                    while IFS= read -r line;do
-                        str+="$line,"
-                    done < $SCRIPT_DIR/$TARGETS
-                    if [ ${str: -1} = "," ];then
-                        addr=${str/%?/}
+                    echo -e "Do you want to start ${YELLO}Vulnerability Scan(Multi)${NC}?"
+                    yes-no
+                    read -n 1 -s ans
+                    if [ $ans -eq 1 ];then
+                        echo -e "Start Vulnerability Scanning. Multi Host"
+                        while IFS= read -r line;do
+                            str+="$line,"
+                        done < $SCRIPT_DIR/$TARGETS
+                        if [ ${str: -1} = "," ];then
+                            addr=${str/%?/}
+                        fi
+                        omp_create_target $addr
+                        sleep 2
+                        omp_start
+                        tmux select-pane -t $WINDOW_NAME.0
                     fi
-                    omp_create_target $addr
-                    omp_start
-                    tmux select-pane -t $WINDOW_NAME.0
                     echo -e "Press any key to continue..."
                     read
                 elif [ $ans = 3 ];then
                     box_3 "Delete"
-                    omp_delete
+                    echo -e "Do you want to Delete task?"
+                    yes-no
+                    read -n 1 -s ans
+                    if [ $ans -eq 1 ];then
+                        omp_delete
+                    fi
                     echo -e "Press any key to continue..."
                     read
-                fi ;;
+                elif [ $ans = 4 ];then
+                    box_4 "learn to"
+                    tmux send-keys -t $WINDOW_NAME.1 "less $DOCUMENTS/learn_omp.txt" C-m 
+                    tmux select-pane -t $WINDOW_NAME.0
+                fi 
+                echo -e "Press any key to continue..."
+                read
+                tmux kill-pane -t $SESSION_NAME.1
+                tmux split-window -t $SESSION_NAME.0 -h
+                tmux select-pane -t $WINDOW_NAME.0
+                ;;
             4 )
                 box_4 "AutoRecon"
                 echo -e "---------------------- Select Action -----------------------"
@@ -295,7 +322,7 @@ function scan_manage()
                     break
                 fi
                 echo -e "Do you want to start ${YELLOW}AutoRecon${NC}?" 
-                yes-no
+                yes-no-learn
                 read -n 1 -s ans
                 if [ $ans -eq 1 ];then
                     scan_autorecon $SCRIPT_DIR/$TARGETS M
