@@ -103,7 +103,7 @@ function scan_manage()
     if ps -ef|grep [o]penvas > /dev/null; then
         TASK_ID=`omp --get-tasks -u $OMPUSER -w $OMPPASS|grep $TASK_NAME|cut -d " " -f1`
     else
-        tmux send-keys -t $WINDOW_NAME.1 "openvas-start" C-
+        tmux send-keys -t $WINDOW_NAME.1 "openvas-start" C-m
     fi
 
     while :
