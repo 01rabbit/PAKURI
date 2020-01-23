@@ -13,14 +13,14 @@
 ## What's PAKURI
 
 I have imitated the good points of many tools.  In Japanese, imitating is called “Pakuru”.
-> ぱくる (godan conjugation, hiragana and katakana パクる, rōmaji pakuru)
+> ぱくる（異綴：パクる）
 >
-> 1. eat with a wide open mouth
-> 2. steal when one isn't looking, snatch, swipe  
-> 3. copy someone's idea or design  
-> 4. nab, be caught by the police  
+> 1. ぱくぱくと食べる。大きな口を開けて食べる。
+> 2. （俗語）隙をついて金品をかっさらう。金銭や料金を横領する。
+> 3. （俗語）盗用する。
+> 4. （俗語）警察などが人をつかまえ、捕縛する。  
 >
-> [Wiktionary:ぱくる](https://en.wiktionary.org/wiki/%E3%81%B1%E3%81%8F%E3%82%8B "ぱくる")
+> [Wiktionary:ぱくる](https://ja.wiktionary.org/wiki/%E3%81%B1%E3%81%8F%E3%82%8B "ぱくる")
 
 ## Description
 
@@ -37,27 +37,27 @@ Sometimes, the penetration testers love to perform a complicated job. However, I
 
 ## Abilities of "PAKURI"
 
-* Intelligence gathering.
-* Vulnerability analysis.
-* Visualize.
-* Brute Force Attack.
-* Exploitation.
+* 情報収集
+* 脆弱性スキャン
+* 可視化
+* 総当たり攻撃（ブルートフォース）
+* 脆弱性の悪用
 
 ---
 
 ## Your benefits
 
-By using our PAKURI, you will benefit from the following.  
+PAKURIを使用する利点  
 
-For redteam:  
-  (a) Red Teams can easily perform operations such as information enumeration and vulnerability scanning.  
-  (b) Visualizing the survey results is possible only with the numeric keypad.
+レッドチームの場合:  
+  (a) レッドチームは、情報の列挙や脆弱性スキャンなどの操作を簡単に実行できます。  
+  (b) テンキー操作のみで、調査結果の可視化が可能です。
 
-For blueteam:  
-  (c) The Blue Team can experience a dummy attack by simply operating the numeric keypad even they do not have any penetration testing skill.  
+ブルーチームの場合:  
+  (c) ブルーチームは、ペネトレーションテストのスキルが無くてもテンキーを操作するだけで攻撃を模倣することが可能です。  
 
-For beginner:  
-  (d) PAKURI has been created to support the early stages of penetration testing. These can be achieved with what is included in Kali-Tools. It can be useful for training the entry level pentesters.
+初心者の場合:  
+  (d) PAKURIは、ペネトレーションテストの初期段階をサポートするために作成されました。また、本ツールは「Kali-Tools」に収録されているツールで構成されています。ペンテストを始めたばかりの人のトレーニングに役立ちます。
 
 |**NOTE**  |
 |:----------------|
