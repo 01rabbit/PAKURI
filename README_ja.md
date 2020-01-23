@@ -8,7 +8,7 @@
 
 ---
 
-[Japanese](README_ja.md)
+[English](README.md)
 
 ## What's PAKURI
 
