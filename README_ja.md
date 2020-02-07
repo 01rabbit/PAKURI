@@ -10,9 +10,9 @@
 
 [English](README.md)
 
-## What's PAKURI
+## PAKURIとは
 
-I have imitated the good points of many tools.  In Japanese, imitating is called “Pakuru”.
+私は多くのツールの良い点を模倣しました。 日本語の俗語で、模倣は「パクる」と言います。  
 > ぱくる（異綴：パクる）
 >
 > 1. ぱくぱくと食べる。大きな口を開けて食べる。
@@ -22,20 +22,21 @@ I have imitated the good points of many tools.  In Japanese, imitating is called
 >
 > [Wiktionary:ぱくる](https://ja.wiktionary.org/wiki/%E3%81%B1%E3%81%8F%E3%82%8B "ぱくる")
 
-## Description
+## 説明
 
-Sometimes, the penetration testers love to perform a complicated job. However, I always prefer the easy way. PAKURI is an semi-automated user-friendly penetration testing tool framework. You can run the popular pentest tools using only the numeric keypad, just like a game. It is also a good entry tool for the beginners. They can use PAKURI to learn the flow to the penetration testing without struggling with a confusing command line/tools.
+ペンテスターは手を動かすことが大好きです。しかし、面倒くさい作業は好きではありません。簡易的な作業は、簡単な操作で半自動実行します。PAKURIは、作業で頻繁に使用するコマンドをテンキーの操作だけで実行します。まるで格闘ゲームをやっているような感覚でペネトレーションテストができます。  
+PAKURIはペネトレーションテストのキャリアを開始するのにも役に立ちます。Kali-Toolsに準拠するツールを使用しているので必要以上に破壊することはしません。ビギナーは、PAKURIを使用することで、ペネトレーションテストのフローを簡単に体験し成長する事でしょう。
 
 ---
 
-## Presentation
+## 過去の発表
 
 * November 2nd,2019: [AV TOKYO 2018 Hive](http://ja.avtokyo.org/avtokyo2019/event)
 * December 21-22th,2019: [SECCON YOROZU 2019](https://www.seccon.jp/2019/akihabara/)
 
 ---
 
-## Abilities of "PAKURI"
+## PAKURIの能力
 
 * 情報収集
 * 脆弱性スキャン
@@ -45,7 +46,7 @@ Sometimes, the penetration testers love to perform a complicated job. However, I
 
 ---
 
-## Your benefits
+## 利点
 
 PAKURIを使用する利点  
 
@@ -59,13 +60,13 @@ PAKURIを使用する利点
 初心者の場合:  
   (d) PAKURIは、ペネトレーションテストの初期段階をサポートするために作成されました。また、本ツールは「Kali-Tools」に収録されているツールで構成されています。ペンテストを始めたばかりの人のトレーニングに役立ちます。
 
-|**NOTE**  |
+|**注意**  |
 |:----------------|
-|If you are interested, please use them in an environment **under your control and at your own risk**. And, if you execute the PAKURI on systems that are not under your control, it may be considered an attack and you may have legally liabillity for your action.|
+|もし、このツールに興味がある場合は、**自己の責任の下、自己の管理する環境**で使用してください。自己の管理外の環境でPAKURIを実行すると攻撃とみなされる可能性があり、法的責任を負う場合があります。|
 
 ---
 
-## Features
+## 特徴
 
 * Scan
   * [Nmap](https://tools.kali.org/information-gathering/nmap)
@@ -78,26 +79,26 @@ PAKURIを使用する利点
 * Visualize
   * [Faraday](https://github.com/infobyte/faraday.git)
 * CUI-GUI switching
-  * PAKURI can be operated with CUI and does not require a high-spec machine, so it can be operated with Raspberry Pi.
+  * PAKURIはハイスペックなマシン性能を要求しないため、CUIでの操作が可能です。またRaspberry Piでも実行できます。
 
 ---
 
-## Install
+## インストール
 
-1. Update your apt and install git:  
+1. aptのアップデートとgitのインストール:  
 
     ```shell
     root@kali:~# apt update
     root@kali:~# apt install git
     ```
 
-2. Download the PAKURI installer from the PAKURI Github repository:
+2. PAKURIをGitHubリポジトリからダウンロード:
 
     ```shell
     root@kali:~# git clone https://github.com/01rabbit/PAKURI.git
     ```
 
-3. CD into the PAKURI folder and run the install script:
+3. PAKURIフォルダへ移動しインストールスクリプトを実行:
 
     ```shell
     root@kali:~# cd PAKURI  
@@ -106,12 +107,12 @@ PAKURIを使用する利点
 
 ---
 
-## Usage
+## 使い方
 
-1. Check the OpenVAS admin user and password set them in the .config file:
+1. OpenVASの管理者とパスワードをpakuri.confファイルに設定:
 
     ```shell
-    root@kali:~# vim /usr/share/PAKURI/.config
+    root@kali:~# vim /usr/share/PAKURI/pakuri.conf
     ...snip...
 
     # OpenVAS
@@ -119,30 +120,30 @@ PAKURIを使用する利点
     OMPPASS="admin"
     ```
 
-2. Start Faraday-Server and set workspace:
+2. Faraday-Serverを起動しworkspaceを設定:
 
     ```shell
     root@kali:~# systemctl start faraday-server.service  
     root@kali:~# firefox localhost:5985
     ```
 
-3. Set Workspace in the .config file.
+3. 設定したWorkspaceをpakuri.confファイルに設定:
 
     ```shell
-    root@kali:~# vim /usr/share/PAKURI/.config
+    root@kali:~# vim /usr/share/PAKURI/pakuri.conf
     ...snip...
 
     # Faraday
     WORKSPACE="test_workspace"
     ```
 
-4. CD into the PAKURI folder:
+4. インストール先のPAKURIフォルダへ移動:
 
     ```shell
     root@kali:~# cd /usr/share/PAKURI
     ```
 
-5. Start PAKURI:
+5. PAKURIの起動:
 
     ```shell
     root@kali:/usr/share/PAKURI# ./pakuri.sh
@@ -180,7 +181,7 @@ PAKURIを使用する利点
     +---+
     ```
 
-PAKURI is not fully automated and requires the user interactions, to make sure to proceed the pentest and to avoid any unintended attack or trouble.
+PAKURIは完全に自動化されておらず、ペネトレーションテストを確実に進め、意図しない攻撃やトラブルを回避するために、ユーザーによる対話型の操作が必要です。
 
 ### Scanning
 
@@ -194,21 +195,21 @@ PAKURI is not fully automated and requires the user interactions, to make sure t
 
 ![config](https://user-images.githubusercontent.com/16553787/71568995-1ed4fc80-2b0f-11ea-9afe-315a055b8a76.png)
 
-By operating the numeric keypad, it is possible to scan the network, scan for vulnerabilities, and perform simple pseudo attacks.
+テンキーを操作することにより、ネットワークスキャン、脆弱性スキャンし、簡単な擬似攻撃を実行することができます。
 
 ---
 
-## Operation check environment
+## 検証環境
 
 * OS: KAli Linux 2019.4
 * Memory: 8.0GB
 
-## Known Issues
+## 既知の問題
 
-This is intended for use Kali Linux. Operation on other OS is not guaranteed.
+このツールは、Kali Linuxで使用するためのものです。 他のOSでの動作は保証されません
 
 ---
 
-## Support
+## サポート
 
-Feature request / bug reports: <https://github.com/01rabbit/PAKURI/issues>
+機能追加要望 / バグ報告: <https://github.com/01rabbit/PAKURI/issues>
