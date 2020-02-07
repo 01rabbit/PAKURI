@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PAKURI=$0
-source .config
+source pakuri.conf
 source $MODULES/scan_module.sh
 source $MODULES/exploit_module.sh
 source $MODULES/config_module.sh
