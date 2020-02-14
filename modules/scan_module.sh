@@ -1,3 +1,5 @@
+source pakuri.conf
+source $MODULES/misc_module.sh
 # $1 IP Address or IP list
 # $2 Arguments
 # $3 S or M S:Sngle Host M:Multi Host
@@ -347,3 +349,4 @@ function scan_manage()
         esac
     done
 }
+scan_manage

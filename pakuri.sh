@@ -2,7 +2,7 @@
 
 PAKURI=$0
 source pakuri.conf
-source $MODULES/scan_module.sh
+#source $MODULES/scan_module.sh
 source $MODULES/exploit_module.sh
 source $MODULES/config_module.sh
 source $MODULES/misc_module.sh
@@ -36,7 +36,8 @@ function menu()
         echo
         case "$key" in
             1 )
-                scan_manage ;;
+                tmux new-window -n "Scan"
+                tmux send-keys -t "Scan" $MODULES/scan_module.sh C-m;;
             2 )
                 exploit_manage ;;
             3 )
@@ -59,11 +60,12 @@ function menu()
 if [ -z ${TMUX} ]; then
     op_banner
     clear
+    #2/13 disable
     # Check Working Directory
-    if [[ ! -d $WDIR ]]; then
-        mkdir -p $WDIR
-    fi
-    boot
+    #if [[ ! -d $WDIR ]]; then
+    #    mkdir -p $WDIR
+    #fi
+    #boot
     WINDOW_NAME="Main"
     tmux new-session -d -s "$SESSION_NAME" -n "$WINDOW_NAME"
     tmux split-window -t $SESSION_NAME.0 -h
