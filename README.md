@@ -8,6 +8,8 @@
 
 ---
 
+[Japanese](README_ja.md)
+
 ## What's PAKURI
 
 I have imitated the good points of many tools.  In Japanese, imitating is called “Pakuru”.
@@ -106,10 +108,10 @@ For beginner:
 
 ## Usage
 
-1. Check the OpenVAS admin user and password set them in the .config file:
+1. Check the OpenVAS admin user and password set them in the pakuri.conf file:
 
     ```shell
-    root@kali:~# vim /usr/share/PAKURI/.config
+    root@kali:~# vim /usr/share/PAKURI/pakuri.conf
     ...snip...
 
     # OpenVAS
@@ -124,10 +126,10 @@ For beginner:
     root@kali:~# firefox localhost:5985
     ```
 
-3. Set Workspace in the .config file.
+3. Set Workspace in the pakuri.conf file.
 
     ```shell
-    root@kali:~# vim /usr/share/PAKURI/.config
+    root@kali:~# vim /usr/share/PAKURI/pakuri.conf
     ...snip...
 
     # Faraday
