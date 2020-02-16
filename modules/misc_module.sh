@@ -1,3 +1,5 @@
+declare -a modules=("Main" "Scanning" "Exploit" "Config")
+
 # Opening Banner
 function op_banner()
 {
