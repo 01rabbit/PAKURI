@@ -1,3 +1,4 @@
+#!/bin/bash
 source pakuri.conf
 source $MODULES/misc_module.sh
 # $1 IP Address or IP list
@@ -343,7 +344,7 @@ function scan_manage()
                 tmux send-keys -t $WINDOW_NAME.1 "clear && cat $DOCUMENTS/assist_scanning.txt" C-m 
                 tmux select-pane -t $WINDOW_NAME.0 ;;
             9 )
-                break ;;
+                tmux select-window -t "${modules[0]}" ;;
             * )
                 ;;
         esac
