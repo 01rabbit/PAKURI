@@ -25,6 +25,12 @@ echo -e "Starting installation of PAKURI."
 echo -e "#########################################################################"
 echo -e "${NC}"
 
+# Root check
+if [ ${EUID:-${UID}} != 0 ]; then
+    echo -e "You are not root."
+    exit 1
+fi
+
 INSTALL_DIR=/usr/share/PAKURI
 PLUGINS=/usr/share/PAKURI/plugins
 

@@ -6,7 +6,7 @@ source pakuri.conf
 #source $MODULES/exploit_module.sh
 #source $MODULES/config_module.sh
 source $MODULES/misc_module.sh
-declare -a modules=("Main" "Scanning" "Exploit" "Config")
+#declare -a modules=("Main" "Scanning" "Exploit" "Config")
 
 # Main Menu
 function menu()
@@ -31,8 +31,8 @@ function menu()
             3 )
                 tmux select-window -t "${modules[3]}" ;;
             4 )
-                tmux send-keys -t $WINDOW_NAME.1 "clear && cat documents/assist_main.txt" C-m 
-                tmux select-pane -t $WINDOW_NAME.0 ;;
+                tmux send-keys -t "${modules[0]}".1 "clear && cat documents/assist_main.txt" C-m 
+                tmux select-pane -t "${modules[0]}".0 ;;
             9 ) 
                 tmux kill-window -t "${modules[3]}"
                 tmux kill-window -t "${modules[2]}"

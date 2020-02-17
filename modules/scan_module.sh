@@ -1,6 +1,8 @@
 #!/bin/bash
 source pakuri.conf
 source $MODULES/misc_module.sh
+WINDOW_NAME="${modules[1]}"
+
 # $1 IP Address or IP list
 # $2 Arguments
 # $3 S or M S:Sngle Host M:Multi Host
@@ -103,11 +105,11 @@ function scan_manage()
     local status
     local flg_omp
 
-    if ps -ef|grep [o]penvas > /dev/null; then
-        TASK_ID=`omp --get-tasks -u $OMPUSER -w $OMPPASS|grep $TASK_NAME|cut -d " " -f1`
-    else
-        tmux send-keys -t $WINDOW_NAME.1 "openvas-start" C-m
-    fi
+    # if ps -ef|grep [o]penvas > /dev/null; then
+    #     TASK_ID=`omp --get-tasks -u $OMPUSER -w $OMPPASS|grep $TASK_NAME|cut -d " " -f1`
+    # else
+    #     tmux send-keys -t $WINDOW_NAME.1 "openvas-start" C-m
+    # fi
 
     while :
     do
