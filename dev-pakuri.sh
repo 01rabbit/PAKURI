@@ -21,11 +21,14 @@ function menu()
         echo
         case "$key" in
             1 )
-                tmux select-window -t "${modules[1]}";;
+                tmux select-window -t "${modules[1]}"
+                tmux select-pane -t "${modules[1]}".0 ;;
             2 )
-                tmux select-window -t "${modules[2]}" ;;
+                tmux select-window -t "${modules[2]}"
+                tmux select-pane -t "${modules[2]}".0 ;;
             3 )
-                tmux select-window -t "${modules[3]}" ;;
+                tmux select-window -t "${modules[3]}"
+                tmux select-pane -t "${modules[3]}".0 ;;
             4 )
                 tmux send-keys -t "${modules[0]}".1 "clear && cat documents/assist_main.txt" C-m 
                 tmux select-pane -t "${modules[0]}".0 ;;
@@ -48,7 +51,6 @@ function menu()
 if [ -z ${TMUX} ]; then
     op_banner
     clear
-    #2/13 disable
     # Check Working Directory
     if [[ ! -d $WDIR ]]; then
         mkdir -p $WDIR
@@ -56,32 +58,30 @@ if [ -z ${TMUX} ]; then
     #boot
     tmux new-session -d -s "$SESSION_NAME" -n "${modules[0]}"
     tmux split-window -t "${modules[0]}".0 -h -p 80
-    tmux send-keys -t "${modules[0]}".0 "clear;$PAKURI" C-m
 
     tmux new-window -n "f-client"
     tmux send-keys -t "f-client" "faraday-client --gui=no-gui -w $WORKSPACE" C-m
 
     tmux new-window -n "${modules[1]}"
     tmux split-window -t "${modules[1]}".0 -h -p 80 
-    tmux send-keys -t "${modules[1]}".0 "$MODULES/scan_module.sh" C-m
-    tmux select-pane -t "${modules[1]}".0
+    tmux send-keys -t "${modules[1]}".1 "faraday-terminal" C-m
 
     tmux new-window -n "${modules[2]}"
     tmux split-window -t "${modules[2]}".0 -h -p 80
-    tmux send-keys -t "${modules[2]}".0 "$MODULES/exploit_module.sh" C-m
-    tmux select-pane -t "${modules[2]}".0
-
+    
     tmux new-window -n "${modules[3]}"
     tmux split-window -t "${modules[3]}".0 -h -p 80
-    tmux send-keys -t "${modules[3]}".0 "$MODULES/config_module.sh" C-m
-    tmux select-pane -t "${modules[3]}".0
-
+    
     tmux select-window -t "${modules[0]}"
-    sleep 1
     tmux send-keys -t "${modules[0]}".1 "faraday-terminal" C-m
-    tmux send-keys -t "${modules[1]}".1 "faraday-terminal" C-m
+
+    sleep 1
     tmux select-pane -t $SESSION_NAME.0
     tmux set-option -g mouse on
+    tmux send-keys -t "${modules[0]}".0 "$PAKURI" C-m
+    tmux send-keys -t "${modules[1]}".0 "$MODULES/scan_module.sh" C-m
+    tmux send-keys -t "${modules[2]}".0 "$MODULES/exploit_module.sh" C-m
+    tmux send-keys -t "${modules[3]}".0 "$MODULES/config_module.sh" C-m
     tmux -2 attach -t $SESSION_NAME
 else
     menu
