@@ -31,16 +31,14 @@ function modeswitching()
         fi
         clear
         config_banner
-        date
-        echo -e "------------------- Config Menu --------------------"
         box_4 "Mode Switching"
-        echo -e "-------------------- Now mode $mode_v -------------------"
+        echo -e "--------- Now mode $mode_v ---------"
         select_2 "Switch CUI mode" "Switch GUI mode"
         read -n 1 -s key
         clear
         config_banner
-        date
-        echo -e "-------------------- Now mode $mode_v -------------------"
+        box_4 "Mode Switching"
+        echo -e "--------- Now mode $mode_v ---------"
         case "$key" in
             1 )
                 box_1 "Switch CUI mode"
@@ -81,10 +79,8 @@ function service_menu()
         fi
         clear
         config_banner
-        date
-        echo -e "------------------- Config Menu --------------------"
         box_2 "Configure Service"
-        echo -e "------------------- Service Menu -------------------"
+        echo -e "-------- Service Menu ----------"
         if [ $flg_p = 1 ];then
             box_1 "PpstgreSQL ${NC}[${GREEN_b}Running${NC}]"
         else
@@ -104,10 +100,8 @@ function service_menu()
         read -n 1 -t 5 -s key
         clear
         config_banner
-        date
-        echo -e "------------------- Config Menu --------------------"
         box_2 "Configure Service"
-        echo -e "------------------- Service Menu -------------------"
+        echo -e "-------- Service Menu ----------"
         case "$key" in
         1 )
             if [ $flg_p = 1 ];then
@@ -193,14 +187,10 @@ function config_manage()
         fi
         clear
         config_banner
-        date
-        echo -e "------------------- Config Menu --------------------"
         select_4 "Configure Targets" "Configure Service" "Import data into Faraday" "Mode Switching"
         read -n 1 -t 5 -s key
         clear
         config_banner
-        date
-        echo -e "------------------- Config Menu --------------------"
         case "$key" in
             1 )
                 box_1 "Configure Targets"
@@ -213,7 +203,7 @@ function config_manage()
                 read ;;
             2 )
                 box_2 "Configure Service"
-                echo -e "------------------- Service Menu -------------------"
+                echo -e "-------- Service Menu ----------"
                 service_menu
                 ;;
             3 )
