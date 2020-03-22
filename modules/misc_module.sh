@@ -71,6 +71,7 @@ function scan_banner()
 # Exploit banner
 function exploit_banner()
 {
+    clear
     main_banner
     echo -e "Workspace: $WORKSPACE"
     echo -e "---------- Main Menu -----------"
@@ -81,6 +82,7 @@ function exploit_banner()
 # Config banner
 function config_banner()
 {
+    clear
     main_banner
     echo -e "Workspace: $WORKSPACE"
     echo -e "---------- Main Menu -----------"
@@ -129,8 +131,7 @@ function select_7()
     echo -e "+---+"
     echo -e "${BLACK_b}+---+"
     echo -e "| 9 | Back"
-    echo -e "+---+"
-    echo -e "${NC}"
+    echo -e "+---+${NC}"
 }
 
 function select_6()
@@ -155,8 +156,7 @@ function select_6()
     echo -e "+---+"
     echo -e "${BLACK_b}+---+"
     echo -e "| 9 | Back"
-    echo -e "+---+"
-    echo -e "${NC}"
+    echo -e "+---+${NC}"
 }
 
 function select_5()
@@ -178,59 +178,55 @@ function select_5()
     echo -e "+---+"
     echo -e "${BLACK_b}+---+"
     echo -e "| 9 | Back"
-    echo -e "${BLACK_b}+---+"
-    echo -e "${NC}"
+    echo -e "+---+${NC}"
 }
 
 function select_4()
 {
     echo -e "${BLUE_b}+---+"
     echo -e "| 1 | $1"
-    echo -e "${BLUE_b}+---+"
+    echo -e "+---+"
     echo -e "${RED_b}+---+"
     echo -e "| 2 | $2"
-    echo -e "${RED_b}+---+"
+    echo -e "+---+"
     echo -e "${YELLOW_b}+---+"
     echo -e "| 3 | $3"
-    echo -e "${YELLOW_b}+---+"
+    echo -e "+---+"
     echo -e "${GREEN_b}+---+"
     echo -e "| 4 | $4"
-    echo -e "${GREEN_b}+---+"
+    echo -e "+---+"
     echo -e "${BLACK_b}+---+"
     echo -e "| 9 | Back"
-    echo -e "${BLACK_b}+---+"
-    echo -e "${NC}"
+    echo -e "+---+${NC}"
 }
 
 function select_3()
 {
     echo -e "${BLUE_b}+---+"
     echo -e "| 1 | $1"
-    echo -e "${BLUE_b}+---+"
+    echo -e "+---+"
     echo -e "${RED_b}+---+"
     echo -e "| 2 | $2"
-    echo -e "${RED_b}+---+"
+    echo -e "+---+"
     echo -e "${YELLOW_b}+---+"
     echo -e "| 3 | $3"
-    echo -e "${YELLOW_b}+---+"
+    echo -e "+---+"
     echo -e "${BLACK_b}+---+"
     echo -e "| 9 | Back"
-    echo -e "${BLACK_b}+---+"
-    echo -e "${NC}"
+    echo -e "+---+${NC}"
 }
 
 function select_2()
 {
     echo -e "${BLUE_b}+---+"
     echo -e "| 1 | $1"
-    echo -e "${BLUE_b}+---+"
+    echo -e "+---+"
     echo -e "${RED_b}+---+"
     echo -e "| 2 | $2"
-    echo -e "${RED_b}+---+"
+    echo -e "+---+"
     echo -e "${BLACK_b}+---+"
     echo -e "| 9 | Back"
-    echo -e "${BLACK_b}+---+"
-    echo -e "${NC}"
+    echo -e "+---+${NC}"
 }
 
 function box_1()
