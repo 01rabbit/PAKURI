@@ -7,6 +7,25 @@ source pakuri.conf
 NMAP_FILE=$2
 SERV_NAME=$3
 
+function nmap_scan()
+{
+    local ports
+    local count
+    count=1
+    while read ip
+    do
+        if [[ $ip != "" ]];then
+            window_name="nmap_scan_$count"
+            tmux new-window -n "$window_name"
+            tmux send-keys -t "$window_name" "faraday-terminal" C-m
+            ports=$(nmap -p- --min-rate=1000 -T4 $ip | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
+            tmux send-keys -t "$window_name" "nmap -sC -sV -p$ports $ip -oN $WDIR/nmap_$ip.nmap -oG $WDIR/nmap_$ip.grep ;tmux kill-window -t $window_name" C-m
+            
+            count=$((++count))
+        fi
+    done < $NMAP_FILE
+}
+
 function show_open_port_count()
 {
     egrep -v "^#|Status: Up" $NMAP_FILE | cut -d' ' -f2,4- | \
@@ -258,6 +277,9 @@ case $1 in
         ;;
     show_serv_port)
         show_service_port $SERV_NAME
+        ;;
+    nscan)
+        nmap_scan
         ;;
     http)
         http_scan

@@ -21,7 +21,10 @@ function nmap_scan_menu()
             yes-no-help
             read -n 1 -s ans
             if [ $ans -eq 1 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "nmap -Pn -v -max-retries 1 --max-scan-delay 20 -iL $TARGETS -oN $WDIR/nmap-quick.nmap -oG $WDIR/nmap-quick.grep" C-m
+                echo "test"
+                read
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh nscan $TARGETS" C-m
+                # tmux send-keys -t $WINDOW_NAME.1 "nmap -Pn -v -max-retries 1 --max-scan-delay 20 -iL $TARGETS -oN $WDIR/nmap-quick.nmap -oG $WDIR/nmap-quick.grep" C-m
                 tmux select-pane -t $WINDOW_NAME.0
             elif [ $ans -eq 3 ];then
                 tmux send-keys -t $WINDOW_NAME.1 "cat $DOCUMENTS/learn_well-knownquick.txt" C-m 
@@ -103,7 +106,7 @@ function enum_menu()
     elif [ -f $WDIR/nmap-quick.grep ];then
         NMAP_FILE=$WDIR/nmap-quick.grep
     fi
-
+    # nmap-*ip*.grep ? grep wc 
     if [ ! -z $NMAP_FILE ];then
         tmux send-keys -t $WINDOW_NAME.1 "clear" C-m
         tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh show_serv_port $NMAP_FILE" C-m
