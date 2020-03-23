@@ -31,6 +31,12 @@ if [ ${EUID:-${UID}} != 0 ]; then
     exit 1
 fi
 
+if [ -f ~/.tmux.conf ];then
+    cat tmux.conf >> ~/.tmux.conf
+else
+    cp tmux.conf ~/.tmux.conf
+fi
+
 INSTALL_DIR=/usr/share/PAKURI
 PLUGINS=/usr/share/PAKURI/plugins
 
@@ -58,12 +64,6 @@ fi
 echo -e "${LIGHTBLUE}"
 echo -e "Installing Plugins."
 echo -e "${NC}"
-
-# apt remove -y python3-pip
-# apt install -y python3-pip
-
-# git clone https://github.com/Tib3rius/AutoRecon.git
-# cd $PLUGINS/AutoRecon && pip3 install -r requirements.txt 2> /dev/null
 
 cd $PLUGINS
 systemctl status faraday-server.service > /dev/null
