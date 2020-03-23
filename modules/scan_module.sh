@@ -10,7 +10,7 @@ function nmap_scan_menu()
     if ps -ef|grep nmap|grep -v "grep" >/dev/null;then
         echo -e "Scan process is Running!"
     else
-        select_5 "Standard port" "Standard Port(-A)" "Full Port" "Full Port(-A)" "Vuln" 
+        select_6 "Standard port" "Standard Port(-A)" "Full Port" "Full Port(-A)" "Vuln Scan(Standard Port)" "Vuln Scan(Full Port)"
         read -n 1 -s ans
         scan_banner
         box_1 "nmap scan"
@@ -64,12 +64,23 @@ function nmap_scan_menu()
                 tmux select-pane -t $WINDOW_NAME.0
             fi
         elif [ $ans = 5 ];then
-            box_5 "Vuln"
+            box_5 "Vuln Scan(Standard Port)"
             echo -e "Do you want to start?"
             yes-no-help
             read -n 1 -s ans
             if [ $ans -eq 1 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "nmap -Pn -p- -v --max-retries 1 --max-scan-delay 20 --script vulners --script-args mincvss=6.0 -iL $TARGETS -oN $WDIR/nmap-vuln.nmap" C-m
+                tmux send-keys -t $WINDOW_NAME.1 "nmap -Pn -v -sV --max-retries 1 --max-scan-delay 20 --script vulners --script-args mincvss=6.0 -iL $TARGETS -oN $WDIR/nmap-vuln.nmap" C-m
+                tmux select-pane -t $WINDOW_NAME.0
+            elif [ $ans -eq 3 ];then
+                tmux send-keys -t $WINDOW_NAME.1 "cat $DOCUMENTS/learn_well-knowndetails.txt" C-m 
+                tmux select-pane -t $WINDOW_NAME.0
+            fi
+        elif [ $ans = 6 ];then
+            box_6 "Vuln Scan(Full Port)"
+            yes-no-help
+            read -n 1 -s ans
+            if [ $ans -eq 1 ];then
+                tmux send-keys -t $WINDOW_NAME.1 "nmap -Pn -p- -v -sV --max-retries 1 --max-scan-delay 20 --script vulners --script-args mincvss=6.0 -iL $TARGETS -oN $WDIR/nmap-vuln.nmap" C-m
                 tmux select-pane -t $WINDOW_NAME.0
             elif [ $ans -eq 3 ];then
                 tmux send-keys -t $WINDOW_NAME.1 "cat $DOCUMENTS/learn_well-knowndetails.txt" C-m 
@@ -163,7 +174,7 @@ function scan_manage()
 
     while :
     do
-        
+        flg_omp=""
         scan_banner
         select_4 "nmap scan" "Enumeration" "OpenVAS" "help"
         flg_omp=`tmux list-window -a | grep "OpenVAS"`
@@ -176,7 +187,7 @@ function scan_manage()
             2 )
                 enum_menu ;;
             3 )
-                openvas_menu ;;
+                openvas_menu 5;;
             4 )
                 tmux send-keys -t $WINDOW_NAME.1 "clear && cat $DOCUMENTS/assist_scanning.txt" C-m 
                 tmux select-pane -t $WINDOW_NAME.0 ;;

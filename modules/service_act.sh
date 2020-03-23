@@ -49,6 +49,7 @@ function ssh_scan()
         tmux send-keys -t "$window_name" "nmap -sV -Pn -v -p ${column2} --script='banner,ssh2-enum-algos,ssh-hostkey,ssh-auth-methods' -oN $WDIR/ssh:${column1}:${column2}.nmap ${column1} ;tmux kill-window -t $window_name" C-m
         count=$((++count))
     done
+    tmux select-window -t "${modules[1]}"
 }
 
 function http_scan()
@@ -71,32 +72,33 @@ function http_scan()
             window_name="https_nikto_$count"
             tmux new-window -n "$window_name"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
-            tmux send-keys -t "$window_name" "nikto -ask=no -h https://${column1}:${column2} | tee $WDIR/nikto_${column1}:${column2}.txt; tmux kill-window -t $window_name" C-m
+            tmux send-keys -t "$window_name" "nikto -ask=no -h https://${column1}:${column2} | tee $WDIR/nikto_${column1}:${column2}.txt; tmux kill-window -t ${window_name}" C-m
             # dirb
             window_name="https_dirb_$count"
             tmux new-window -n "$window_name"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
-            tmux send-keys -t "$window_name" "dirb https://${column1}:${column2} /usr/share/wordlists/dirb/common.txt -o $WDIR/dirb_${column1}:${column2}.txt; tmux kill-window -t $window_name" C-m            
+            tmux send-keys -t "$window_name" "dirb https://${column1}:${column2} /usr/share/wordlists/dirb/common.txt -o $WDIR/dirb_${column1}:${column2}.txt; tmux kill-window -t ${window_name}" C-m
             # sslyze
             window_name="sslyze_$count"
             tmux new-window -n "$window_name"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
-            tmux send-keys -t "$window_name" "sslyze --regular ${column1} | tee $WDIR/sslyze_${column1}.txt; tmux kill-window -t $window_name" C-m
+            tmux send-keys -t "$window_name" "sslyze --regular ${column1} | tee $WDIR/sslyze_${column1}.txt; tmux kill-window -t ${window_name}" C-m
         else
         ## http
             # nikto
             window_name="http_nikto_$count"
             tmux new-window -n "$window_name"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
-            tmux send-keys -t "$window_name" "nikto -ask=no -h http://${column1}:${column2} | tee $WDIR/nikto_${column1}:${column2}.txt; tmux kill-window -t $window_name" C-m
+            tmux send-keys -t "$window_name" "nikto -ask=no -h http://${column1}:${column2} | tee $WDIR/nikto_${column1}:${column2}.txt; tmux kill-window -t ${window_name}" C-m
             # dirb
             window_name="http_dirb_$count"
             tmux new-window -n "$window_name"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
-            tmux send-keys -t "$window_name" "dirb http://${column1}:${column2} /usr/share/wordlists/dirb/common.txt -o $WDIR/dirb_${column1}:${column2}.txt; tmux kill-window -t $window_name" C-m            
+            tmux send-keys -t "$window_name" "dirb http://${column1}:${column2} /usr/share/wordlists/dirb/common.txt -o $WDIR/dirb_${column1}:${column2}.txt; tmux kill-window -t ${window_name}" C-m
         fi
         count=$((++count))
     done
+    tmux select-window -t "${modules[1]}"
 }
 
 function smb_scan()
@@ -112,10 +114,10 @@ function smb_scan()
         column1=`echo ${i} | cut -d , -f 1`
         column2=`echo ${i} | cut -d , -f 3`
         # nmap scan
-        window_name="smb_P$1_scan_$count"
+        window_name="smb_P${column2}_scan_$count"
         tmux new-window -n "$window_name"
         tmux send-keys -t "$window_name" "faraday-terminal" C-m
-        tmux send-keys -t "$window_name" "nmap -sV -Pn -v --script='*smb-vuln* and not brute or broadcast or dos or external or fuzzer' -p${column2} -oN $WDIR/smb:${column1}:${column2}.nmap ${column1} ;tmux kill-window -t $window_name" C-m
+        tmux send-keys -t "$window_name" "nmap -sV -Pn -v --script='*smb-vuln* and not brute or broadcast or dos or external or fuzzer' -p${column2} -oN $WDIR/$1:${column1}:${column2}.nmap ${column1} ;tmux kill-window -t $window_name" C-m
         # enum4linux
         if [ ${column2} = "139" ] || [ ${column2} -eq "389" ] || [ ${column2} -eq "445" ];then
             window_name="enum4linux_P$1_$count"
@@ -125,6 +127,7 @@ function smb_scan()
         fi
         count=$((++count))
     done
+    tmux select-window -t "${modules[1]}"
 }
 
 function nmap_enum()
@@ -143,9 +146,10 @@ function nmap_enum()
         window_name="$1_scan_$count"
         tmux new-window -n "$window_name"
         tmux send-keys -t "$window_name" "faraday-terminal" C-m
-        tmux send-keys -t "$window_name" "nmap -sV -Pn -v --script='*$1-vuln* and not brute or broadcast or dos or external or fuzzer' -p${column2} -oN $WDIR/smb:${column1}:${column2}.nmap ${column1} ;tmux kill-window -t $window_name" C-m
+        tmux send-keys -t "$window_name" "nmap -sV -Pn -v --script='*$1-vuln* and not brute or broadcast or dos or external or fuzzer' -p${column2} -oN $WDIR/$1_${column1}:${column2}.nmap ${column1} ;tmux kill-window -t $window_name" C-m
         count=$((++count))
     done
+    tmux select-window -t "${modules[1]}"
 }
 
 function openvas_scan()
@@ -188,14 +192,14 @@ function openvas_scan()
     echo -e "Creating task..."
 
     # Create Task
-    # 8715c877-47a0-438d-98a3-27c7a6ab2196  Discovery
-    # 085569ce-73ed-11df-83c3-002264764cea  empty
-    # daba56c8-73ec-11df-a475-002264764cea  Full and fast
-    # 698f691e-7489-11df-9d8c-002264764cea  Full and fast ultimate
-    # 708f25c4-7489-11df-8094-002264764cea  Full and very deep
-    # 74db13d6-7489-11df-91b9-002264764cea  Full and very deep ultimate
-    # 2d3f051c-55ba-11e3-bf43-406186ea4fc5  Host Discovery
-    # bbca7412-a950-11e3-9109-406186ea4fc5  System Discovery
+        # 8715c877-47a0-438d-98a3-27c7a6ab2196  Discovery *
+        # 085569ce-73ed-11df-83c3-002264764cea  empty
+        # daba56c8-73ec-11df-a475-002264764cea  Full and fast
+        # 698f691e-7489-11df-9d8c-002264764cea  Full and fast ultimate
+        # 708f25c4-7489-11df-8094-002264764cea  Full and very deep
+        # 74db13d6-7489-11df-91b9-002264764cea  Full and very deep ultimate
+        # 2d3f051c-55ba-11e3-bf43-406186ea4fc5  Host Discovery
+        # bbca7412-a950-11e3-9109-406186ea4fc5  System Discovery
     Task_ID=$(omp -C -c 8715c877-47a0-438d-98a3-27c7a6ab2196 --name $TASK_NAME --target $Target_ID -u $OMPUSER -w $OMPPASS) && echo -e "Task ID=$Task_ID"
     
     echo -e ""
@@ -230,12 +234,10 @@ function openvas_scan()
     fi
 
     # Delete job
-    #Task_ID=$(omp --get-tasks -u $OMPUSER -w $OMPPASS|grep $TASK_NAME| awk '{print $1}')
     if [[ $Task_ID != "" ]];then
         omp -X '<delete_task task_id=\"$Task_ID\" />' -u $OMPUSER -w $OMPPASS
     fi
 
-    #Target_ID=$(omp -T -u $OMPUSER -w $OMPPASS|grep $TARGET_NAME|awk '{print $1}')
     if [[ $Target_ID != "" ]];then
         omp -X '<delete_target target_id=\"$Target_ID\" />' -u $OMPUSER -w $OMPPASS
     fi
@@ -247,6 +249,7 @@ function openvas_scan()
     echo -e "Compleate!"
     echo -e "Press enter key to continue..."
     read
+    tmux select-window -t "${modules[1]}"
 }
 
 case $1 in
@@ -261,8 +264,7 @@ case $1 in
         ;;
     smb)
         smb_scan smb
-        smb_scan "139"
-        smb_scan "445"
+        smb_scan netbios-ssn
         ;;
     ftp)
         nmap_enum ftp
@@ -280,6 +282,7 @@ case $1 in
     db)
         nmap_enum oracle
         nmap_enum ms-sql
+        nmap_enum mysql
         ;;
     openvas)
         openvas_scan 
