@@ -10,83 +10,33 @@ function nmap_scan_menu()
     if ps -ef|grep nmap|grep -v "grep" >/dev/null;then
         echo -e "Scan process is Running!"
     else
-        select_6 "Standard port" "Standard Port(-A)" "Full Port" "Full Port(-A)" "Vuln Scan(Standard Port)" "Vuln Scan(Full Port)"
+        select_2 "Port Scan" "Vulners Scan"
         read -n 1 -s ans
         scan_banner
         box_1 "nmap scan"
         echo -e "-------- Select Action ---------"
         if [ $ans = 1 ];then
-            box_1 "Standard Port"
+            box_1 "Port Scan"
             echo -e "Do you want to start?" 
             yes-no-help
             read -n 1 -s ans
             if [ $ans -eq 1 ];then
-                echo "test"
-                read
                 tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh nscan $TARGETS" C-m
-                # tmux send-keys -t $WINDOW_NAME.1 "nmap -Pn -v -max-retries 1 --max-scan-delay 20 -iL $TARGETS -oN $WDIR/nmap-quick.nmap -oG $WDIR/nmap-quick.grep" C-m
                 tmux select-pane -t $WINDOW_NAME.0
             elif [ $ans -eq 3 ];then
                 tmux send-keys -t $WINDOW_NAME.1 "cat $DOCUMENTS/learn_well-knownquick.txt" C-m 
                 tmux select-pane -t $WINDOW_NAME.0
             fi
         elif [ $ans = 2 ];then
-            box_2 "Standard Port(-A)"
+            box_2 "Vulners Scan"
             echo -e "Do you want to start?" 
             yes-no-help
             read -n 1 -s ans
             if [ $ans -eq 1 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "nmap -Pn -v -A -max-retries 1 --max-scan-delay 20 --max-rate 300 -iL $TARGETS -oN $WDIR/nmap-quick.nmap -oG $WDIR/nmap-quick.grep" C-m
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh nvscan $TARGETS" C-m
                 tmux select-pane -t $WINDOW_NAME.0
             elif [ $ans -eq 3 ];then
                 tmux send-keys -t $WINDOW_NAME.1 "cat $DOCUMENTS/learn_well-knownquick.txt" C-m 
-                tmux select-pane -t $WINDOW_NAME.0
-            fi
-        elif [ $ans = 3 ];then
-            box_3 "Full Port"
-            echo -e "Do you want to start?" 
-            yes-no-help
-            read -n 1 -s ans
-            if [ $ans -eq 1 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "nmap -Pn -p- -v --max-retries 1 --max-scan-delay 20 -iL $TARGETS -oN $WDIR/nmap-full.nmap -oG $WDIR/nmap-full.grep" C-m
-                tmux select-pane -t $WINDOW_NAME.0
-            elif [ $ans -eq 3 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "cat $DOCUMENTS/learn_well-knowndetails.txt" C-m 
-                tmux select-pane -t $WINDOW_NAME.0
-            fi
-        elif [ $ans = 4 ];then
-            box_4 "Full Port(-A)"
-            echo -e "Do you want to start?" 
-            yes-no-help
-            read -n 1 -s ans
-            if [ $ans -eq 1 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "nmap -Pn -p- -v -A --max-retries 1 --max-scan-delay 20 --max-rate 300 -iL $TARGETS -oN $WDIR/nmap-full.nmap -oG $WDIR/nmap-full.grep" C-m
-                tmux select-pane -t $WINDOW_NAME.0
-            elif [ $ans -eq 3 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "cat $DOCUMENTS/learn_well-knowndetails.txt" C-m 
-                tmux select-pane -t $WINDOW_NAME.0
-            fi
-        elif [ $ans = 5 ];then
-            box_5 "Vuln Scan(Standard Port)"
-            echo -e "Do you want to start?"
-            yes-no-help
-            read -n 1 -s ans
-            if [ $ans -eq 1 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "nmap -Pn -v -sV --max-retries 1 --max-scan-delay 20 --script vulners --script-args mincvss=6.0 -iL $TARGETS -oN $WDIR/nmap-vuln.nmap" C-m
-                tmux select-pane -t $WINDOW_NAME.0
-            elif [ $ans -eq 3 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "cat $DOCUMENTS/learn_well-knowndetails.txt" C-m 
-                tmux select-pane -t $WINDOW_NAME.0
-            fi
-        elif [ $ans = 6 ];then
-            box_6 "Vuln Scan(Full Port)"
-            yes-no-help
-            read -n 1 -s ans
-            if [ $ans -eq 1 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "nmap -Pn -p- -v -sV --max-retries 1 --max-scan-delay 20 --script vulners --script-args mincvss=6.0 -iL $TARGETS -oN $WDIR/nmap-vuln.nmap" C-m
-                tmux select-pane -t $WINDOW_NAME.0
-            elif [ $ans -eq 3 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "cat $DOCUMENTS/learn_well-knowndetails.txt" C-m 
                 tmux select-pane -t $WINDOW_NAME.0
             fi
         fi
@@ -101,15 +51,15 @@ function enum_menu()
     NMAP_FILE=""
     box_2 "Enumeration"
     echo -e "-------- Select Action ---------"
-    if [ -f $WDIR/nmap-full.grep ];then
-        NMAP_FILE=$WDIR/nmap-full.grep
-    elif [ -f $WDIR/nmap-quick.grep ];then
-        NMAP_FILE=$WDIR/nmap-quick.grep
-    fi
+    # if [ -f $WDIR/nmap-full.grep ];then
+    #     NMAP_FILE=$WDIR/nmap-full.grep
+    # elif [ -f $WDIR/nmap-quick.grep ];then
+    #     NMAP_FILE=$WDIR/nmap-quick.grep
+    # fi
     # nmap-*ip*.grep ? grep wc 
-    if [ ! -z $NMAP_FILE ];then
+    if ls $WDIR/nmap_*.grep >/dev/null 2>&1;then
         tmux send-keys -t $WINDOW_NAME.1 "clear" C-m
-        tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh show_serv_port $NMAP_FILE" C-m
+        tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh show_serv_port" C-m
         select_7 "ftp" "ssh" "smtp/pop3" "dns" "http/https" "SMB" "DB" 
         read -n 1 -s key
         scan_banner
@@ -117,25 +67,25 @@ function enum_menu()
         echo -e "-------- Select Action ---------"
         case "$key" in
             1 ) #ftp
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh ftp $NMAP_FILE" C-m
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh ftp " C-m
                 ;;
             2 ) #ssh
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh ssh $NMAP_FILE" C-m
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh ssh " C-m
                 ;;
             3 ) #smtp/pop3
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh smtp $NMAP_FILE" C-m
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh smtp " C-m
                 ;;
             4 ) #dns
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh dns $NMAP_FILE" C-m
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh dns " C-m
                 ;;
             5 ) #http
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh http $NMAP_FILE" C-m
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh http " C-m
                 ;;
             6 ) #SMB
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh smb $NMAP_FILE" C-m
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh smb " C-m
                 ;;
             7 ) #DB
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh db $NMAP_FILE" C-m
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh db " C-m
                 ;;
             9 )
             ;;

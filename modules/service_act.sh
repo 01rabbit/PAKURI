@@ -4,7 +4,6 @@ source pakuri.conf
 # $2 NMAP_FILE
 # $3 Service name
 
-NMAP_FILE=$2
 SERV_NAME=$3
 
 function nmap_scan()
@@ -18,17 +17,39 @@ function nmap_scan()
             window_name="nmap_scan_$count"
             tmux new-window -n "$window_name"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
-            ports=$(nmap -p- --min-rate=1000 -T4 $ip | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
-            tmux send-keys -t "$window_name" "nmap -sC -sV -p$ports $ip -oN $WDIR/nmap_$ip.nmap -oG $WDIR/nmap_$ip.grep ;tmux kill-window -t $window_name" C-m
+            echo "$ip port scan"
+            ports=$(nmap -Pn -p- -v --min-rate=1000 -T4 $ip | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
+            tmux send-keys -t "$window_name" "nmap -sC -sV -v -p$ports $ip -oN $WDIR/nmap_$ip.nmap -oG $WDIR/nmap_$ip.grep ;tmux kill-window -t $window_name" C-m
             
             count=$((++count))
         fi
-    done < $NMAP_FILE
+    done < $TARGETS
+    tmux select-window -t "${modules[1]}"
+}
+
+function nmap_vulners_scan()
+{
+    local ports
+    local count
+    count=1
+    while read ip
+    do
+        if [[ $ip != "" ]];then
+            window_name="nmap_vuln_$count"
+            tmux new-window -n "$window_name"
+            tmux send-keys -t "$window_name" "faraday-terminal" C-m
+            ports=$(nmap -Pn -p- -v --min-rate=1000 -T4 $ip | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
+            tmux send-keys -t "$window_name" "nmap -Pn -v -sV --max-retries 1 --max-scan-delay 20 --script vulners --script-args mincvss=6.0 -p$ports $ip -oN $WDIR/nmap_vuln_$ip.nmap ;tmux kill-window -t $window_name" C-m
+            
+            count=$((++count))
+        fi
+    done < $TARGETS
+    tmux select-window -t "${modules[1]}"
 }
 
 function show_open_port_count()
 {
-    egrep -v "^#|Status: Up" $NMAP_FILE | cut -d' ' -f2,4- | \
+    egrep -v "^#|Status: Up" $WDIR/nmap_*.grep | cut -d' ' -f2,4- | \
     # sed -n -e 's/Ignored.*//p' | \
     awk -F, '{split($0,a," "); printf "Host: %-20s Ports Open: %d\n" , a[1], NF}' \
     | sort -k 5 -g
@@ -36,14 +57,14 @@ function show_open_port_count()
 function show_service_port()
 {
     echo -e "IP               State    Port/Prot  Service         Info"
-    egrep -v "^#|Status: Up" $NMAP_FILE | cut -d' ' -f2,4- | \
+    egrep -v "^#|Status: Up" $WDIR/nmap_*.grep | cut -d' ' -f2,4- | \
     # sed -n -e 's/Ignored.*//p'  | \
     awk '{ip=$1; $1=""; for(i=2; i<=NF; i++) { a=a""$i; }; split(a,s,","); for(e in s) { split(s[e],v,"/");
      printf "%-15s  %-5s %7s/%3s   %-15s %s\n" ,ip, v[2], v[1], v[3], v[5], v[7]}; a="" }'|grep -i "$1"
 }
 function get_service_port()
 {
-    egrep -v "^#|Status: Up" $NMAP_FILE | cut -d' ' -f2,4- | \
+    egrep -v "^#|Status: Up" $WDIR/nmap_*.grep | cut -d' ' -f2,4- | \
     # sed -n -e 's/Ignored.*//p'  | \
     awk '{ip=$1; $1=""; for(i=2; i<=NF; i++) { a=a""$i; }; split(a,s,","); for(e in s) { split(s[e],v,"/");
      printf "%s,%s,%s,%s,%s,%s\n" ,ip, v[2], v[1], v[3], v[5], v[7]}; a="" }'|grep -w open |grep -i "$1"
@@ -276,17 +297,21 @@ case $1 in
         show_open_port_count
         ;;
     show_serv_port)
-        show_service_port $SERV_NAME
+        show_service_port 
         ;;
     nscan)
         nmap_scan
+        ;;
+    nvscan)
+        nmap_vulners_scan
         ;;
     http)
         http_scan
         ;;
     smb)
-        smb_scan smb
+        # smb_scan smb
         smb_scan netbios-ssn
+        smb_scan microsoft-ds
         ;;
     ftp)
         nmap_enum ftp
