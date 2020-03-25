@@ -17,7 +17,7 @@ function nmap_scan_menu()
         echo -e "-------- Select Action ---------"
         if [ $ans = 1 ];then
             box_1 "Port Scan"
-            echo -e "Do you want to start?" 
+            echo -e "Do you want to perform a process??" 
             yes-no-help
             read -n 1 -s ans
             if [ $ans -eq 1 ];then
@@ -29,7 +29,7 @@ function nmap_scan_menu()
             fi
         elif [ $ans = 2 ];then
             box_2 "Vulners Scan"
-            echo -e "Do you want to start?" 
+            echo -e "Do you want to perform a process??" 
             yes-no-help
             read -n 1 -s ans
             if [ $ans -eq 1 ];then
@@ -100,7 +100,7 @@ function openvas_menu()
 {
     box_3 "OpenVAS"
     echo -e "-------- Select Action ---------"
-    echo -e "Do you want to start?" 
+    echo -e "Do you want to perform a process??" 
     yes-no-help
     read -n 1 -s ans
     if [ $ans -eq 1 ];then

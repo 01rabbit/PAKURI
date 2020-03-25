@@ -53,7 +53,7 @@ function modeswitching()
             * ) 
                 echo -e "error" ;;
         esac
-        echo -e "Press enter key to continue..."
+        echo -e "Press Enter to continue..."
         read
     done
 }
@@ -135,7 +135,7 @@ function service_menu()
                 if [ $flg_p = 0 ];then
                     echo -e "Please Start PostgreSQL."
                     echo -e ""
-                    echo -e "Press enter key to continue..."
+                    echo -e "Press Enter to continue..."
                     read
                 else
                     echo -e "Do you really want to ${GREEN_b}start${NC}?"
@@ -199,7 +199,7 @@ function config_manage()
                 echo -e "Input your targets."
                 echo -e "This is edited with nano. Enter with Ctrl + x to exit."
                 echo -e ""
-                echo -e "Press enter key to continue..."
+                echo -e "Press Enter to continue..."
                 read ;;
             2 )
                 box_2 "Configure Service"
@@ -211,7 +211,7 @@ function config_manage()
                 if [ $flg_f = 0 ];then
                     echo -e "Please Start Faraday."
                     echo -e ""
-                    echo -e "Press enter key to continue..."
+                    echo -e "Press Enter to continue..."
                     read
                 else
                     echo -e "Is the faraday's workspace name is $WORKSPACE? "
@@ -221,7 +221,7 @@ function config_manage()
                         tmux send-keys -t $SESSION_NAME.1 "$INSTALL_DIR/$IMPORT $WDIR $WORKSPACE" C-m
                         tmux select-pane -t $SESSION_NAME.0
                         echo -e "Please check Faraday."
-                        echo -e "Press enter key to continue..."
+                        echo -e "Press Enter to continue..."
                         read
                     fi
                 fi ;;

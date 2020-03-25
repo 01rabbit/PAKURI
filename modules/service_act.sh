@@ -16,9 +16,12 @@ function nmap_scan()
         if [[ $ip != "" ]];then
             window_name="nmap_scan_$count"
             tmux new-window -n "$window_name"
+            tmux select-window -t "${modules[1]}"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
-            echo "$ip port scan"
+            echo -e "[${GREEN}Nmap Scan${NC}] IP:$ip -- Check open port"
             ports=$(nmap -Pn -p- -v --min-rate=1000 -T4 $ip | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
+            echo -e "[${GREEN}Nmap Scan${NC}] IP:$ip -- Port Scan"
+            echo -e "[${GREEN}Nmap Scan${NC}] IP:$ip -- Window[$window_name]"
             tmux send-keys -t "$window_name" "nmap -sC -sV -v -p$ports $ip -oN $WDIR/nmap_$ip.nmap -oG $WDIR/nmap_$ip.grep ;tmux kill-window -t $window_name" C-m
             
             count=$((++count))
@@ -37,8 +40,12 @@ function nmap_vulners_scan()
         if [[ $ip != "" ]];then
             window_name="nmap_vuln_$count"
             tmux new-window -n "$window_name"
+            tmux select-window -t "${modules[1]}"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
+            echo -e "[${GREEN}Vulners Scan${NC}] IP:$ip -- Check open port"
             ports=$(nmap -Pn -p- -v --min-rate=1000 -T4 $ip | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
+            echo -e "[${GREEN}Vulners Scan${NC}] IP:$ip -- Vulners Scan"
+            echo -e "[${GREEN}Vulners Scan${NC}] IP:$ip -- Window[$window_name]"
             tmux send-keys -t "$window_name" "nmap -Pn -v -sV --max-retries 1 --max-scan-delay 20 --script vulners --script-args mincvss=6.0 -p$ports $ip -oN $WDIR/nmap_vuln_$ip.nmap ;tmux kill-window -t $window_name" C-m
             
             count=$((++count))
@@ -112,7 +119,7 @@ function http_scan()
             window_name="https_nikto_$count"
             tmux new-window -n "$window_name"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
-            tmux send-keys -t "$window_name" "nikto -ask=no -h https://${column1}:${column2} | tee $WDIR/nikto_${column1}:${column2}.txt; tmux kill-window -t ${window_name}" C-m
+            tmux send-keys -t "$window_name" "nikto -ask=no -h https://${column1}:${column2} > $WDIR/nikto_${column1}:${column2}.txt; tmux kill-window -t ${window_name}" C-m
             # dirb
             window_name="https_dirb_$count"
             tmux new-window -n "$window_name"
@@ -129,16 +136,24 @@ function http_scan()
             window_name="http_nikto_$count"
             tmux new-window -n "$window_name"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
-            tmux send-keys -t "$window_name" "nikto -ask=no -h http://${column1}:${column2} | tee $WDIR/nikto_${column1}:${column2}.txt; tmux kill-window -t ${window_name}" C-m
+            tmux send-keys -t "$window_name" "nikto -ask=no -h http://${column1}:${column2} > $WDIR/nikto_${column1}:${column2}.txt; tmux kill-window -t ${window_name}" C-m
             # dirb
             window_name="http_dirb_$count"
             tmux new-window -n "$window_name"
-            tmux send-keys -t "$window_name" "faraday-terminal" C-m
-            tmux send-keys -t "$window_name" "dirb http://${column1}:${column2} /usr/share/wordlists/dirb/common.txt -o $WDIR/dirb_${column1}:${column2}.txt; tmux kill-window -t ${window_name}" C-m
+            # tmux send-keys -t "$window_name" "faraday-terminal" C-m
+            tmux send-keys -t "$window_name" "faraday-terminal;dirb http://${column1}:${column2} /usr/share/wordlists/dirb/common.txt -o $WDIR/dirb_${column1}:${column2}.txt;cp $WDIR/dirb_${column1}:${column2}.txt ~/.faraday/data ;tmux kill-window -t ${window_name}" C-m
         fi
         count=$((++count))
     done
     tmux select-window -t "${modules[1]}"
+}
+
+function dirb_scan()
+{
+    url=$1
+    window_name=$2
+    dirb $url /usr/share/wordlists/dirb/common.txt -o $WDIR/dirb_${column1}:${column2}.txt
+    tmux kill-window -t ${window_name}
 }
 
 function smb_scan()
