@@ -12,7 +12,7 @@
 
 ## What's PAKURI
 
-I have imitated the good points of many tools.  In Japanese, imitating is called “Pakuru”.
+I've consulted many pen testing tools. I then took the good points of those tools and incorporated them into my own tools. In Japanese slang, imitation is also called "paku-ru".
 > ぱくる (godan conjugation, hiragana and katakana パクる, rōmaji pakuru)
 >
 > 1. eat with a wide open mouth
@@ -146,38 +146,31 @@ For beginner:
 
     ```shell
     root@kali:/usr/share/PAKURI# ./pakuri.sh
+      ____ ____ ____ ____ ____ ____
+     ||P |||A |||K |||U |||R |||I ||
+     ||__|||__|||__|||__|||__|||__||
+     |/__\|/__\|/__\|/__\|/__\|/__\|
+                              v1.1.0
+                 Author  : Mr.Rabbit
+                     inspired by CDI
 
-    ██████╗   █████╗    ██╗  ██╗   ██╗   ██╗   ██████╗    ██╗
-    ██╔══██╗ ██╔══██╗   ██║ ██╔╝   ██║   ██║   ██╔══██╗   ██║
-    ██████╔╝ ███████║   █████╔╝    ██║   ██║   ██████╔╝   ██║
-    ██╔═══╝  ██╔══██║   ██╔═██╗    ██║   ██║   ██╔══██╗   ██║
-    ██║   ██╗██║  ██║██╗██║  ██╗██╗╚██████╔╝██╗██║  ██║██╗██║
-    ╚═╝   ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝╚═╝  ╚═╝╚═╝╚═╝
-
-    - Penetration Test Achive Knowledge Unite Rapid Interface -
-                        inspired by CDI
-
-                                                        v1.0.2
-                                           Author  : Mr.Rabbit
-
-    Sun 29 Dec 2019 22:25:07 PM EST
-    Working Directory : /root/demo
-    ---------------------- Main Menu -----------------------
-    +---+
-    | 1 | Scanning
-    +---+
-    +---+
-    | 2 | Exploit
-    +---+
-    +---+
-    | 3 | Config
-    +---+
-    +---+
-    | 4 | Assist
-    +---+
-    +---+
-    | 9 | Back
-    +---+
+     Workspace: demo
+     ---------- Main Menu -----------
+     +---+
+     | 1 | Scanning
+     +---+
+     +---+
+     | 2 | Exploit
+     +---+
+     +---+
+     | 3 | Config
+     +---+
+     +---+
+     | 4 | Assist
+     +---+
+     +---+
+     | 9 | Back
+     +---+
     ```
 
 PAKURI is not fully automated and requires the user interactions, to make sure to proceed the pentest and to avoid any unintended attack or trouble.
