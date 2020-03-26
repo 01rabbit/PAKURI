@@ -51,12 +51,7 @@ function enum_menu()
     NMAP_FILE=""
     box_2 "Enumeration"
     echo -e "-------- Select Action ---------"
-    # if [ -f $WDIR/nmap-full.grep ];then
-    #     NMAP_FILE=$WDIR/nmap-full.grep
-    # elif [ -f $WDIR/nmap-quick.grep ];then
-    #     NMAP_FILE=$WDIR/nmap-quick.grep
-    # fi
-    # nmap-*ip*.grep ? grep wc 
+
     if ls $WDIR/nmap_*.grep >/dev/null 2>&1;then
         tmux send-keys -t $WINDOW_NAME.1 "clear" C-m
         tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh show_serv_port" C-m
@@ -91,13 +86,16 @@ function enum_menu()
             ;;
         esac
     else
-        echo -e "error"
-        read
+        nmap_scan_menu
     fi
 }
 
 function openvas_menu()
 {
+    local ans
+    local window_name
+
+    window_name=""
     box_3 "OpenVAS"
     echo -e "-------- Select Action ---------"
     echo -e "Do you want to perform a process??" 
@@ -108,7 +106,9 @@ function openvas_menu()
         if [[ "$window_name" == "" ]];then
             window_name="OpenVAS"
             tmux new-window -n "$window_name"
-            tmux send-keys -t "$window_name" "$MODULES/service_act.sh openvas ;tmux kill-window -t $window_name" C-m
+            tmux split-window -t "$window_name".0 -v -p 15
+            tmux send-keys -t "$window_name".1 "$MODULES/service_act.sh back" C-m
+            tmux send-keys -t "$window_name".0 "$MODULES/service_act.sh openvas ;tmux kill-window -t $window_name" C-m
         else
             tmux select-window -t "$window_name"
         fi
@@ -140,7 +140,7 @@ function scan_manage()
             2 )
                 enum_menu ;;
             3 )
-                openvas_menu 5;;
+                openvas_menu ;;
             4 )
                 tmux send-keys -t $WINDOW_NAME.1 "clear && cat $DOCUMENTS/assist_scanning.txt" C-m 
                 tmux select-pane -t $WINDOW_NAME.0 ;;

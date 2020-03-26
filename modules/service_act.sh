@@ -6,54 +6,6 @@ source pakuri.conf
 
 SERV_NAME=$3
 
-function nmap_scan()
-{
-    local ports
-    local count
-    count=1
-    while read ip
-    do
-        if [[ $ip != "" ]];then
-            window_name="nmap_scan_$count"
-            tmux new-window -n "$window_name"
-            tmux select-window -t "${modules[1]}"
-            tmux send-keys -t "$window_name" "faraday-terminal" C-m
-            echo -e "[${GREEN}Nmap Scan${NC}] IP:$ip -- Check open port"
-            ports=$(nmap -Pn -p- -v --min-rate=1000 -T4 $ip | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
-            echo -e "[${GREEN}Nmap Scan${NC}] IP:$ip -- Port Scan"
-            echo -e "[${GREEN}Nmap Scan${NC}] IP:$ip -- Window[$window_name]"
-            tmux send-keys -t "$window_name" "nmap -sC -sV -v -p$ports $ip -oN $WDIR/nmap_$ip.nmap -oG $WDIR/nmap_$ip.grep ;tmux kill-window -t $window_name" C-m
-            
-            count=$((++count))
-        fi
-    done < $TARGETS
-    tmux select-window -t "${modules[1]}"
-}
-
-function nmap_vulners_scan()
-{
-    local ports
-    local count
-    count=1
-    while read ip
-    do
-        if [[ $ip != "" ]];then
-            window_name="nmap_vuln_$count"
-            tmux new-window -n "$window_name"
-            tmux select-window -t "${modules[1]}"
-            tmux send-keys -t "$window_name" "faraday-terminal" C-m
-            echo -e "[${GREEN}Vulners Scan${NC}] IP:$ip -- Check open port"
-            ports=$(nmap -Pn -p- -v --min-rate=1000 -T4 $ip | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
-            echo -e "[${GREEN}Vulners Scan${NC}] IP:$ip -- Vulners Scan"
-            echo -e "[${GREEN}Vulners Scan${NC}] IP:$ip -- Window[$window_name]"
-            tmux send-keys -t "$window_name" "nmap -Pn -v -sV --max-retries 1 --max-scan-delay 20 --script vulners --script-args mincvss=6.0 -p$ports $ip -oN $WDIR/nmap_vuln_$ip.nmap ;tmux kill-window -t $window_name" C-m
-            
-            count=$((++count))
-        fi
-    done < $TARGETS
-    tmux select-window -t "${modules[1]}"
-}
-
 function show_open_port_count()
 {
     egrep -v "^#|Status: Up" $WDIR/nmap_*.grep | cut -d' ' -f2,4- | \
@@ -77,6 +29,54 @@ function get_service_port()
      printf "%s,%s,%s,%s,%s,%s\n" ,ip, v[2], v[1], v[3], v[5], v[7]}; a="" }'|grep -w open |grep -i "$1"
 }
 
+function nmap_scan()
+{
+    local ports
+    local count
+    count=1
+    while read ip
+    do
+        if [[ $ip != "" ]];then
+            window_name="nmap_scan_$count"
+            tmux new-window -n "$window_name"
+            tmux select-window -t "${modules[1]}"
+            tmux send-keys -t "$window_name" "faraday-terminal" C-m
+            echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Check open port"
+            ports=$(nmap -Pn -p- -v --min-rate=1000 -T4 $ip | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
+            echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Port Scan"
+            echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Window[$window_name]"
+            tmux send-keys -t "$window_name" "nmap -sC -sV -v -p$ports $ip -oN $WDIR/nmap_$ip.nmap -oG $WDIR/nmap_$ip.grep ;tmux kill-window -t $window_name" C-m
+            
+            count=$((++count))
+        fi
+    done < $TARGETS
+    tmux select-window -t "${modules[1]}"
+}
+
+function nmap_vulners_scan()
+{
+    local ports
+    local count
+    count=1
+    while read ip
+    do
+        if [[ $ip != "" ]];then
+            window_name="nmap_vuln_$count"
+            tmux new-window -n "$window_name"
+            tmux select-window -t "${modules[1]}"
+            tmux send-keys -t "$window_name" "faraday-terminal" C-m
+            echo -e "[${GREEN}Vulners Scan${NC}] $ip -- Check open port"
+            ports=$(nmap -Pn -p- -v --min-rate=1000 -T4 $ip | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
+            echo -e "[${GREEN}Vulners Scan${NC}] $ip -- Vulners Scan"
+            echo -e "[${GREEN}Vulners Scan${NC}] $ip -- Window[$window_name]"
+            tmux send-keys -t "$window_name" "nmap -Pn -v -sV --max-retries 1 --max-scan-delay 20 --script vulners --script-args mincvss=6.0 -p$ports $ip -oN $WDIR/nmap_vuln_$ip.nmap ;tmux kill-window -t $window_name" C-m
+            
+            count=$((++count))
+        fi
+    done < $TARGETS
+    tmux select-window -t "${modules[1]}"
+}
+
 function ssh_scan()
 {
     local count
@@ -92,7 +92,10 @@ function ssh_scan()
 
         window_name="ssh_scan_$count"
         tmux new-window -n "$window_name"
+        tmux select-window -t "${modules[1]}"
         tmux send-keys -t "$window_name" "faraday-terminal" C-m
+        echo -e "[${GREEN}SSH Enum${NC}] ${column1}:${column2} -- SSH Enum Start"
+        echo -e "[${GREEN}SSH Enum${NC}] ${column1}:${column2} -- Window[$window_name]"
         tmux send-keys -t "$window_name" "nmap -sV -Pn -v -p ${column2} --script='banner,ssh2-enum-algos,ssh-hostkey,ssh-auth-methods' -oN $WDIR/ssh:${column1}:${column2}.nmap ${column1} ;tmux kill-window -t $window_name" C-m
         count=$((++count))
     done
@@ -118,42 +121,49 @@ function http_scan()
             # nikto
             window_name="https_nikto_$count"
             tmux new-window -n "$window_name"
+            tmux select-window -t "${modules[1]}"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
+            echo -e "[${GREEN}Http Enum${NC}] https://${column1}:${column2} -- nikto Start"
+            echo -e "[${GREEN}Http Enum${NC}] https://${column1}:${column2} -- Window[$window_name]"
             tmux send-keys -t "$window_name" "nikto -ask=no -h https://${column1}:${column2} > $WDIR/nikto_${column1}:${column2}.txt; tmux kill-window -t ${window_name}" C-m
             # dirb
             window_name="https_dirb_$count"
             tmux new-window -n "$window_name"
+            tmux select-window -t "${modules[1]}"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
-            tmux send-keys -t "$window_name" "dirb https://${column1}:${column2} /usr/share/wordlists/dirb/common.txt -o $WDIR/dirb_${column1}:${column2}.txt; tmux kill-window -t ${window_name}" C-m
+            echo -e "[${GREEN}Http Enum${NC}] https://${column1}:${column2} -- dirb Start"
+            echo -e "[${GREEN}Http Enum${NC}] https://${column1}:${column2} -- Window[$window_name]"
+            tmux send-keys -t "$window_name" "dirb https://${column1}:${column2} /usr/share/wordlists/dirb/common.txt -o $WDIR/dirb_${column1}:${column2}.txt" C-m
             # sslyze
             window_name="sslyze_$count"
             tmux new-window -n "$window_name"
+            tmux select-window -t "${modules[1]}"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
+            echo -e "[${GREEN}Http Enum${NC}] https://${column1}:${column2} -- sslyze Start"
+            echo -e "[${GREEN}Http Enum${NC}] https://${column1}:${column2} -- Window[$window_name]"
             tmux send-keys -t "$window_name" "sslyze --regular ${column1} | tee $WDIR/sslyze_${column1}.txt; tmux kill-window -t ${window_name}" C-m
         else
         ## http
             # nikto
             window_name="http_nikto_$count"
             tmux new-window -n "$window_name"
+            tmux select-window -t "${modules[1]}"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
+            echo -e "[${GREEN}Http Enum${NC}] http://${column1}:${column2} -- nikto Start"
+            echo -e "[${GREEN}Http Enum${NC}] http://${column1}:${column2} -- Window[$window_name]"
             tmux send-keys -t "$window_name" "nikto -ask=no -h http://${column1}:${column2} > $WDIR/nikto_${column1}:${column2}.txt; tmux kill-window -t ${window_name}" C-m
             # dirb
             window_name="http_dirb_$count"
             tmux new-window -n "$window_name"
-            # tmux send-keys -t "$window_name" "faraday-terminal" C-m
-            tmux send-keys -t "$window_name" "faraday-terminal;dirb http://${column1}:${column2} /usr/share/wordlists/dirb/common.txt -o $WDIR/dirb_${column1}:${column2}.txt;cp $WDIR/dirb_${column1}:${column2}.txt ~/.faraday/data ;tmux kill-window -t ${window_name}" C-m
+            tmux select-window -t "${modules[1]}"
+            tmux send-keys -t "$window_name" "faraday-terminal" C-m
+            echo -e "[${GREEN}Http Enum${NC}] http://${column1}:${column2} -- dirb Start"
+            echo -e "[${GREEN}Http Enum${NC}] http://${column1}:${column2} -- Window[$window_name]"
+            tmux send-keys -t "$window_name" "dirb http://${column1}:${column2} /usr/share/wordlists/dirb/common.txt -o $WDIR/dirb_${column1}:${column2}.txt" C-m
         fi
         count=$((++count))
     done
     tmux select-window -t "${modules[1]}"
-}
-
-function dirb_scan()
-{
-    url=$1
-    window_name=$2
-    dirb $url /usr/share/wordlists/dirb/common.txt -o $WDIR/dirb_${column1}:${column2}.txt
-    tmux kill-window -t ${window_name}
 }
 
 function smb_scan()
@@ -171,13 +181,19 @@ function smb_scan()
         # nmap scan
         window_name="smb_P${column2}_scan_$count"
         tmux new-window -n "$window_name"
+        tmux select-window -t "${modules[1]}"
         tmux send-keys -t "$window_name" "faraday-terminal" C-m
+        echo -e "[${GREEN}SMB Enum${NC}] ${column1}:${column2} -- SMB Enum Start"
+        echo -e "[${GREEN}SMB Enum${NC}] ${column1}:${column2} -- Window[$window_name]"
         tmux send-keys -t "$window_name" "nmap -sV -Pn -v --script='*smb-vuln* and not brute or broadcast or dos or external or fuzzer' -p${column2} -oN $WDIR/$1:${column1}:${column2}.nmap ${column1} ;tmux kill-window -t $window_name" C-m
         # enum4linux
         if [ ${column2} = "139" ] || [ ${column2} -eq "389" ] || [ ${column2} -eq "445" ];then
             window_name="enum4linux_P$1_$count"
             tmux new-window -n "$window_name"
+            tmux select-window -t "${modules[1]}"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
+            echo -e "[${GREEN}SMB Enum${NC}] ${column1}:${column2} -- enum4linux Start"
+            echo -e "[${GREEN}SMB Enum${NC}] ${column1}:${column2} -- Window[$window_name]"
             tmux send-keys -t "$window_name" "enum4linux -a -M -1 -d ${column1} | tee $WDIR/enum4linux_${column1}:${column2}.txt ;tmux kill-window -t $window_name" C-m
         fi
         count=$((++count))
@@ -200,7 +216,10 @@ function nmap_enum()
 
         window_name="$1_scan_$count"
         tmux new-window -n "$window_name"
+        tmux select-window -t "${modules[1]}"
         tmux send-keys -t "$window_name" "faraday-terminal" C-m
+        echo -e "[${GREEN}$1 Enum${NC}] ${column1}:${column2} -- $1 Enum Start"
+        echo -e "[${GREEN}$1 Enum${NC}] ${column1}:${column2} -- Window[$window_name]"
         tmux send-keys -t "$window_name" "nmap -sV -Pn -v --script='*$1-vuln* and not brute or broadcast or dos or external or fuzzer' -p${column2} -oN $WDIR/$1_${column1}:${column2}.nmap ${column1} ;tmux kill-window -t $window_name" C-m
         count=$((++count))
     done
@@ -307,6 +326,22 @@ function openvas_scan()
     tmux select-window -t "${modules[1]}"
 }
 
+function window_back()
+{
+    local key
+
+    while :
+    do
+        echo -e "${BLACK_b}+---+"
+        echo -e "| 9 | Back"
+        echo -e "+---+${NC}"
+        read -n 1 -s key
+        if [ $ans -eq 1 ];then
+            tmux select-window -t "${modules[1]}"
+        fi
+    done
+}
+
 case $1 in
     show_port_count)
         show_open_port_count
@@ -348,5 +383,8 @@ case $1 in
         ;;
     openvas)
         openvas_scan 
+        ;;
+    back)
+        window_back
         ;;
 esac
