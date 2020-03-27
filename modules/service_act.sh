@@ -43,8 +43,7 @@ function nmap_scan()
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
             echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Check open port"
             ports=$(nmap -Pn -p- -v --min-rate=1000 -T4 $ip | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
-            echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Port Scan"
-            echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Window[$window_name]"
+            echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Port Scan -> Window[$window_name]"
             tmux send-keys -t "$window_name" "nmap -sC -sV -v -p$ports $ip -oN $WDIR/nmap_$ip.nmap -oG $WDIR/nmap_$ip.grep ;tmux kill-window -t $window_name" C-m
             
             count=$((++count))
@@ -67,8 +66,7 @@ function nmap_vulners_scan()
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
             echo -e "[${GREEN}Vulners Scan${NC}] $ip -- Check open port"
             ports=$(nmap -Pn -p- -v --min-rate=1000 -T4 $ip | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
-            echo -e "[${GREEN}Vulners Scan${NC}] $ip -- Vulners Scan"
-            echo -e "[${GREEN}Vulners Scan${NC}] $ip -- Window[$window_name]"
+            echo -e "[${GREEN}Vulners Scan${NC}] $ip -- Vulners Scan -> Window[$window_name]"
             tmux send-keys -t "$window_name" "nmap -Pn -v -sV --max-retries 1 --max-scan-delay 20 --script vulners --script-args mincvss=6.0 -p$ports $ip -oN $WDIR/nmap_vuln_$ip.nmap ;tmux kill-window -t $window_name" C-m
             
             count=$((++count))
@@ -94,8 +92,7 @@ function ssh_scan()
         tmux new-window -n "$window_name"
         tmux select-window -t "${modules[1]}"
         tmux send-keys -t "$window_name" "faraday-terminal" C-m
-        echo -e "[${GREEN}SSH Enum${NC}] ${column1}:${column2} -- SSH Enum Start"
-        echo -e "[${GREEN}SSH Enum${NC}] ${column1}:${column2} -- Window[$window_name]"
+        echo -e "[${GREEN}SSH Enum${NC}] ${column1}:${column2} -- SSH Enum Start -> Window[$window_name]"
         tmux send-keys -t "$window_name" "nmap -sV -Pn -v -p ${column2} --script='banner,ssh2-enum-algos,ssh-hostkey,ssh-auth-methods' -oN $WDIR/ssh:${column1}:${column2}.nmap ${column1} ;tmux kill-window -t $window_name" C-m
         count=$((++count))
     done
@@ -123,24 +120,26 @@ function http_scan()
             tmux new-window -n "$window_name"
             tmux select-window -t "${modules[1]}"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
-            echo -e "[${GREEN}Http Enum${NC}] https://${column1}:${column2} -- nikto Start"
-            echo -e "[${GREEN}Http Enum${NC}] https://${column1}:${column2} -- Window[$window_name]"
+            echo -e "[${GREEN}Http Enum${NC}] https://${column1}:${column2} -- nikto Start -> Window[$window_name]"
             tmux send-keys -t "$window_name" "nikto -ask=no -h https://${column1}:${column2} > $WDIR/nikto_${column1}:${column2}.txt; tmux kill-window -t ${window_name}" C-m
             # dirb
             window_name="https_dirb_$count"
             tmux new-window -n "$window_name"
             tmux select-window -t "${modules[1]}"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
-            echo -e "[${GREEN}Http Enum${NC}] https://${column1}:${column2} -- dirb Start"
-            echo -e "[${GREEN}Http Enum${NC}] https://${column1}:${column2} -- Window[$window_name]"
+            echo -e "[${GREEN}Http Enum${NC}] https://${column1}:${column2} -- dirb Start -> Window[$window_name]"
+            echo -e "${YELLOW_b}############### Caution ###############${NC}"
+            echo -e "The DIRB process dose not terminate automatically."
+            echo -e "Enter Ctrl+B and tne window number in succession to move to [$window_name]."
+            echo -e "When you see the result, press Ctrl+D twice to close it."
+            echo -e "${YELLOW_b}#######################################${NC}"
             tmux send-keys -t "$window_name" "dirb https://${column1}:${column2} /usr/share/wordlists/dirb/common.txt -o $WDIR/dirb_${column1}:${column2}.txt" C-m
             # sslyze
             window_name="sslyze_$count"
             tmux new-window -n "$window_name"
             tmux select-window -t "${modules[1]}"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
-            echo -e "[${GREEN}Http Enum${NC}] https://${column1}:${column2} -- sslyze Start"
-            echo -e "[${GREEN}Http Enum${NC}] https://${column1}:${column2} -- Window[$window_name]"
+            echo -e "[${GREEN}Http Enum${NC}] https://${column1}:${column2} -- sslyze Start -> Window[$window_name]"
             tmux send-keys -t "$window_name" "sslyze --regular ${column1} | tee $WDIR/sslyze_${column1}.txt; tmux kill-window -t ${window_name}" C-m
         else
         ## http
@@ -149,16 +148,19 @@ function http_scan()
             tmux new-window -n "$window_name"
             tmux select-window -t "${modules[1]}"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
-            echo -e "[${GREEN}Http Enum${NC}] http://${column1}:${column2} -- nikto Start"
-            echo -e "[${GREEN}Http Enum${NC}] http://${column1}:${column2} -- Window[$window_name]"
+            echo -e "[${GREEN}Http Enum${NC}] http://${column1}:${column2} -- nikto Start -> Window[$window_name]"
             tmux send-keys -t "$window_name" "nikto -ask=no -h http://${column1}:${column2} > $WDIR/nikto_${column1}:${column2}.txt; tmux kill-window -t ${window_name}" C-m
             # dirb
             window_name="http_dirb_$count"
             tmux new-window -n "$window_name"
             tmux select-window -t "${modules[1]}"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
-            echo -e "[${GREEN}Http Enum${NC}] http://${column1}:${column2} -- dirb Start"
-            echo -e "[${GREEN}Http Enum${NC}] http://${column1}:${column2} -- Window[$window_name]"
+            echo -e "[${GREEN}Http Enum${NC}] http://${column1}:${column2} -- dirb Start -> Window[$window_name]"
+            echo -e "${YELLOW_b}############### Caution ###############${NC}"
+            echo -e "The DIRB process dose not terminate automatically."
+            echo -e "Enter Ctrl+B and tne window number in succession to move to [$window_name]."
+            echo -e "When you see the result, press Ctrl+D twice to close it."
+            echo -e "${YELLOW_b}#######################################${NC}"
             tmux send-keys -t "$window_name" "dirb http://${column1}:${column2} /usr/share/wordlists/dirb/common.txt -o $WDIR/dirb_${column1}:${column2}.txt" C-m
         fi
         count=$((++count))
@@ -183,8 +185,7 @@ function smb_scan()
         tmux new-window -n "$window_name"
         tmux select-window -t "${modules[1]}"
         tmux send-keys -t "$window_name" "faraday-terminal" C-m
-        echo -e "[${GREEN}SMB Enum${NC}] ${column1}:${column2} -- SMB Enum Start"
-        echo -e "[${GREEN}SMB Enum${NC}] ${column1}:${column2} -- Window[$window_name]"
+        echo -e "[${GREEN}SMB Enum${NC}] ${column1}:${column2} -- SMB Enum Start -> Window[$window_name]"
         tmux send-keys -t "$window_name" "nmap -sV -Pn -v --script='*smb-vuln* and not brute or broadcast or dos or external or fuzzer' -p${column2} -oN $WDIR/$1:${column1}:${column2}.nmap ${column1} ;tmux kill-window -t $window_name" C-m
         # enum4linux
         if [ ${column2} = "139" ] || [ ${column2} -eq "389" ] || [ ${column2} -eq "445" ];then
@@ -192,8 +193,7 @@ function smb_scan()
             tmux new-window -n "$window_name"
             tmux select-window -t "${modules[1]}"
             tmux send-keys -t "$window_name" "faraday-terminal" C-m
-            echo -e "[${GREEN}SMB Enum${NC}] ${column1}:${column2} -- enum4linux Start"
-            echo -e "[${GREEN}SMB Enum${NC}] ${column1}:${column2} -- Window[$window_name]"
+            echo -e "[${GREEN}SMB Enum${NC}] ${column1}:${column2} -- enum4linux Start -> Window[$window_name]"
             tmux send-keys -t "$window_name" "enum4linux -a -M -1 -d ${column1} | tee $WDIR/enum4linux_${column1}:${column2}.txt ;tmux kill-window -t $window_name" C-m
         fi
         count=$((++count))
@@ -218,8 +218,7 @@ function nmap_enum()
         tmux new-window -n "$window_name"
         tmux select-window -t "${modules[1]}"
         tmux send-keys -t "$window_name" "faraday-terminal" C-m
-        echo -e "[${GREEN}$1 Enum${NC}] ${column1}:${column2} -- $1 Enum Start"
-        echo -e "[${GREEN}$1 Enum${NC}] ${column1}:${column2} -- Window[$window_name]"
+        echo -e "[${GREEN}$1 Enum${NC}] ${column1}:${column2} -- $1 Enum Start -> Window[$window_name]"
         tmux send-keys -t "$window_name" "nmap -sV -Pn -v --script='*$1-vuln* and not brute or broadcast or dos or external or fuzzer' -p${column2} -oN $WDIR/$1_${column1}:${column2}.nmap ${column1} ;tmux kill-window -t $window_name" C-m
         count=$((++count))
     done
@@ -235,14 +234,16 @@ function openvas_scan()
     local Error_msg
     local scan_status
 
+    clear
     sudo openvas-start 2> /dev/null > /dev/null
+    echo -e "${GREEN_b}"
     echo -e "######################################################################"
+    echo -e "Vulnerability Scan"
     echo -n -e "OpenVAS "
     omp -O -u $OMPUSER -w $OMPPASS
-    echo -e "Vulnerability Scan Start"
     echo -e "######################################################################"
-    echo -e ""
-    echo -e "Scanning target..."
+    echo -e "${NC}"
+    echo -e "${YELLOW}Scanning target...${NC}"
     cat $TARGETS
     while IFS= read -r line;do
         str+="$line,"
@@ -251,19 +252,22 @@ function openvas_scan()
         Target_list=${str/%?/}
     fi    
     echo -e ""
-    echo -e "Creating target..."
+    echo -e "${YELLOW}Creating target...${NC}"
     
     # Create Target
     Target_ID=$(omp -u $OMPUSER -w $OMPPASS --xml="<create_target><name>$TARGET_NAME</name><hosts>$Target_list</hosts></create_target>" | xmlstarlet sel -t -v /create_target_response/@id) && echo -e "Target ID: $Target_ID"
     if [[ "$Target_ID" == "" ]];then
         Error_msg=$(omp -u $OMPUSER -w $OMPPASS --xml="<create_target><name>$TARGET_NAME</name><hosts>$Target_list</hosts></create_target>")
         if [[ "$Error_msg" == *"Target exists already"* ]];then
+            echo -e "${RED_b}The target already exists."
+            echo -e "Delete an existing target and create a new one.${NC}"
+            echo -e ""
             omp -X "<delete_target target_id=\"$Target_ID\"/>" -u $OMPUSER -w $OMPPASS >/dev/null 2>/dev/null
-            Target_ID=$(omp -T -u $OMPUSER -w $OMPPASS|grep $TARGET_NAME|awk '{print $1}') && echo -e "Target ID=$Target_ID"
+            Target_ID=$(omp -T -u $OMPUSER -w $OMPPASS|grep $TARGET_NAME|awk '{print $1}') && echo -e "Target ID: $Target_ID"
         fi
     fi
     echo -e ""
-    echo -e "Creating task..."
+    echo -e "${YELLOW}Creating task...${NC}"
 
     # Create Task
         # 8715c877-47a0-438d-98a3-27c7a6ab2196  Discovery *
@@ -274,13 +278,13 @@ function openvas_scan()
         # 74db13d6-7489-11df-91b9-002264764cea  Full and very deep ultimate
         # 2d3f051c-55ba-11e3-bf43-406186ea4fc5  Host Discovery
         # bbca7412-a950-11e3-9109-406186ea4fc5  System Discovery
-    Task_ID=$(omp -C -c 8715c877-47a0-438d-98a3-27c7a6ab2196 --name $TASK_NAME --target $Target_ID -u $OMPUSER -w $OMPPASS) && echo -e "Task ID=$Task_ID"
+    Task_ID=$(omp -C -c 8715c877-47a0-438d-98a3-27c7a6ab2196 --name $TASK_NAME --target $Target_ID -u $OMPUSER -w $OMPPASS) && echo -e "Task ID: $Task_ID"
     
     echo -e ""
-    echo -e "Task Start"
+    echo -e "${YELLOW}Task Start${NC}"
     # Task Start
     Report_ID=$(omp -S $Task_ID -u $OMPUSER -w $OMPPASS) && echo -e "Report ID: $Report_ID"
-    
+    echo -e ""
     if [[ "$Report_ID" == "" ]];then
         omp -S $Task_ID -u $OMPUSER -w $OMPPASS
     fi
@@ -294,33 +298,54 @@ function openvas_scan()
     done
 
     echo -e ""
-    echo -e "Output report..."
+    echo -e "${YELLOW}Output report...${NC}"
 
     # Output Report
     DATE=`date '+%Y%m%d%H%M'`
     if [[ $Report_ID != "" ]];then
         # pdf format
         omp --get-report $Report_ID --format c402cc3e-b531-11e1-9163-406186ea4fc5 -u $OMPUSER -w $OMPPASS > $WDIR/Openvas-report_$DATE.pdf
+        echo -e "$WDIR/Openvas-report_$DATE.pdf"
         # html format
         omp --get-report $Report_ID --format 6c248850-1f62-11e1-b082-406186ea4fc5 -u $OMPUSER -w $OMPPASS > $WDIR/Openvas-report_$DATE.html
+        echo -e "$WDIR/Openvas-report_$DATE.html"
         # xml format
         omp --get-report $Report_ID --format a994b278-1f62-11e1-96ac-406186ea4fc5 -u $OMPUSER -w $OMPPASS > $WDIR/Openvas-report_$DATE.xml
+        echo -e "$WDIR/Openvas-report_$DATE.xml"
     fi
 
     # Delete job
+    echo -e ""
+    echo -e "${YELLOW}Job clean up${NC}"
+    status=""
+    echo -e "Deleting Tasks...  Task ID: $Task_ID"
     if [[ $Task_ID != "" ]];then
-        omp -X '<delete_task task_id=\"$Task_ID\" />' -u $OMPUSER -w $OMPPASS
+        status=$(omp -X "<delete_task task_id=\"$Task_ID\" />" -u $OMPUSER -w $OMPPASS | xmlstarlet sel -t -v /delete_task_response/@status_text)
+        if [[ $status == "OK" ]];then
+            echo -e "${GREEN_b}Successfully deleted a task.${NC}"
+        else
+            echo -e "${RED_b}Failure to delete a task.${NC}"
+        fi
     fi
 
+    echo -e "Deleting Targets... Target ID: $Target_ID"
+    status=""
     if [[ $Target_ID != "" ]];then
-        omp -X '<delete_target target_id=\"$Target_ID\" />' -u $OMPUSER -w $OMPPASS
+        status=$(omp -X "<delete_target target_id=\"$Target_ID\" />" -u $OMPUSER -w $OMPPASS | xmlstarlet sel -t -v /delete_target_response/@status_text)
+        if [[ $status == "OK" ]];then
+            echo -e "${GREEN_b}Successfully deleted a target.${NC}"
+        else
+            echo -e "${RED_b}Failure to delete a target.${NC}"
+        fi
     fi
 
     # Import faraday
-    echo -e "Import to faraday..."
+    echo -e ""
+    echo -e "${YELLOW}Import to faraday...${NC}"
     cp $WDIR/Openvas-report_$DATE.xml ~/.faraday/report/demo/
 
-    echo -e "Compleate!"
+    echo -e ""
+    echo -e "${YELLOW}All processes are compleate!${NC}"
     echo -e "Press enter key to continue..."
     read
     tmux select-window -t "${modules[1]}"
@@ -328,15 +353,16 @@ function openvas_scan()
 
 function window_back()
 {
-    local key
+    local ans
 
     while :
     do
+        clear
         echo -e "${BLACK_b}+---+"
         echo -e "| 9 | Back"
         echo -e "+---+${NC}"
-        read -n 1 -s key
-        if [ $ans -eq 1 ];then
+        read -n 1 -s ans
+        if [ $ans -eq 9 ];then
             tmux select-window -t "${modules[1]}"
         fi
     done

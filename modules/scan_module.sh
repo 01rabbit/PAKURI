@@ -109,8 +109,9 @@ function openvas_menu()
             tmux split-window -t "$window_name".0 -v -p 15
             tmux send-keys -t "$window_name".1 "$MODULES/service_act.sh back" C-m
             tmux send-keys -t "$window_name".0 "$MODULES/service_act.sh openvas ;tmux kill-window -t $window_name" C-m
+            tmux select-pane -t $window_name.0
         else
-            tmux select-window -t "$window_name"
+            tmux select-window -t "OpenVAS"
         fi
     elif [ $ans -eq 3 ];then
         tmux send-keys -t $WINDOW_NAME.1 "less $DOCUMENTS/learn_omp.txt" C-m 
