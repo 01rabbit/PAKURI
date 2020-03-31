@@ -1,5 +1,0 @@
-# Nmap 7.80 scan initiated Tue Mar 31 09:36:46 2020 as: nmap -oX /root/.faraday/data/demo_Nmap_output-7.150766144752575.xml -sC -sV -v -p22,80,443 -oN /root/dev/PAKURI/demo/nmap_10.10.10.79.nmap -oG /root/dev/PAKURI/demo/nmap_10.10.10.79.grep 10.10.10.79
-# Ports scanned: TCP(3;22,80,443) UDP(0;) SCTP(0;) PROTOCOLS(0;)
-Host: 10.10.10.79 ()	Status: Up
-Host: 10.10.10.79 ()	Ports: 22/open/tcp//ssh//OpenSSH 5.9p1 Debian 5ubuntu1.10 (Ubuntu Linux; protocol 2.0)/, 80/open/tcp//http//Apache httpd 2.2.22 ((Ubuntu))/, 443/open/tcp//ssl|http//Apache httpd 2.2.22 ((Ubuntu))/
-# Nmap done at Tue Mar 31 09:37:19 2020 -- 1 IP address (1 host up) scanned in 33.75 seconds
