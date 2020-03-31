@@ -1,0 +1,38 @@
+# Nmap 7.80 scan initiated Tue Mar 31 09:36:46 2020 as: nmap -oX /root/.faraday/data/demo_Nmap_output-7.150766144752575.xml -sC -sV -v -p22,80,443 -oN /root/dev/PAKURI/demo/nmap_10.10.10.79.nmap -oG /root/dev/PAKURI/demo/nmap_10.10.10.79.grep 10.10.10.79
+Nmap scan report for 10.10.10.79
+Host is up (0.26s latency).
+
+PORT    STATE SERVICE  VERSION
+22/tcp  open  ssh      OpenSSH 5.9p1 Debian 5ubuntu1.10 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   1024 96:4c:51:42:3c:ba:22:49:20:4d:3e:ec:90:cc:fd:0e (DSA)
+|   2048 46:bf:1f:cc:92:4f:1d:a0:42:b3:d2:16:a8:58:31:33 (RSA)
+|_  256 e6:2b:25:19:cb:7e:54:cb:0a:b9:ac:16:98:c6:7d:a9 (ECDSA)
+80/tcp  open  http     Apache httpd 2.2.22 ((Ubuntu))
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Apache/2.2.22 (Ubuntu)
+|_http-title: Site doesn't have a title (text/html).
+443/tcp open  ssl/http Apache httpd 2.2.22 ((Ubuntu))
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Apache/2.2.22 (Ubuntu)
+|_http-title: Site doesn't have a title (text/html).
+| ssl-cert: Subject: commonName=valentine.htb/organizationName=valentine.htb/stateOrProvinceName=FL/countryName=US
+| Issuer: commonName=valentine.htb/organizationName=valentine.htb/stateOrProvinceName=FL/countryName=US
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha1WithRSAEncryption
+| Not valid before: 2018-02-06T00:45:25
+| Not valid after:  2019-02-06T00:45:25
+| MD5:   a413 c4f0 b145 2154 fb54 b2de c7a9 809d
+|_SHA-1: 2303 80da 60e7 bde7 2ba6 76dd 5214 3c3c 6f53 01b1
+|_ssl-date: 2020-03-31T00:38:37+00:00; +1m19s from scanner time.
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Host script results:
+|_clock-skew: 1m18s
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Mar 31 09:37:19 2020 -- 1 IP address (1 host up) scanned in 33.75 seconds
