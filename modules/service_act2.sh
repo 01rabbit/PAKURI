@@ -14,7 +14,7 @@ function nmap_enum()
     PORT=$2
     SERV=$3
 
-    nmap -sV -Pn -v --script="*${SERV}-vuln* and not brute or broadcast or dos or external or fuzzer" -p${PORT} -oN $WDIR/${SERV}_${IP}:${PORT}.nmap -oX $WDIR/${SERV}_${IP}:${PORT}.xml ${IP}
+    nmap -sV -Pn -v --script="*vuln* and not brute or broadcast or dos or external or fuzzer" -p${PORT} -oN $WDIR/${SERV}_${IP}:${PORT}.nmap -oX $WDIR/${SERV}_${IP}:${PORT}.xml ${IP}
     cp -p $WDIR/${SERV}_${IP}:${PORT}.xml ~/.faraday/report/$WORKSPACE
 }
 
@@ -24,25 +24,21 @@ do
     PORT=`echo ${i} | cut -d , -f 3`
     SERV=`echo ${i} | cut -d , -f 5`
 
-    echo "$IP:$PORT $SERV"
     case $SERV in
         ssh)
-            echo "SSH"
             nmap -sV -Pn -v -p ${PORT} --script='banner,ssh2-enum-algos,ssh-hostkey,ssh-auth-methods' -oN $WDIR/ssh_${IP}:${PORT}.nmap -oX $WDIR/ssh_${IP}:${PORT}.xml ${IP}
             if [ -f $WDIR/ssh_${IP}:${PORT}.xml ];then
                 cp -p $WDIR/ssh_${IP}:${PORT}.xml ~/.faraday/report/$WORKSPACE/
             fi
             ;;
         http)
-            echo "http"
             nikto -h http://${IP}:${PORT} -output $WDIR/nikto_${IP}:${PORT}.xml -Format XML|tee $WDIR/nikto_${IP}:${PORT}.txt
             if [ -f $WDIR/nikto_${IP}:${PORT}.xml ];then
                 cp -p $WDIR/nikto_${IP}:${PORT}.xml ~/.faraday/report/$WORKSPACE/
             fi
-            # skipfish -o $WDIR/skipfish_${IP}:${PORT} http://${ip}:${PORT}
+            skipfish -U -u -Q -t 12 -W- -o $WDIR/skipfish_${IP}_${PORT} http://${IP}:${PORT} 
             ;;
-        "ssl|http")
-            echo "ssl/http"
+        "ssl|https")
             nikto -h https://${IP}:${PORT} -output $WDIR/nikto_${IP}:${PORT}.xml -Format XML|tee $WDIR/nikto_${IP}:${PORT}.txt
             if [ -f $WDIR/nikto_${IP}:${PORT}.xml ];then
                 cp -p $WDIR/nikto_${IP}:${PORT}.xml ~/.faraday/report/$WORKSPACE/
@@ -50,10 +46,9 @@ do
             sslyze --regular ${IP} --xml_out=$WDIR/sslyze_${IP}.xml | tee -a $WDIR/sslyze_${IP}.txt
             sslscan ${IP}|tee -a $WDIR/sslscan_${IP}.txt 
             cp -p $WDIR/sslyze_${IP}.xml ~/.faraday/report/$WORKSPACE
-            # skipfish -o $WDIR/skipfish_${IP}:${PORT} https://${ip}:${PORT}
+            skipfish -U -u -Q -t 12 -W- -o $WDIR/skipfish_${IP}:${PORT} https://${IP}:${PORT}
             ;;
         netbios-ssn|microsoft-ds)
-            echo "smb"
             nmap -sV -Pn -v --script='*smb-vuln* and not brute or broadcast or dos or external or fuzzer' -p${PORT} -oN $WDIR/smb_${IP}:${PORT}.nmap -oX $WDIR/smb_${IP}:${PORT}.xml ${IP} 
             if [ ${PORT} = "139" ] || [ ${PORT} -eq "389" ] || [ ${PORT} -eq "445" ];then
                 enum4linux -a -M -1 -d ${IP} | tee $WDIR/enum4linux_${IP}:${PORT}.txt
@@ -61,11 +56,10 @@ do
             fi
             ;;
         ftp|pop3|smtp|oracle|mysql|ms-sql)
-            echo "$SERV"
             nmap_enum $IP $PORT $SERV
             ;;
         *)
+            nmap_enum $IP $PORT $SERV
             ;;
     esac
 done
-#skipfish -U -Q -u -t 12 -o OUTPUT http://192.168.171.250
