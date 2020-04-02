@@ -69,8 +69,12 @@ For beginner:
 
 * Scan
   * [Nmap](https://tools.kali.org/information-gathering/nmap)
+  * [Nikto](https://tools.kali.org/information-gathering/nikto)
+  * [sslscan](https://github.com/rbsec/sslscan)
+  * [SSLyze](https://tools.kali.org/information-gathering/sslyze)
+  * [enum4linux](https://tools.kali.org/information-gathering/enum4linux)
   * [OpenVAS](https://tools.kali.org/vulnerability-analysis/openvas)
-  * [AutoRecon](https://github.com/Tib3rius/AutoRecon.git)
+  * [Skipfish](https://tools.kali.org/web-applications/skipfish)
 
 * Exploit
   * [BruteSpray](https://tools.kali.org/password-attacks/brutespray)
