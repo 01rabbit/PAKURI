@@ -68,13 +68,13 @@ For beginner:
 ## Features
 
 * Scan
-  * [Nmap](https://tools.kali.org/information-gathering/nmap)
-  * [Nikto](https://tools.kali.org/information-gathering/nikto)
-  * [sslscan](https://github.com/rbsec/sslscan)
-  * [SSLyze](https://tools.kali.org/information-gathering/sslyze)
   * [enum4linux](https://tools.kali.org/information-gathering/enum4linux)
+  * [Nikto](https://tools.kali.org/information-gathering/nikto)
+  * [Nmap](https://tools.kali.org/information-gathering/nmap)
   * [OpenVAS](https://tools.kali.org/vulnerability-analysis/openvas)
   * [Skipfish](https://tools.kali.org/web-applications/skipfish)
+  * [sslscan](https://github.com/rbsec/sslscan)
+  * [SSLyze](https://tools.kali.org/information-gathering/sslyze)
 
 * Exploit
   * [BruteSpray](https://tools.kali.org/password-attacks/brutespray)
