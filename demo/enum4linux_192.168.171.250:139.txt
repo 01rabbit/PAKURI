@@ -1,0 +1,35 @@
+Starting enum4linux v0.8.9 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Thu Apr  2 11:39:47 2020
+
+ ========================== 
+|    Target Information    |
+ ========================== 
+Target ........... 192.168.171.250
+RID Range ........ 500-550,1000-1050
+Username ......... ''
+Password ......... ''
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+
+
+ ======================================================= 
+|    Enumerating Workgroup/Domain on 192.168.171.250    |
+ ======================================================= 
+[+] Got domain/workgroup name: WORKGROUP
+
+ =============================================== 
+|    Nbtstat Information for 192.168.171.250    |
+ =============================================== 
+Looking up status of 192.168.171.250
+	METASPLOITABLE  <00> -         B <ACTIVE>  Workstation Service
+	METASPLOITABLE  <03> -         B <ACTIVE>  Messenger Service
+	METASPLOITABLE  <20> -         B <ACTIVE>  File Server Service
+	..__MSBROWSE__. <01> - <GROUP> B <ACTIVE>  Master Browser
+	WORKGROUP       <00> - <GROUP> B <ACTIVE>  Domain/Workgroup Name
+	WORKGROUP       <1d> -         B <ACTIVE>  Master Browser
+	WORKGROUP       <1e> - <GROUP> B <ACTIVE>  Browser Service Elections
+
+	MAC Address = 00-00-00-00-00-00
+
+ ======================================== 
+|    Session Check on 192.168.171.250    |
+ ======================================== 
+[E] Server doesn't allow session using username '', password ''.  Aborting remainder of tests.

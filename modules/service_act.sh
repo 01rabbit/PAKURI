@@ -37,7 +37,7 @@ function nmap_scan()
     while read ip
     do
         if [[ $ip != "" ]];then
-            window_name="nmap_scan_$count"
+            window_name="Portscan_$count"
             tmux new-window -n "$window_name"
             tmux select-window -t "${modules[1]}"
             tmux send-keys -t "$window_name" "faraday-terminal $MYIP 9977" C-m
@@ -60,7 +60,7 @@ function nmap_vulners_scan()
     while read ip
     do
         if [[ $ip != "" ]];then
-            window_name="nmap_vuln_$count"
+            window_name="vulnerscan_$count"
             tmux new-window -n "$window_name"
             tmux select-window -t "${modules[1]}"
             tmux send-keys -t "$window_name" "faraday-terminal $MYIP 9977" C-m
@@ -201,29 +201,29 @@ function smb_scan()
     tmux select-window -t "${modules[1]}"
 }
 
-function nmap_enum()
-{
-    local count
-    local column1
-    local column2
-    local window_name
+# function nmap_enum()
+# {
+#     local count
+#     local column1
+#     local column2
+#     local window_name
 
-    count=1
-    for i in ` get_service_port "$1"`
-    do
-        column1=`echo ${i} | cut -d , -f 1`
-        column2=`echo ${i} | cut -d , -f 3`
+#     count=1
+#     for i in ` get_service_port "$1"`
+#     do
+#         column1=`echo ${i} | cut -d , -f 1`
+#         column2=`echo ${i} | cut -d , -f 3`
 
-        window_name="$1_scan_$count"
-        tmux new-window -n "$window_name"
-        tmux select-window -t "${modules[1]}"
-        tmux send-keys -t "$window_name" "faraday-terminal $MYIP 9977" C-m
-        echo -e "[${GREEN}$1 Enum${NC}] ${column1}:${column2} -- $1 Enum Start -> Window[$window_name]"
-        tmux send-keys -t "$window_name" "nmap -sV -Pn -v --script='*$1-vuln* and not brute or broadcast or dos or external or fuzzer' -p${column2} -oN $WDIR/$1_${column1}:${column2}.nmap ${column1} ;tmux kill-window -t $window_name" C-m
-        count=$((++count))
-    done
-    tmux select-window -t "${modules[1]}"
-}
+#         window_name="$1_scan_$count"
+#         tmux new-window -n "$window_name"
+#         tmux select-window -t "${modules[1]}"
+#         tmux send-keys -t "$window_name" "faraday-terminal $MYIP 9977" C-m
+#         echo -e "[${GREEN}$1 Enum${NC}] ${column1}:${column2} -- $1 Enum Start -> Window[$window_name]"
+#         tmux send-keys -t "$window_name" "nmap -sV -Pn -v --script='*$1-vuln* and not brute or broadcast or dos or external or fuzzer' -p${column2} -oN $WDIR/$1_${column1}:${column2}.nmap ${column1} ;tmux kill-window -t $window_name" C-m
+#         count=$((++count))
+#     done
+#     tmux select-window -t "${modules[1]}"
+# }
 
 function openvas_scan()
 {
@@ -368,6 +368,65 @@ function window_back()
     done
 }
 
+function nmap_enum()
+{
+    IP=$1
+    PORT=$2
+    SERV=$3
+
+    nmap -sV -Pn -v --script="*vuln* and not brute or broadcast or dos or external or fuzzer" -p${PORT} -oN $WDIR/${SERV}_${IP}:${PORT}.nmap -oX $WDIR/${SERV}_${IP}:${PORT}.xml ${IP}
+    cp -p $WDIR/${SERV}_${IP}:${PORT}.xml ~/.faraday/report/$WORKSPACE
+}
+
+function enumeration()
+{
+    for i in `get_service_port $1`
+    do
+        IP=`echo ${i} | cut -d , -f 1`
+        PORT=`echo ${i} | cut -d , -f 3`
+        SERV=`echo ${i} | cut -d , -f 5`
+
+        case $SERV in
+            ssh)
+                nmap -sV -Pn -v -p ${PORT} --script='banner,ssh2-enum-algos,ssh-hostkey,ssh-auth-methods' -oN $WDIR/ssh_${IP}:${PORT}.nmap -oX $WDIR/ssh_${IP}:${PORT}.xml ${IP}
+                if [ -f $WDIR/ssh_${IP}:${PORT}.xml ];then
+                    cp -p $WDIR/ssh_${IP}:${PORT}.xml ~/.faraday/report/$WORKSPACE/
+                fi
+                ;;
+            http)
+                nikto -h http://${IP}:${PORT} -output $WDIR/nikto_${IP}:${PORT}.xml -Format XML|tee $WDIR/nikto_${IP}:${PORT}.txt
+                if [ -f $WDIR/nikto_${IP}:${PORT}.xml ];then
+                    cp -p $WDIR/nikto_${IP}:${PORT}.xml ~/.faraday/report/$WORKSPACE/
+                fi
+                skipfish -U -u -Q -t 12 -W- -o $WDIR/skipfish_${IP}_${PORT} http://${IP}:${PORT} 
+                ;;
+            "ssl|https")
+                nikto -h https://${IP}:${PORT} -output $WDIR/nikto_${IP}:${PORT}.xml -Format XML|tee $WDIR/nikto_${IP}:${PORT}.txt
+                if [ -f $WDIR/nikto_${IP}:${PORT}.xml ];then
+                    cp -p $WDIR/nikto_${IP}:${PORT}.xml ~/.faraday/report/$WORKSPACE/
+                fi
+                sslyze --regular ${IP} --xml_out=$WDIR/sslyze_${IP}.xml | tee -a $WDIR/sslyze_${IP}.txt
+                sslscan ${IP}|tee -a $WDIR/sslscan_${IP}.txt 
+                cp -p $WDIR/sslyze_${IP}.xml ~/.faraday/report/$WORKSPACE
+                skipfish -U -u -Q -t 12 -W- -o $WDIR/skipfish_${IP}:${PORT} https://${IP}:${PORT}
+                ;;
+            netbios-ssn|microsoft-ds)
+                nmap -sV -Pn -v --script='*smb-vuln* and not brute or broadcast or dos or external or fuzzer' -p${PORT} -oN $WDIR/smb_${IP}:${PORT}.nmap -oX $WDIR/smb_${IP}:${PORT}.xml ${IP} 
+                if [ ${PORT} = "139" ] || [ ${PORT} -eq "389" ] || [ ${PORT} -eq "445" ];then
+                    enum4linux -a -M -1 -d ${IP} | tee $WDIR/enum4linux_${IP}:${PORT}.txt
+                    echo "$SERV enum4linux"
+                fi
+                ;;
+            ftp|pop3|smtp|oracle|mysql|ms-sql)
+                nmap_enum $IP $PORT $SERV
+                ;;
+            *)
+                nmap_enum $IP $PORT $SERV
+                ;;
+        esac
+    done
+}
+
 case $1 in
     show_port_count)
         show_open_port_count
@@ -412,5 +471,19 @@ case $1 in
         ;;
     back)
         window_back
+        ;;
+    enum)
+        count=1
+        while read TARGET
+        do
+            if [[ $TARGET != "" ]];then
+                window_name="Target_$count"
+                tmux new-window -n "$window_name"
+                tmux select-window -t "${modules[1]}"
+                echo -e "[${GREEN}Enumeration${NC}] $TARGET -> Window[$window_name]"
+                tmux send-keys -t "$window_name" "$MODULES/service_enum.sh $TARGET" C-m
+                count=$((++count))
+            fi
+        done < $TARGETS
         ;;
 esac

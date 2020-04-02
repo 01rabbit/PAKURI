@@ -55,7 +55,7 @@ function enum_menu()
     if ls $WDIR/nmap_*.grep >/dev/null 2>&1;then
         tmux send-keys -t $WINDOW_NAME.1 "clear" C-m
         tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh show_serv_port" C-m
-        select_7 "ftp" "ssh" "smtp/pop3" "dns" "http/https" "SMB" "DB" 
+        select_7 "ftp" "ssh" "smtp/pop3" "dns" "http/https" "SMB" "enum"
         read -n 1 -s key
         scan_banner
         box_2 "Enumeration"
@@ -79,8 +79,8 @@ function enum_menu()
             6 ) #SMB
                 tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh smb " C-m
                 ;;
-            7 ) #DB
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh db " C-m
+            7 ) #Enumeration
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh enum" C-m
                 ;;
             9 )
             ;;

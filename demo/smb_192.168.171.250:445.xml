@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.80 scan initiated Thu Apr  2 11:39:48 2020 as: nmap -sV -Pn -v &quot;-&#45;script=*smb-vuln* and not brute or broadcast or dos or external or fuzzer&quot; -p445 -oN /root/dev/PAKURI/demo/smb_192.168.171.250:445.nmap -oX /root/dev/PAKURI/demo/smb_192.168.171.250:445.xml 192.168.171.250 -->
+<nmaprun scanner="nmap" args="nmap -sV -Pn -v &quot;-&#45;script=*smb-vuln* and not brute or broadcast or dos or external or fuzzer&quot; -p445 -oN /root/dev/PAKURI/demo/smb_192.168.171.250:445.nmap -oX /root/dev/PAKURI/demo/smb_192.168.171.250:445.xml 192.168.171.250" start="1585795188" startstr="Thu Apr  2 11:39:48 2020" version="7.80" xmloutputversion="1.04">
+<scaninfo type="syn" protocol="tcp" numservices="1" services="445"/>
+<verbose level="1"/>
+<debugging level="0"/>
+<taskbegin task="NSE" time="1585795188"/>
+<taskend task="NSE" time="1585795188"/>
+<taskbegin task="NSE" time="1585795188"/>
+<taskend task="NSE" time="1585795188"/>
+<taskbegin task="ARP Ping Scan" time="1585795188"/>
+<taskend task="ARP Ping Scan" time="1585795188" extrainfo="1 total hosts"/>
+<taskbegin task="Parallel DNS resolution of 1 host." time="1585795188"/>
+<taskend task="Parallel DNS resolution of 1 host." time="1585795188"/>
+<taskbegin task="SYN Stealth Scan" time="1585795188"/>
+<taskend task="SYN Stealth Scan" time="1585795188" extrainfo="1 total ports"/>
+<taskbegin task="Service scan" time="1585795188"/>
+<taskend task="Service scan" time="1585795194" extrainfo="1 service on 1 host"/>
+<taskbegin task="NSE" time="1585795194"/>
+<taskend task="NSE" time="1585795199"/>
+<taskbegin task="NSE" time="1585795199"/>
+<taskend task="NSE" time="1585795199"/>
+<host starttime="1585795188" endtime="1585795199"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.171.250" addrtype="ipv4"/>
+<address addr="00:15:5D:64:E1:09" addrtype="mac" vendor="Microsoft"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="445"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="netbios-ssn" product="Samba smbd" version="3.X - 4.X" extrainfo="workgroup: WORKGROUP" method="probed" conf="10"><cpe>cpe:/a:samba:samba</cpe></service><script id="smb-vuln-webexec" output="ERROR: Script execution failed (use -d to debug)"/></port>
+</ports>
+<hostscript><script id="smb-vuln-cve-2017-7494" output="ERROR: Script execution failed (use -d to debug)"/><script id="smb-vuln-ms06-025" output="ERROR: Script execution failed (use -d to debug)"/><script id="smb-vuln-ms07-029" output="ERROR: Script execution failed (use -d to debug)"/><script id="smb-vuln-ms08-067" output="ERROR: Script execution failed (use -d to debug)"/><script id="smb-vuln-ms10-054" output="false">false</script><script id="smb-vuln-ms10-061" output="false">false</script><script id="smb-vuln-ms17-010" output="ERROR: Script execution failed (use -d to debug)"/><script id="smb-vuln-regsvc-dos" output="ERROR: Script execution failed (use -d to debug)"/></hostscript><times srtt="1197" rttvar="3766" to="100000"/>
+</host>
+<taskbegin task="NSE" time="1585795199"/>
+<taskend task="NSE" time="1585795199"/>
+<taskbegin task="NSE" time="1585795199"/>
+<taskend task="NSE" time="1585795199"/>
+<runstats><finished time="1585795199" timestr="Thu Apr  2 11:39:59 2020" elapsed="11.52" summary="Nmap done at Thu Apr  2 11:39:59 2020; 1 IP address (1 host up) scanned in 11.52 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>
