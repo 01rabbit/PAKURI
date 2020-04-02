@@ -208,7 +208,7 @@ This is intended for use Kali Linux. Operation on other OS is not guaranteed.
 
 ## Contributors
 
-If you have some new idea about this project, issue, feedback or found some valuable tool feel free to open an issue for just DM me via [@01ra66it](https://twitter.com/01ra66it) or [@PAKURI](https://twitter.com/PAKURI9).
+If you have some new idea about this project, issue, feedback or found some valuable tool feel free to open an issue for just DM me via [@Mr.Rabbit](https://twitter.com/01ra66it) or [@PAKURI](https://twitter.com/PAKURI9).
 
 ### Special thanks
 

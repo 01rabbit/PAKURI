@@ -207,6 +207,10 @@ PAKURIは完全に自動化されておらず、ペネトレーションテス�
 
 ---
 
-## サポート
+## 貢献者
 
-機能追加要望 / バグ報告: <https://github.com/01rabbit/PAKURI/issues>
+このプロジェクトについての新しいアイデアや、問題、フィードバック、または良いツールを見つけた場合は、[@Mr.Rabbit](https://twitter.com/01ra66it)または[@PAKURI](https://twitter.com/PAKURI9)へDMを送って下さい。
+
+### Special thanks
+
+このツールに素晴らしいアイデアを沢山提供してくれた[@cyberdefense_jp](https://twitter.com/cyberdefense_jp)に感謝します。
