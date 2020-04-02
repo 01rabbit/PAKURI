@@ -11,31 +11,31 @@ function nmap_scan_menu()
         echo -e "Scan process is Running!"
     else
         select_2 "Port Scan" "Vulners Scan"
-        read -n 1 -s ans
+        read -n 1 -s KEY
         scan_banner
         box_1 "nmap scan"
         echo -e "-------- Select Action ---------"
-        if [ $ans = 1 ];then
+        if [ $KEY = 1 ];then
             box_1 "Port Scan"
             echo -e "Do you want to perform a process??" 
             yes-no-help
-            read -n 1 -s ans
-            if [ $ans -eq 1 ];then
+            read -n 1 -s KEY
+            if [ $KEY -eq 1 ];then
                 tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh nscan $TARGETS" C-m
                 tmux select-pane -t $WINDOW_NAME.0
-            elif [ $ans -eq 3 ];then
+            elif [ $KEY -eq 3 ];then
                 tmux send-keys -t $WINDOW_NAME.1 "cat $DOCUMENTS/learn_well-knownquick.txt" C-m 
                 tmux select-pane -t $WINDOW_NAME.0
             fi
-        elif [ $ans = 2 ];then
+        elif [ $KEY = 2 ];then
             box_2 "Vulners Scan"
             echo -e "Do you want to perform a process??" 
             yes-no-help
-            read -n 1 -s ans
-            if [ $ans -eq 1 ];then
+            read -n 1 -s KEY
+            if [ $KEY -eq 1 ];then
                 tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh nvscan $TARGETS" C-m
                 tmux select-pane -t $WINDOW_NAME.0
-            elif [ $ans -eq 3 ];then
+            elif [ $KEY -eq 3 ];then
                 tmux send-keys -t $WINDOW_NAME.1 "cat $DOCUMENTS/learn_well-knownquick.txt" C-m 
                 tmux select-pane -t $WINDOW_NAME.0
             fi
@@ -45,75 +45,45 @@ function nmap_scan_menu()
 
 function enum_menu()
 {
-    local ans
-    local key
+    local KEY
 
-    NMAP_FILE=""
     box_2 "Enumeration"
     echo -e "-------- Select Action ---------"
-
-    if ls $WDIR/nmap_*.grep >/dev/null 2>&1;then
-        tmux send-keys -t $WINDOW_NAME.1 "clear" C-m
-        tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh show_serv_port" C-m
-        select_7 "ftp" "ssh" "smtp/pop3" "dns" "http/https" "SMB" "enum"
-        read -n 1 -s key
-        scan_banner
-        box_2 "Enumeration"
-        echo -e "-------- Select Action ---------"
-        case "$key" in
-            1 ) #ftp
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh ftp " C-m
-                ;;
-            2 ) #ssh
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh ssh " C-m
-                ;;
-            3 ) #smtp/pop3
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh smtp " C-m
-                ;;
-            4 ) #dns
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh dns " C-m
-                ;;
-            5 ) #http
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh http " C-m
-                ;;
-            6 ) #SMB
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh smb " C-m
-                ;;
-            7 ) #Enumeration
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh enum" C-m
-                ;;
-            9 )
-            ;;
-        esac
-    else
-        nmap_scan_menu
+    echo -e "Do you want to perform a process??" 
+    yes-no-help
+    read -n 1 -s KEY
+    if [ $KEY -eq 1 ];then
+        tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh enumctrl" C-m
+        tmux select-pane -t $WINDOW_NAME.0
+    elif [ $KEY -eq 3 ];then
+        tmux send-keys -t $WINDOW_NAME.1 "cat $DOCUMENTS/learn_well-knownquick.txt" C-m 
+        tmux select-pane -t $WINDOW_NAME.0
     fi
 }
-
 function openvas_menu()
 {
-    local ans
-    local window_name
+    local KEY
+    local NEW_WINDOW
 
-    window_name=""
+    NEW_WINDOW=""
     box_3 "OpenVAS"
     echo -e "-------- Select Action ---------"
     echo -e "Do you want to perform a process??" 
     yes-no-help
-    read -n 1 -s ans
-    if [ $ans -eq 1 ];then
-        window_name=$(tmux list-window -a|grep OpenVAS|awk '{print $2}')
-        if [[ "$window_name" == "" ]];then
-            window_name="OpenVAS"
-            tmux new-window -n "$window_name"
-            tmux split-window -t "$window_name".0 -v -p 15
-            tmux send-keys -t "$window_name".1 "$MODULES/service_act.sh back" C-m
-            tmux send-keys -t "$window_name".0 "$MODULES/service_act.sh openvas ;tmux kill-window -t $window_name" C-m
-            tmux select-pane -t $window_name.0
+    read -n 1 -s KEY
+    if [ $KEY -eq 1 ];then
+        NEW_WINDOW=$(tmux list-window -a|grep OpenVAS|awk '{print $2}')
+        if [[ "$NEW_WINDOW" == "" ]];then
+            NEW_WINDOW="OpenVAS"
+            tmux new-window -n "$NEW_WINDOW"
+            tmux split-window -t "$NEW_WINDOW".0 -v -p 15
+            tmux send-keys -t "$NEW_WINDOW".1 "$MODULES/service_act.sh back" C-m
+            tmux send-keys -t "$NEW_WINDOW".0 "$MODULES/service_act.sh openvas ;tmux kill-window -t $NEW_WINDOW" C-m
+            tmux select-pane -t $NEW_WINDOW.0
         else
             tmux select-window -t "OpenVAS"
         fi
-    elif [ $ans -eq 3 ];then
+    elif [ $KEY -eq 3 ];then
         tmux send-keys -t $WINDOW_NAME.1 "less $DOCUMENTS/learn_omp.txt" C-m 
         tmux select-pane -t $WINDOW_NAME.0
     fi
@@ -121,9 +91,7 @@ function openvas_menu()
 
 function scan_manage()
 {
-    local key
-    local ans
-    local status
+    local KEY
     local flg_omp
 
     while :
@@ -132,10 +100,10 @@ function scan_manage()
         scan_banner
         select_4 "nmap scan" "Enumeration" "OpenVAS" "help"
         flg_omp=`tmux list-window -a | grep "OpenVAS"`
-        read -n 1 -t 25 -s key
+        read -n 1 -t 25 -s KEY
         
         scan_banner
-        case "$key" in
+        case "$KEY" in
             1 )
                 nmap_scan_menu ;;
             2 )
