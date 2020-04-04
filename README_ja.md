@@ -1,6 +1,6 @@
 # PAKURI
 
-![logo](https://user-images.githubusercontent.com/16553787/70399114-c4db9c80-1a64-11ea-8d8e-5cf2f4f43ee0.png)
+![logo](img/pakuri-banner.png)
 ![version](https://img.shields.io/github/v/tag/01rabbit/PAKURI?label=Version)
 ![License](https://img.shields.io/github/license/01rabbit/PAKURI)
 ![release-date](https://img.shields.io/github/release-date/01rabbit/PAKURI)

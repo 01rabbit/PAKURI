@@ -28,7 +28,7 @@ function op_banner()
     echo -e "                 .dMNMMM  MMN,                        ?MMMN,     (TF"
     echo -e "                             T                          (HMMN,"
     echo -e "                                                           TMMe"
-    # echo -e "                                                             .^'"
+    echo -e "                                                             .^'"
     echo -e " ██████╗     █████╗      ██╗  ██╗     ██╗   ██╗     ██████╗      ██╗"
     echo -e " ██╔══██╗   ██╔══██╗     ██║ ██╔╝     ██║   ██║     ██╔══██╗     ██║"
     echo -e " ██████╔╝   ███████║     █████╔╝      ██║   ██║     ██████╔╝     ██║"
@@ -40,8 +40,30 @@ function op_banner()
     echo -e "                    inspired by ${GREEN_b}CDI${NC}"
     echo -e "                                                    v$VERSION"
     echo -e "                                       Author  : Mr.Rabbit" 
-    # echo -e ""                                                                                                       
-    sleep 2
+    echo -e ""                                                                                                       
+}
+
+function boot_check()
+{
+    declare -a process=("seclists" "brutespray" "xmlstarlet" "xclip" "openvas-start" "skipfish" "nikto" "sslyze" "sslscan")
+    echo -n "0 "
+    i=0
+    for proc in ${process[@]};
+    do
+        echo -n "#"
+        sleep 0.5
+        which $proc >/dev/null
+        if [ $? ];then
+            echo -n "#"
+        fi
+        sleep 0.5
+    done
+
+    systemctl status faraday-server.service >/dev/null
+    if [ $? ];then
+        echo -n "# OK"
+    fi
+    # read
 }
 
 # Main Banner

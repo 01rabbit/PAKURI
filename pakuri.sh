@@ -42,29 +42,31 @@ function menu()
                 tmux kill-session -t $SESSION_NAME
                 break ;;
             * ) 
-                echo "error" ;;
+                ;;
         esac
     done
     exit 0
 }
 
-if [ -z ${TMUX} ]; then
-    op_banner
-    clear
+if [ -z ${TMUX} ]; then   
     # Check Working Directory
     if [[ ! -d $WDIR ]]; then
         mkdir -p $WDIR
     fi
+
     #boot
     tmux new-session -d -s "$SESSION_NAME" -n "${modules[0]}"
     tmux split-window -t "${modules[0]}".0 -h -p 80
 
     tmux new-window -n "f-client"
-    tmux send-keys -t "f-client" "faraday-client --gui=no-gui -w $WORKSPACE" C-m
-
+    tmux send-keys -t "f-client" "faraday-client -n $MYIP --gui=no-gui -w $WORKSPACE" C-m
+    op_banner
+    boot_check
+    # sleep 5
+    clear
     tmux new-window -n "${modules[1]}"
-    tmux split-window -t "${modules[1]}".0 -h -p 80 
-    tmux send-keys -t "${modules[1]}".1 "faraday-terminal" C-m
+    tmux split-window -t "${modules[1]}".0 -h -p 80
+    tmux send-keys -t "${modules[1]}".1 "faraday-terminal $MYIP 9977" C-m
 
     tmux new-window -n "${modules[2]}"
     tmux split-window -t "${modules[2]}".0 -h -p 80
@@ -73,9 +75,8 @@ if [ -z ${TMUX} ]; then
     tmux split-window -t "${modules[3]}".0 -h -p 80
     
     tmux select-window -t "${modules[0]}"
-    tmux send-keys -t "${modules[0]}".1 "faraday-terminal" C-m
+    tmux send-keys -t "${modules[0]}".1 "faraday-terminal $MYIP 9977" C-m
 
-    sleep 1
     tmux select-pane -t $SESSION_NAME.0
     tmux set-option -g mouse on
     tmux bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -i -sel clip > /dev/null"
