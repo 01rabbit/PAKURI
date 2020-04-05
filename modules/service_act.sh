@@ -36,11 +36,10 @@ function nmap_scan()
             tmux new-window -n "$window_name"
             tmux select-window -t "${modules[1]}"
             tmux send-keys -t "$window_name" "faraday-terminal $MYIP 9977" C-m
-            echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Check open port"
+            echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Check open port" C-m
             ports=$(nmap -Pn -p- -v --min-rate=1000 -T4 $ip | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
             echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Port Scan -> Window[$window_name]"
-            tmux send-keys -t "$window_name" "nmap -sC -sV -v -p$ports $ip -oN $WDIR/nmap_$ip.nmap -oG $WDIR/nmap_$ip.grep ;
-            tmux send-keys -t ${modules[1]}.1 \"# Test message\";tmux kill-window -t $window_name" C-m
+            tmux send-keys -t "$window_name" "nmap -sC -sV -v -p$ports $ip -oN $WDIR/nmap_$ip.nmap -oG $WDIR/nmap_$ip.grep; tmux kill-window -t $window_name" C-m
             
             count=$((++count))
         fi
@@ -140,9 +139,9 @@ function enum_scan()
                     echo "$SERV enum4linux"
                 fi
                 ;;
-            ftp|pop3|smtp|oracle|mysql|ms-sql)
-                nmap_enum $IP $PORT $SERV
-                ;;
+            # ftp|pop3|smtp|oracle|mysql|ms-sql)
+            #     nmap_enum $IP $PORT $SERV
+            #     ;;
             *)
                 nmap_enum $IP $PORT $SERV
                 ;;
