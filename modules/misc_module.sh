@@ -42,28 +42,47 @@ function op_banner()
     echo -e "                                       Author  : Mr.Rabbit" 
     echo -e ""                                                                                                       
 }
+function bar () 
+{
+  printf "%40s(%s%%)\r" $1 $2
+  sleep 0.2
+}
 
 function boot_check()
 {
+    echo -e "SYSTEM LOADING..."
+    echo -e "HOST IP: $MYIP";sleep 0.3
+    echo -e "${RED_b}FARADAY${NC} SERVER: $MYIP:5985";sleep 0.3
+    echo -e "${GREEN_b}OPENVAS${NC} SERVER: $MYIP:9392";sleep 0.3
+    echo -e "PROCESS CHECK... "
     declare -a process=("seclists" "brutespray" "xmlstarlet" "xclip" "openvas-start" "skipfish" "nikto" "sslyze" "sslscan")
-    echo -n "0 "
-    i=0
     for proc in ${process[@]};
     do
-        echo -n "#"
-        sleep 0.5
         which $proc >/dev/null
-        if [ $? ];then
-            echo -n "#"
+        if [[ $? != 0 ]];then
+            echo -e "${RED_b}Caution!${NC}"
+            echo -e "$proc not found."
+            echo -e "Execute the install.sh";read;exit 1
         fi
-        sleep 0.5
     done
 
     systemctl status faraday-server.service >/dev/null
-    if [ $? ];then
-        echo -n "# OK"
+    if [[ $? != 0 ]];then
+        echo -e "${RED_b}Caution!${NC}"
+        echo -e "Faraday not found."
+        echo -e "Execute the install.sh";read;exit 1
     fi
-    # read
+
+    for i in `seq 10`
+    do
+        num=$i*4
+        bar `yes "#" | head -$((i*4))  | tr -d "\r\n"` $((i*10))
+    done
+
+    printf "%42s"
+    printf " OK! \r\n"
+    echo -e "PAKURI SYSTEM BOOT-UP COMPLETE!"
+    sleep 1
 }
 
 # Main Banner
@@ -126,59 +145,6 @@ function yes-no-help()
     echo -e "${BLUE_b}| 1 | yes    ${RED_b}| 2 | no    ${YELLOW_b}| 3 | help"
     echo -e "${BLUE_b}+---+        ${RED_b}+---+       ${YELLOW_b}+---+"
     echo -e "${NC}"
-}
-
-function select_7()
-{
-    echo -e "${BLUE_b}+---+"
-    echo -e "| 1 | $1"
-    echo -e "+---+"
-    echo -e "${RED_b}+---+"
-    echo -e "| 2 | $2"
-    echo -e "+---+"
-    echo -e "${YELLOW_b}+---+"
-    echo -e "| 3 | $3"
-    echo -e "+---+"
-    echo -e "${GREEN_b}+---+"
-    echo -e "| 4 | $4"
-    echo -e "+---+"
-    echo -e "${PURPLE_b}+---+"
-    echo -e "| 5 | $5"
-    echo -e "+---+"
-    echo -e "${LIGHTBLUE_b}+---+"
-    echo -e "| 6 | $6"
-    echo -e "+---+"
-    echo -e "${NC}+---+"
-    echo -e "| 7 | $7"
-    echo -e "+---+"
-    echo -e "${BLACK_b}+---+"
-    echo -e "| 9 | Back"
-    echo -e "+---+${NC}"
-}
-
-function select_6()
-{
-    echo -e "${BLUE_b}+---+"
-    echo -e "| 1 | $1"
-    echo -e "+---+"
-    echo -e "${RED_b}+---+"
-    echo -e "| 2 | $2"
-    echo -e "+---+"
-    echo -e "${YELLOW_b}+---+"
-    echo -e "| 3 | $3"
-    echo -e "+---+"
-    echo -e "${GREEN_b}+---+"
-    echo -e "| 4 | $4"
-    echo -e "+---+"
-    echo -e "${PURPLE_b}+---+"
-    echo -e "| 5 | $5"
-    echo -e "+---+"
-    echo -e "${LIGHTBLUE_b}+---+"
-    echo -e "| 6 | $6"
-    echo -e "+---+"
-    echo -e "${BLACK_b}+---+"
-    echo -e "| 9 | Back"
-    echo -e "+---+${NC}"
 }
 
 function select_5()
@@ -286,19 +252,9 @@ function box_5()
     echo -e "${PURPLE_b}+---+${NC}"
 }
 
-function box_6()
-{
-    echo -e "${LIGHTBLUE_b}+---+"
-    echo -e "| 6 | $1"
-    echo -e "+---+${NC}"
-
-}
-
 function box_9()
 {
     echo -e "${BLACK_b}+---+"
     echo -e "| 9 | Back"
     echo -e "${BLACK_b}+---+${NC}"
-
 }
-
