@@ -1,6 +1,6 @@
 # PAKURI
 
-![logo](https://user-images.githubusercontent.com/16553787/70399114-c4db9c80-1a64-11ea-8d8e-5cf2f4f43ee0.png)
+![logo](img/pakuri-banner.png)
 ![version](https://img.shields.io/github/v/tag/01rabbit/PAKURI?label=Version)
 ![License](https://img.shields.io/github/license/01rabbit/PAKURI)
 ![release-date](https://img.shields.io/github/release-date/01rabbit/PAKURI)
@@ -12,7 +12,7 @@
 
 ## PAKURIとは
 
-私は多くのツールの良い点を模倣しました。 日本語の俗語で、模倣は「パクる」と言います。  
+私は多くのペンテストツールを参考にしました。そして、それらツールの良い点を参考にし自分のツールに組み込みました。 日本語の俗語で、模倣は「パクる」と言います。  
 > ぱくる（異綴：パクる）
 >
 > 1. ぱくぱくと食べる。大きな口を開けて食べる。
@@ -69,9 +69,13 @@ PAKURIを使用する利点
 ## 特徴
 
 * Scan
+  * [enum4linux](https://tools.kali.org/information-gathering/enum4linux)
+  * [Nikto](https://tools.kali.org/information-gathering/nikto)
   * [Nmap](https://tools.kali.org/information-gathering/nmap)
   * [OpenVAS](https://tools.kali.org/vulnerability-analysis/openvas)
-  * [AutoRecon](https://github.com/Tib3rius/AutoRecon.git)
+  * [Skipfish](https://tools.kali.org/web-applications/skipfish)
+  * [sslscan](https://github.com/rbsec/sslscan)
+  * [SSLyze](https://tools.kali.org/information-gathering/sslyze)
 
 * Exploit
   * [BruteSpray](https://tools.kali.org/password-attacks/brutespray)
@@ -147,38 +151,31 @@ PAKURIを使用する利点
 
     ```shell
     root@kali:/usr/share/PAKURI# ./pakuri.sh
+      ____ ____ ____ ____ ____ ____
+     ||P |||A |||K |||U |||R |||I ||
+     ||__|||__|||__|||__|||__|||__||
+     |/__\|/__\|/__\|/__\|/__\|/__\|
+                              v1.1.0
+                 Author  : Mr.Rabbit
+                     inspired by CDI
 
-    ██████╗   █████╗    ██╗  ██╗   ██╗   ██╗   ██████╗    ██╗
-    ██╔══██╗ ██╔══██╗   ██║ ██╔╝   ██║   ██║   ██╔══██╗   ██║
-    ██████╔╝ ███████║   █████╔╝    ██║   ██║   ██████╔╝   ██║
-    ██╔═══╝  ██╔══██║   ██╔═██╗    ██║   ██║   ██╔══██╗   ██║
-    ██║   ██╗██║  ██║██╗██║  ██╗██╗╚██████╔╝██╗██║  ██║██╗██║
-    ╚═╝   ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝╚═╝  ╚═╝╚═╝╚═╝
-
-    - Penetration Test Achive Knowledge Unite Rapid Interface -
-                        inspired by CDI
-
-                                                        v1.0.2
-                                           Author  : Mr.Rabbit
-
-    Sun 29 Dec 2019 22:25:07 PM EST
-    Working Directory : /root/demo
-    ---------------------- Main Menu -----------------------
-    +---+
-    | 1 | Scanning
-    +---+
-    +---+
-    | 2 | Exploit
-    +---+
-    +---+
-    | 3 | Config
-    +---+
-    +---+
-    | 4 | Assist
-    +---+
-    +---+
-    | 9 | Back
-    +---+
+     Workspace: demo
+     ---------- Main Menu -----------
+     +---+
+     | 1 | Scanning
+     +---+
+     +---+
+     | 2 | Exploit
+     +---+
+     +---+
+     | 3 | Config
+     +---+
+     +---+
+     | 4 | Assist
+     +---+
+     +---+
+     | 9 | Back
+     +---+
     ```
 
 PAKURIは完全に自動化されておらず、ペネトレーションテストを確実に進め、意図しない攻撃やトラブルを回避するために、ユーザーによる対話型の操作が必要です。
@@ -210,6 +207,10 @@ PAKURIは完全に自動化されておらず、ペネトレーションテス�
 
 ---
 
-## サポート
+## 貢献者
 
-機能追加要望 / バグ報告: <https://github.com/01rabbit/PAKURI/issues>
+このプロジェクトについての新しいアイデアや、問題、フィードバック、または良いツールを見つけた場合は、[@Mr.Rabbit](https://twitter.com/01ra66it)または[@PAKURI](https://twitter.com/PAKURI9)へDMを送って下さい。
+
+### Special thanks
+
+このツールに素晴らしいアイデアを沢山提供してくれた[@cyberdefense_jp](https://twitter.com/cyberdefense_jp)に感謝します。

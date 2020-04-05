@@ -1,6 +1,6 @@
 # PAKURI
 
-![logo](https://user-images.githubusercontent.com/16553787/70399114-c4db9c80-1a64-11ea-8d8e-5cf2f4f43ee0.png)
+![logo](img/pakuri-banner.png)
 ![version](https://img.shields.io/github/v/tag/01rabbit/PAKURI?label=Version)
 ![License](https://img.shields.io/github/license/01rabbit/PAKURI)
 ![release-date](https://img.shields.io/github/release-date/01rabbit/PAKURI)
@@ -12,7 +12,7 @@
 
 ## What's PAKURI
 
-I have imitated the good points of many tools.  In Japanese, imitating is called “Pakuru”.
+I've consulted many pen testing tools. I then took the good points of those tools and incorporated them into my own tools. In Japanese slang, imitation is also called "paku-ru".
 > ぱくる (godan conjugation, hiragana and katakana パクる, rōmaji pakuru)
 >
 > 1. eat with a wide open mouth
@@ -68,9 +68,13 @@ For beginner:
 ## Features
 
 * Scan
+  * [enum4linux](https://tools.kali.org/information-gathering/enum4linux)
+  * [Nikto](https://tools.kali.org/information-gathering/nikto)
   * [Nmap](https://tools.kali.org/information-gathering/nmap)
   * [OpenVAS](https://tools.kali.org/vulnerability-analysis/openvas)
-  * [AutoRecon](https://github.com/Tib3rius/AutoRecon.git)
+  * [Skipfish](https://tools.kali.org/web-applications/skipfish)
+  * [sslscan](https://github.com/rbsec/sslscan)
+  * [SSLyze](https://tools.kali.org/information-gathering/sslyze)
 
 * Exploit
   * [BruteSpray](https://tools.kali.org/password-attacks/brutespray)
@@ -146,38 +150,31 @@ For beginner:
 
     ```shell
     root@kali:/usr/share/PAKURI# ./pakuri.sh
+      ____ ____ ____ ____ ____ ____
+     ||P |||A |||K |||U |||R |||I ||
+     ||__|||__|||__|||__|||__|||__||
+     |/__\|/__\|/__\|/__\|/__\|/__\|
+                              v1.1.0
+                 Author  : Mr.Rabbit
+                     inspired by CDI
 
-    ██████╗   █████╗    ██╗  ██╗   ██╗   ██╗   ██████╗    ██╗
-    ██╔══██╗ ██╔══██╗   ██║ ██╔╝   ██║   ██║   ██╔══██╗   ██║
-    ██████╔╝ ███████║   █████╔╝    ██║   ██║   ██████╔╝   ██║
-    ██╔═══╝  ██╔══██║   ██╔═██╗    ██║   ██║   ██╔══██╗   ██║
-    ██║   ██╗██║  ██║██╗██║  ██╗██╗╚██████╔╝██╗██║  ██║██╗██║
-    ╚═╝   ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝╚═╝  ╚═╝╚═╝╚═╝
-
-    - Penetration Test Achive Knowledge Unite Rapid Interface -
-                        inspired by CDI
-
-                                                        v1.0.2
-                                           Author  : Mr.Rabbit
-
-    Sun 29 Dec 2019 22:25:07 PM EST
-    Working Directory : /root/demo
-    ---------------------- Main Menu -----------------------
-    +---+
-    | 1 | Scanning
-    +---+
-    +---+
-    | 2 | Exploit
-    +---+
-    +---+
-    | 3 | Config
-    +---+
-    +---+
-    | 4 | Assist
-    +---+
-    +---+
-    | 9 | Back
-    +---+
+     Workspace: demo
+     ---------- Main Menu -----------
+     +---+
+     | 1 | Scanning
+     +---+
+     +---+
+     | 2 | Exploit
+     +---+
+     +---+
+     | 3 | Config
+     +---+
+     +---+
+     | 4 | Assist
+     +---+
+     +---+
+     | 9 | Back
+     +---+
     ```
 
 PAKURI is not fully automated and requires the user interactions, to make sure to proceed the pentest and to avoid any unintended attack or trouble.
@@ -209,6 +206,10 @@ This is intended for use Kali Linux. Operation on other OS is not guaranteed.
 
 ---
 
-## Support
+## Contributors
 
-Feature request / bug reports: <https://github.com/01rabbit/PAKURI/issues>
+If you have some new idea about this project, issue, feedback or found some valuable tool feel free to open an issue for just DM me via [@Mr.Rabbit](https://twitter.com/01ra66it) or [@PAKURI](https://twitter.com/PAKURI9).
+
+### Special thanks
+
+Thanks to [@cyberdefense_jp](https://twitter.com/cyberdefense_jp) for contribute so many awesome ideas to this tool.

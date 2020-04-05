@@ -1,13 +1,17 @@
+#!/bin/bash
+source pakuri.conf
+source $MODULES/misc_module.sh
+
 # Start Service
 function service_start()
 {
-    systemctl start $1
+    sudo systemctl start $1
 }
 
 # Stop Service
 function service_stop()
 {
-    systemctl stop $1 
+    sudo systemctl stop $1 
 }
 
 # Change CUI/GUI
@@ -27,16 +31,14 @@ function modeswitching()
         fi
         clear
         config_banner
-        date
-        echo -e "------------------- Config Menu --------------------"
         box_4 "Mode Switching"
-        echo -e "-------------------- Now mode $mode_v -------------------"
+        echo -e "--------- Now mode $mode_v ---------"
         select_2 "Switch CUI mode" "Switch GUI mode"
         read -n 1 -s key
         clear
         config_banner
-        date
-        echo -e "-------------------- Now mode $mode_v -------------------"
+        box_4 "Mode Switching"
+        echo -e "--------- Now mode $mode_v ---------"
         case "$key" in
             1 )
                 box_1 "Switch CUI mode"
@@ -51,7 +53,7 @@ function modeswitching()
             * ) 
                 echo -e "error" ;;
         esac
-        echo -e "Press any key to continue..."
+        echo -e "Press Enter to continue..."
         read
     done
 }
@@ -77,10 +79,8 @@ function service_menu()
         fi
         clear
         config_banner
-        date
-        echo -e "------------------- Config Menu --------------------"
         box_2 "Configure Service"
-        echo -e "------------------- Service Menu -------------------"
+        echo -e "-------- Service Menu ----------"
         if [ $flg_p = 1 ];then
             box_1 "PpstgreSQL ${NC}[${GREEN_b}Running${NC}]"
         else
@@ -100,10 +100,8 @@ function service_menu()
         read -n 1 -t 5 -s key
         clear
         config_banner
-        date
-        echo -e "------------------- Config Menu --------------------"
         box_2 "Configure Service"
-        echo -e "------------------- Service Menu -------------------"
+        echo -e "-------- Service Menu ----------"
         case "$key" in
         1 )
             if [ $flg_p = 1 ];then
@@ -137,7 +135,7 @@ function service_menu()
                 if [ $flg_p = 0 ];then
                     echo -e "Please Start PostgreSQL."
                     echo -e ""
-                    echo -e "Press any key to continue..."
+                    echo -e "Press Enter to continue..."
                     read
                 else
                     echo -e "Do you really want to ${GREEN_b}start${NC}?"
@@ -155,7 +153,7 @@ function service_menu()
                 yes-no
                 read -n 1 -s ans
                 if [ $ans -eq 1 ];then
-                    tmux send-keys -t $WINDOW_NAME.1 "openvas-stop" C-m
+                    tmux send-keys -t $WINDOW_NAME.1 "sudo openvas-stop" C-m
                     tmux select-pane -t $SESSION_NAME.0
                 fi
             else
@@ -164,7 +162,7 @@ function service_menu()
                 yes-no
                 read -n 1 -s ans
                 if [ $ans -eq 1 ];then
-                    tmux send-keys -t $WINDOW_NAME.1 "openvas-start" C-m
+                    tmux send-keys -t $WINDOW_NAME.1 "sudo openvas-start" C-m
                     tmux select-pane -t $SESSION_NAME.0
                 fi
             fi ;;
@@ -189,14 +187,10 @@ function config_manage()
         fi
         clear
         config_banner
-        date
-        echo -e "------------------- Config Menu --------------------"
         select_4 "Configure Targets" "Configure Service" "Import data into Faraday" "Mode Switching"
         read -n 1 -t 5 -s key
         clear
         config_banner
-        date
-        echo -e "------------------- Config Menu --------------------"
         case "$key" in
             1 )
                 box_1 "Configure Targets"
@@ -205,11 +199,11 @@ function config_manage()
                 echo -e "Input your targets."
                 echo -e "This is edited with nano. Enter with Ctrl + x to exit."
                 echo -e ""
-                echo -e "Press any key to continue..."
+                echo -e "Press Enter to continue..."
                 read ;;
             2 )
                 box_2 "Configure Service"
-                echo -e "------------------- Service Menu -------------------"
+                echo -e "-------- Service Menu ----------"
                 service_menu
                 ;;
             3 )
@@ -217,7 +211,7 @@ function config_manage()
                 if [ $flg_f = 0 ];then
                     echo -e "Please Start Faraday."
                     echo -e ""
-                    echo -e "Press any key to continue..."
+                    echo -e "Press Enter to continue..."
                     read
                 else
                     echo -e "Is the faraday's workspace name is $WORKSPACE? "
@@ -227,16 +221,17 @@ function config_manage()
                         tmux send-keys -t $SESSION_NAME.1 "$INSTALL_DIR/$IMPORT $WDIR $WORKSPACE" C-m
                         tmux select-pane -t $SESSION_NAME.0
                         echo -e "Please check Faraday."
-                        echo -e "Press any key to continue..."
+                        echo -e "Press Enter to continue..."
                         read
                     fi
                 fi ;;
             4 )
                 modeswitching ;;
             9 )
-                break ;;
+                tmux select-window -t "${modules[0]}" ;;
             * )
                 echo -e "error" ;;
         esac
     done
 }
+config_manage

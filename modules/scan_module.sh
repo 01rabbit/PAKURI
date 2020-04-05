@@ -1,349 +1,120 @@
+#!/bin/bash
 source pakuri.conf
 source $MODULES/misc_module.sh
-# $1 IP Address or IP list
-# $2 Arguments
-# $3 S or M S:Sngle Host M:Multi Host
-function scan_nmap()
-{
-    DATE=`date '+%Y%m%d%H%M'`
-    cd $WDIR
-    if [[ ! -d $WDIR/nmap ]]; then
-	mkdir $WDIR/nmap
-    fi
+WINDOW_NAME="${modules[1]}"
 
-    case $2 in
-    Check )
-        DISCOVERY="$WDIR/nmap/$DATE-DiscoveryHost"
-        if [[ -f ./$WIDR/hostup.txt ]];then
-            rm $WDIR/hostup.txt
-        fi
-        tmux send-keys -t $WINDOW_NAME.1 "nmap -sn -PE -iL $1 --exclude $MYIP -oN $DISCOVERY.nmap -oX $DISCOVERY.xml;cat $DISCOVERY.nmap |grep report|cut -d \" \" -f5 > $WDIR/hostup.txt" C-m
-        ;;
-    Quick )
-        QUICK="$WDIR/nmap/$DATE-Quick"
-        tmux send-keys -t $WINDOW_NAME.1 "nmap -T4 -p1-1023 -v --max-retries 1 --max-scan-delay 20 --defeat-rst-ratelimit --open -oN $QUICK.nmap -oX $QUICK.xml -iL $1" C-m
-        ;;
-    Details )
-        DETAILS="$WDIR/nmap/$DATE-Details"
-        tmux send-keys -t $WINDOW_NAME.1 "nmap -T4 -p1-1023 -v -A --max-retries 1 --max-scan-delay 20 --max-rate 300 --open -oN $DETAILS.nmap -oX $DETAILS.xml -iL $1" C-m
-        ;;
-    esac
-}
-
-# $1 IP Address or IP list
-# $2 S or M S:Sngle Host M:Multi Host
-function scan_autorecon()
+function nmap_scan_menu()
 {
-    if [ $2 = "S" ];then
-        tmux send-keys -t $WINDOW_NAME.1 "$AUTORECON $1 -v -o $WDIR --only-scans-dir" C-m
-    elif [ $2 = "M" ];then
-        tmux send-keys -t $WINDOW_NAME.1 "$AUTORECON -t $1 -v -o $WDIR --only-scans-dir" C-m
-    fi
-}
-
-function omp_create_target()
-{
-    TARGET_ID=`omp -T -u $OMPUSER -w $OMPPASS|grep $TARGET_NAME|cut -d " " -f1`
-    if [ -z $TARGET_ID ];then
-        echo "Create Targets"
-        tmux send-keys -t $WINDOW_NAME.1 "omp -X '<create_target><name>$TARGET_NAME</name><hosts>$1</hosts></create_target>' -u $OMPUSER -w $OMPPASS" C-m
+    box_1 "nmap scan"
+    echo -e "-------- Select Action ---------"
+    if ps -ef|grep nmap|grep -v "grep" >/dev/null;then
+        echo -e "Scan process is Running!"
     else
-        echo "Target has already been created."
+        select_2 "Port Scan" "Vulners Scan"
+        read -n 1 -s KEY
+        scan_banner
+        box_1 "nmap scan"
+        echo -e "-------- Select Action ---------"
+        if [ $KEY = 1 ];then
+            box_1 "Port Scan"
+            echo -e "Do you want to perform a process??" 
+            yes-no-help
+            read -n 1 -s KEY
+            if [ $KEY -eq 1 ];then
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh nscan $TARGETS" C-m
+                tmux select-pane -t $WINDOW_NAME.0
+            elif [ $KEY -eq 3 ];then
+                tmux send-keys -t $WINDOW_NAME.1 "cat $DOCUMENTS/learn_well-knownquick.txt" C-m 
+                tmux select-pane -t $WINDOW_NAME.0
+            fi
+        elif [ $KEY = 2 ];then
+            box_2 "Vulners Scan"
+            echo -e "Do you want to perform a process??" 
+            yes-no-help
+            read -n 1 -s KEY
+            if [ $KEY -eq 1 ];then
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh nvscan $TARGETS" C-m
+                tmux select-pane -t $WINDOW_NAME.0
+            elif [ $KEY -eq 3 ];then
+                tmux send-keys -t $WINDOW_NAME.1 "cat $DOCUMENTS/learn_well-knownquick.txt" C-m 
+                tmux select-pane -t $WINDOW_NAME.0
+            fi
+        fi
     fi
 }
 
-function omp_start()
+function enum_menu()
 {
-    TARGET_ID=`omp -T -u $OMPUSER -w $OMPPASS|grep $TARGET_NAME|cut -d " " -f1`
-    if [ ! -z $TARGET_ID ];then
-        echo "Create Task"
-        TASK_ID=`omp -C -c daba56c8-73ec-11df-a475-002264764cea --name $TASK_NAME --target $TARGET_ID -u $OMPUSER -w $OMPPASS`
-        echo "TASK_ID: $TASK_ID"
-        echo "Start Task"
-        REPORT_ID=`omp -S $TASK_ID -u $OMPUSER -w $OMPPASS`
-        echo "REPORT_ID: $REPORT_ID"
+    local KEY
+
+    box_2 "Enumeration"
+    echo -e "-------- Select Action ---------"
+    echo -e "Do you want to perform a process??" 
+    yes-no-help
+    read -n 1 -s KEY
+    if [ $KEY -eq 1 ];then
+        tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh enumctrl" C-m
+        tmux select-pane -t $WINDOW_NAME.0
+    elif [ $KEY -eq 3 ];then
+        tmux send-keys -t $WINDOW_NAME.1 "cat $DOCUMENTS/learn_well-knownquick.txt" C-m 
+        tmux select-pane -t $WINDOW_NAME.0
     fi
 }
-
-# $1 Report_ID
-function omp_output()
+function openvas_menu()
 {
-    DATE=`date '+%Y%m%d%H%M'`
-    REPORT_ID=$1
-    if [ ! -z $REPORT_ID ];then
-        # pdf format
-        tmux send-keys -t $WINDOW_NAME.1 "omp --get-report $REPORT_ID --format c402cc3e-b531-11e1-9163-406186ea4fc5 -u $OMPUSER -w $OMPPASS > $WDIR/OpenVAS/$DATE-report.pdf"  C-m
-        # html format
-        tmux send-keys -t $WINDOW_NAME.1 "omp --get-report $REPORT_ID --format 6c248850-1f62-11e1-b082-406186ea4fc5 -u $OMPUSER -w $OMPPASS > $WDIR/OpenVAS/$DATE-report.html" C-m
-        # xml format
-        tmux send-keys -t $WINDOW_NAME.1 "omp --get-report $REPORT_ID --format a994b278-1f62-11e1-96ac-406186ea4fc5 -u $OMPUSER -w $OMPPASS > $WDIR/OpenVAS/$DATE-report.xml" C-m
-    fi
-}
+    local KEY
+    local NEW_WINDOW
 
-function omp_delete()
-{
-    TASK_ID=`omp --get-tasks -u $OMPUSER -w $OMPPASS|grep $TASK_NAME|cut -d " " -f1`
-    if [ ! -z $TASK_ID ];then
-        tmux send-keys -t $WINDOW_NAME.1 "omp -X '<delete_task task_id=\"$TASK_ID\" />' -u $OMPUSER -w $OMPPASS" C-m
-    fi
-
-    TARGET_ID=`omp -T -u $OMPUSER -w $OMPPASS|grep $TARGET_NAME|cut -d " " -f1`
-    if [ ! -z $TARGET_ID ];then
-        tmux send-keys -t $WINDOW_NAME.1 "omp -X '<delete_target target_id=\"$TARGET_ID\" />' -u $OMPUSER -w $OMPPASS" C-m
+    NEW_WINDOW=""
+    box_3 "OpenVAS"
+    echo -e "-------- Select Action ---------"
+    echo -e "Do you want to perform a process??" 
+    yes-no-help
+    read -n 1 -s KEY
+    if [ $KEY -eq 1 ];then
+        NEW_WINDOW=$(tmux list-window -a|grep OpenVAS|awk '{print $2}')
+        if [[ "$NEW_WINDOW" == "" ]];then
+            NEW_WINDOW="OpenVAS"
+            tmux new-window -n "$NEW_WINDOW"
+            tmux split-window -t "$NEW_WINDOW".0 -v -p 15
+            tmux send-keys -t "$NEW_WINDOW".1 "$MODULES/service_act.sh back" C-m
+            tmux send-keys -t "$NEW_WINDOW".0 "$MODULES/service_act.sh openvas ;tmux kill-window -t $NEW_WINDOW" C-m
+            tmux select-pane -t $NEW_WINDOW.0
+        else
+            tmux select-window -t "OpenVAS"
+        fi
+    elif [ $KEY -eq 3 ];then
+        tmux send-keys -t $WINDOW_NAME.1 "less $DOCUMENTS/learn_omp.txt" C-m 
+        tmux select-pane -t $WINDOW_NAME.0
     fi
 }
 
 function scan_manage()
 {
-    local key
-    local ans
-    local flg_ar
-    local flg_nm
-    local status
+    local KEY
     local flg_omp
-
-    if ps -ef|grep [o]penvas > /dev/null; then
-        TASK_ID=`omp --get-tasks -u $OMPUSER -w $OMPPASS|grep $TASK_NAME|cut -d " " -f1`
-    else
-        tmux send-keys -t $WINDOW_NAME.1 "openvas-start" C-m
-    fi
 
     while :
     do
-        clear
+        flg_omp=""
         scan_banner
-        date
-        echo -e "------------------------ Scan Menu -------------------------"
-        if ps -ef|grep nmap|grep -v "grep" > /dev/null;then
-            box_1 "Discovery Host ${RED} Running"
-            box_2 "Well-known ports Scan ${RED} Running"
-            flg_nm=1
-        else
-            box_1 "Discovery Host"
-            box_2 "Well-known ports Scan"
-            flg_nm=0
-        fi
-        if [ ! -z $TASK_ID ];then
-            status=`omp --get-tasks -u $OMPUSER -w $OMPPASS|grep $TASK_NAME|cut -d " " -f3`
-            if [ $status = "Done" ];then
-                box_3 "Vulnerability Scan [Task Complete]"
-                flg_omp=0
-                if [[ ! -d $WDIR/OpenVAS ]]; then
-	                mkdir -p $WDIR/OpenVAS
-                fi
-                REPORT_ID=`omp --get-tasks $TASK_ID -u $OMPUSER -w $OMPPASS|grep -v $TASK_ID|cut -d " " -f3`
-                omp_output $REPORT_ID
-                sleep 2
-                omp_delete
-            else
-                box_3 "Vulnerability Scan ${RED} Running"
-                flg_omp=1
-            fi
-        else
-            box_3 "Vulnerability Scan"
-            flg_omp=0
-        fi
-        if ps -ef|grep autorecon.py|grep -v "grep" > /dev/null;then
-            box_4 "AutoRecon ${RED} Running"
-            flg_ar=1
-        else
-            box_4 "AutoRecon"
-            flg_ar=0
-        fi
-        box_5 "Assist"
-        box_9
-        read -n 1 -t 25 -s key
-        clear
+        select_4 "nmap scan" "Enumeration" "OpenVAS" "help"
+        flg_omp=`tmux list-window -a | grep "OpenVAS"`
+        read -n 1 -t 25 -s KEY
+        
         scan_banner
-        date
-        echo -e "------------------------ Scan Menu -------------------------"
-        case "$key" in
+        case "$KEY" in
             1 )
-                box_1 "Discovery Host"
-                echo -e "---------------------- Select Action -----------------------"
-                if [ $flg_nm = 1 ] || [ $flg_ar = 1 ] || [ $flg_omp = 1 ];then
-                    echo -e "Scan process is Running!"
-                    echo -e "Press any key to continue..."
-                    read
-                    break
-                fi
-                echo -e "Do you want to start ${BLUE}Discovery Host${NC}?" 
-                yes-no-learn
-                read -n 1 -s ans
-                if [ $ans -eq 1 ];then
-                    scan_nmap $INSTALL_DIR/$TARGETS Check
-                    tmux select-pane -t $WINDOW_NAME.0
-                elif [ $ans -eq 3 ];then
-                    tmux send-keys -t $WINDOW_NAME.1 "less $DOCUMENTS/learn_discoveryhost.txt" C-m 
-                    tmux select-pane -t $WINDOW_NAME.0
-                fi
-                echo -e "Press any key to continue..."
-                read
-                tmux kill-pane -t $SESSION_NAME.1
-                tmux split-window -t $SESSION_NAME.0 -h
-                tmux select-pane -t $WINDOW_NAME.0
-                ;;
+                nmap_scan_menu ;;
             2 )
-                box_2 "Well-known ports Scan"
-                echo -e "---------------------- Select Action -----------------------"
-                if [ $flg_nm = 1 ] || [ $flg_ar = 1 ] || [ $flg_omp = 1 ];then
-                    echo -e "Scan process is Running!"
-                    echo -e "Press any key to continue..."
-                    read
-                    break
-                fi
-                if [ ! -f ./$WIDR/hostup.txt ];then
-                    echo -e "First, run \"${BLUE_b}Discovery Host${NC}\""
-                    echo -e "Press any key to continue..."
-                    read
-                    break
-                fi
-                select_2 "Quick" "Details" 
-                read -n 1 -s ans
-                clear
-                scan_banner
-                date
-                echo -e "------------------------ Scan Menu -------------------------"
-                box_2 "Well-known ports Scan"
-                echo -e "---------------------- Select Action -----------------------"
-                if [ $ans = 1 ];then
-                    box_1 "Quick"
-                    echo -e "Do you want to start ${RED}Well-known ports Scan(Quick)${NC}?" 
-                    yes-no-learn
-                    read -n 1 -s ans
-                    if [ $ans -eq 1 ];then
-                        scan_nmap $WDIR/hostup.txt Quick
-                        tmux select-pane -t $WINDOW_NAME.0
-                    elif [ $ans -eq 3 ];then
-                        tmux send-keys -t $WINDOW_NAME.1 "less $DOCUMENTS/learn_well-knownquick.txt" C-m 
-                        tmux select-pane -t $WINDOW_NAME.0
-                    fi
-                    echo -e "Press any key to continue..."
-                    read
-                    tmux kill-pane -t $SESSION_NAME.1
-                    tmux split-window -t $SESSION_NAME.0 -h
-                    tmux select-pane -t $WINDOW_NAME.0
-                elif [ $ans = 2 ];then
-                    box_2 "Details"
-                    echo -e "Do you want to start ${RED}Well-known ports Scan(Details)${NC}?" 
-                    yes-no-learn
-                    read -n 1 -s ans
-                    if [ $ans -eq 1 ];then
-                        scan_nmap $WDIR/hostup.txt Details
-                        tmux select-pane -t $WINDOW_NAME.0
-                    elif [ $ans -eq 3 ];then
-                        tmux send-keys -t $WINDOW_NAME.1 "less $DOCUMENTS/learn_well-knowndetails.txt" C-m 
-                        tmux select-pane -t $WINDOW_NAME.0
-                    fi
-                    echo -e "Press any key to continue..."
-                    read
-                    tmux kill-pane -t $SESSION_NAME.1
-                    tmux split-window -t $SESSION_NAME.0 -h
-                    tmux select-pane -t $WINDOW_NAME.0
-                fi ;;
+                enum_menu ;;
             3 )
-                box_3 "Vulnerability Scan"
-                echo -e "---------------------- Select Action -----------------------"
-                if [ $flg_nm = 1 ] || [ $flg_ar = 1 ] || [ $flg_omp = 1 ];then
-                    echo -e "Scan process is Running!"
-                    echo -e "Press any key to continue..."
-                    read
-                    break
-                fi
-                select_4 "Single" "Multi" "Delete" "learn to"
-                read -n 1 -s ans
-                clear
-                scan_banner
-                date
-                echo -e "------------------------ Scan Menu -------------------------"
-                box_3 "Vulnerability Scan"
-                echo -e "---------------------- Select Action -----------------------"
-                if [ $ans = 1 ];then
-                    box_1 "Single"
-                    read -p "IP Address :" addr
-                    echo -e "Do you want to start ${YELLO}Vulnerability Scan(Single)${NC} IP:$addr?"
-                    yes-no
-                    read -n 1 -s ans
-                    if [ $ans -eq 1 ];then
-                        echo -e "Start Vulnerability Scanning. Single Host"
-                        omp_create_target $addr
-                        sleep 2
-                        omp_start
-                        tmux select-pane -t $WINDOW_NAME.0
-                    fi
-                    echo -e "Press any key to continue..."
-                    read
-                elif [ $ans = 2 ];then
-                    box_2 "Multi"
-                    echo -e "Do you want to start ${YELLO}Vulnerability Scan(Multi)${NC}?"
-                    yes-no
-                    read -n 1 -s ans
-                    if [ $ans -eq 1 ];then
-                        echo -e "Start Vulnerability Scanning. Multi Host"
-                        while IFS= read -r line;do
-                            str+="$line,"
-                        done < $SCRIPT_DIR/$TARGETS
-                        if [ ${str: -1} = "," ];then
-                            addr=${str/%?/}
-                        fi
-                        omp_create_target $addr
-                        sleep 2
-                        omp_start
-                        tmux select-pane -t $WINDOW_NAME.0
-                    fi
-                    echo -e "Press any key to continue..."
-                    read
-                elif [ $ans = 3 ];then
-                    box_3 "Delete"
-                    echo -e "Do you want to Delete task?"
-                    yes-no
-                    read -n 1 -s ans
-                    if [ $ans -eq 1 ];then
-                        omp_delete
-                    fi
-                    echo -e "Press any key to continue..."
-                    read
-                elif [ $ans = 4 ];then
-                    box_4 "learn to"
-                    tmux send-keys -t $WINDOW_NAME.1 "less $DOCUMENTS/learn_omp.txt" C-m 
-                    tmux select-pane -t $WINDOW_NAME.0
-                fi 
-                echo -e "Press any key to continue..."
-                read
-                tmux kill-pane -t $SESSION_NAME.1
-                tmux split-window -t $SESSION_NAME.0 -h
-                tmux select-pane -t $WINDOW_NAME.0
-                ;;
+                openvas_menu ;;
             4 )
-                box_4 "AutoRecon"
-                echo -e "---------------------- Select Action -----------------------"
-                if [ $flg_nm = 1 ] || [ $flg_ar = 1 ] || [ $flg_omp = 1 ];then
-                    echo -e "Scan process is Running!"
-                    echo -e "Press any key to continue..."
-                    read
-                    break
-                fi
-                echo -e "Do you want to start ${YELLOW}AutoRecon${NC}?" 
-                yes-no-learn
-                read -n 1 -s ans
-                if [ $ans -eq 1 ];then
-                    scan_autorecon $SCRIPT_DIR/$TARGETS M
-                    tmux select-pane -t $WINDOW_NAME.0
-                elif [ $ans -eq 3 ];then
-                    tmux send-keys -t $WINDOW_NAME.1 "less $DOCUMENTS/learn_autorecon.txt" C-m 
-                    tmux select-pane -t $WINDOW_NAME.0
-                fi
-                echo -e "Press any key to continue..."
-                read
-                tmux kill-pane -t $SESSION_NAME.1
-                tmux split-window -t $SESSION_NAME.0 -h
-                tmux select-pane -t $WINDOW_NAME.0
-                ;;
-            5 )
                 tmux send-keys -t $WINDOW_NAME.1 "clear && cat $DOCUMENTS/assist_scanning.txt" C-m 
                 tmux select-pane -t $WINDOW_NAME.0 ;;
             9 )
-                break ;;
+                tmux select-window -t "${modules[0]}" ;;
             * )
                 ;;
         esac
