@@ -39,7 +39,7 @@ function nmap_scan()
             echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Check open port"
             ports=$(nmap -Pn -p- -v --min-rate=1000 -T4 $ip | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
             echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Port Scan -> Window[$window_name]"
-            tmux send-keys -t "$window_name" "nmap -sC -sV -v -p$ports $ip -oN $WDIR/nmap_$ip.nmap -oG $WDIR/nmap_$ip.grep; tmux kill-window -t $window_name" C-m
+            tmux send-keys -t "$window_name" "nmap -sV -v -p$ports $ip -oN $WDIR/nmap_$ip.nmap -oG $WDIR/nmap_$ip.grep; tmux kill-window -t $window_name" C-m
             
             count=$((++count))
         fi
@@ -94,7 +94,7 @@ function nmap_enum()
 
     nmap -sV -Pn -v --script="*vuln* and not brute or broadcast or dos or external or fuzzer" -p${PORT} -oN $WDIR/${SERV}_${IP}:${PORT}.nmap -oX $WDIR/${SERV}_${IP}:${PORT}.xml ${IP}
     if [ -f $WDIR/${SERV}_${IP}:${PORT}.xml ];then
-        cp -p $WDIR/${SERV}_${IP}:${PORT}.xml ~/.faraday/report/$WORKSPACE
+        cp -f $WDIR/${SERV}_${IP}:${PORT}.xml ~/.faraday/report/$WORKSPACE
     fi
 }
 
@@ -110,32 +110,32 @@ function enum_scan()
             ssh)
                 nmap -sV -Pn -v -p ${PORT} --script='banner,ssh2-enum-algos,ssh-hostkey,ssh-auth-methods' -oN $WDIR/ssh_${IP}:${PORT}.nmap -oX $WDIR/ssh_${IP}:${PORT}.xml ${IP}
                 if [ -f $WDIR/ssh_${IP}:${PORT}.xml ];then
-                    cp -p $WDIR/ssh_${IP}:${PORT}.xml ~/.faraday/report/$WORKSPACE/
+                    cp -f $WDIR/ssh_${IP}:${PORT}.xml ~/.faraday/report/$WORKSPACE/
                 fi
                 ;;
             http)
                 nikto -h http://${IP}:${PORT} -output $WDIR/nikto_${IP}:${PORT}.xml -Format XML|tee $WDIR/nikto_${IP}:${PORT}.txt
                 if [ -f $WDIR/nikto_${IP}:${PORT}.xml ];then
-                    cp -p $WDIR/nikto_${IP}:${PORT}.xml ~/.faraday/report/$WORKSPACE/
+                    cp -f $WDIR/nikto_${IP}:${PORT}.xml ~/.faraday/report/$WORKSPACE/
                 fi
                 skipfish -U -u -Q -t 12 -W- -o $WDIR/skipfish_${IP}_${PORT} http://${IP}:${PORT} 
                 ;;
             "ssl|https")
                 nikto -h https://${IP}:${PORT} -output $WDIR/nikto_${IP}:${PORT}.xml -Format XML|tee $WDIR/nikto_${IP}:${PORT}.txt
                 if [ -f $WDIR/nikto_${IP}:${PORT}.xml ];then
-                    cp -p $WDIR/nikto_${IP}:${PORT}.xml ~/.faraday/report/$WORKSPACE/
+                    cp -f $WDIR/nikto_${IP}:${PORT}.xml ~/.faraday/report/$WORKSPACE/
                 fi
                 sslyze --regular ${IP} --xml_out=$WDIR/sslyze_${IP}.xml | tee -a $WDIR/sslyze_${IP}.txt
                 sslscan ${IP}|tee -a $WDIR/sslscan_${IP}.txt
                 if  [ -f $WDIR/sslscan_${IP}.txt ];then 
-                    cp -p $WDIR/sslyze_${IP}.xml ~/.faraday/report/$WORKSPACE
+                    cp -f $WDIR/sslyze_${IP}.xml ~/.faraday/report/$WORKSPACE
                 fi
                 skipfish -U -u -Q -t 12 -W- -o $WDIR/skipfish_${IP}:${PORT} https://${IP}:${PORT}
                 ;;
             netbios-ssn|microsoft-ds)
                 nmap -sV -Pn -v --script='*smb-vuln* and not brute or broadcast or dos or external or fuzzer' -p${PORT} -oN $WDIR/smb_${IP}:${PORT}.nmap -oX $WDIR/smb_${IP}:${PORT}.xml ${IP} 
                 if [ -f $WDIR/smb_${IP}:${PORT}.xml ];then
-                    cp -p $WDIR/smb_${IP}:${PORT}.xml ~/.faraday/report/$WORKSPACE/
+                    cp -f $WDIR/smb_${IP}:${PORT}.xml ~/.faraday/report/$WORKSPACE/
                 fi
                 if [ ${PORT} = "139" ] || [ ${PORT} -eq "389" ] || [ ${PORT} -eq "445" ];then
                     enum4linux -a -M -1 -d ${IP} | tee $WDIR/enum4linux_${IP}:${PORT}.txt
@@ -150,6 +150,7 @@ function enum_scan()
                 ;;
         esac
     done
+    tmux kill-window 
 }
 
 function openvas_scan()
