@@ -36,7 +36,7 @@ function nmap_scan()
             tmux new-window -n "$window_name"
             tmux select-window -t "${modules[1]}"
             tmux send-keys -t "$window_name" "faraday-terminal $MYIP 9977" C-m
-            echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Check open port" C-m
+            echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Check open port"
             ports=$(nmap -Pn -p- -v --min-rate=1000 -T4 $ip | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
             echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Port Scan -> Window[$window_name]"
             tmux send-keys -t "$window_name" "nmap -sC -sV -v -p$ports $ip -oN $WDIR/nmap_$ip.nmap -oG $WDIR/nmap_$ip.grep; tmux kill-window -t $window_name" C-m
@@ -134,6 +134,9 @@ function enum_scan()
                 ;;
             netbios-ssn|microsoft-ds)
                 nmap -sV -Pn -v --script='*smb-vuln* and not brute or broadcast or dos or external or fuzzer' -p${PORT} -oN $WDIR/smb_${IP}:${PORT}.nmap -oX $WDIR/smb_${IP}:${PORT}.xml ${IP} 
+                if [ -f $WDIR/smb_${IP}:${PORT}.xml ];then
+                    cp -p $WDIR/smb_${IP}:${PORT}.xml ~/.faraday/report/$WORKSPACE/
+                fi
                 if [ ${PORT} = "139" ] || [ ${PORT} -eq "389" ] || [ ${PORT} -eq "445" ];then
                     enum4linux -a -M -1 -d ${IP} | tee $WDIR/enum4linux_${IP}:${PORT}.txt
                     echo "$SERV enum4linux"

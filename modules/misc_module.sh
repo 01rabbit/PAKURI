@@ -62,7 +62,10 @@ function boot_check()
         if [[ $? != 0 ]];then
             echo -e "${RED_b}Caution!${NC}"
             echo -e "$proc not found."
-            echo -e "Execute the install.sh";read;exit 1
+            echo -e "Execute the install.sh"
+            tmux kill-session -t $SESSION_NAME
+            read
+            exit 1
         fi
     done
 
@@ -70,7 +73,10 @@ function boot_check()
     if [[ $? != 0 ]];then
         echo -e "${RED_b}Caution!${NC}"
         echo -e "Faraday not found."
-        echo -e "Execute the install.sh";read;exit 1
+        echo -e "Execute the install.sh"
+        tmux kill-session -t $SESSION_NAME
+        read
+        exit 1
     fi
 
     for i in `seq 10`
