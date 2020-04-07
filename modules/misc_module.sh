@@ -85,7 +85,7 @@ function boot_check()
         bar `yes "#" | head -$((i*4))  | tr -d "\r\n"` $((i*10))
     done
 
-    printf "%42s"
+    printf "%42s" `yes "#" | head -$((10*4))  | tr -d "\r\n"`
     printf " OK! \r\n"
     echo -e "PAKURI SYSTEM BOOT-UP COMPLETE!"
     sleep 1

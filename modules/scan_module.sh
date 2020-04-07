@@ -3,9 +3,9 @@ source pakuri.conf
 source $MODULES/misc_module.sh
 WINDOW_NAME="${modules[1]}"
 
-function nmap_scan_menu()
+function port_scan_menu()
 {
-    box_1 "nmap scan"
+    box_1 "Port Scan"
     echo -e "-------- Select Action ---------"
     if ps -ef|grep nmap|grep -v "grep" >/dev/null;then
         echo -e "Scan process is Running!"
@@ -13,7 +13,7 @@ function nmap_scan_menu()
         select_2 "Port Scan" "Vulners Scan"
         read -n 1 -s KEY
         scan_banner
-        box_1 "nmap scan"
+        box_1 "Port Scan"
         echo -e "-------- Select Action ---------"
         if [ $KEY = 1 ];then
             box_1 "Port Scan"
@@ -49,15 +49,21 @@ function enum_menu()
 
     box_2 "Enumeration"
     echo -e "-------- Select Action ---------"
-    echo -e "Do you want to perform a process??" 
-    yes-no-help
-    read -n 1 -s KEY
-    if [ $KEY -eq 1 ];then
-        tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh enumctrl" C-m
-        tmux select-pane -t $WINDOW_NAME.0
-    elif [ $KEY -eq 3 ];then
-        tmux send-keys -t $WINDOW_NAME.1 "cat $DOCUMENTS/learn_well-knownquick.txt" C-m 
-        tmux select-pane -t $WINDOW_NAME.0
+    if [ -f $WDIR/nmap_*.grep ];then
+        echo -e "Do you want to perform a process??" 
+        yes-no-help
+        read -n 1 -s KEY
+        if [ $KEY -eq 1 ];then
+            tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh enumctrl" C-m
+            tmux select-pane -t $WINDOW_NAME.0
+        elif [ $KEY -eq 3 ];then
+            tmux send-keys -t $WINDOW_NAME.1 "cat $DOCUMENTS/learn_well-knownquick.txt" C-m 
+            tmux select-pane -t $WINDOW_NAME.0
+        fi
+    else
+        echo -e "A port scan has not been performed."
+        echo -e "Press enter key to continue..."
+        read
     fi
 }
 function openvas_menu()
@@ -98,14 +104,14 @@ function scan_manage()
     do
         flg_omp=""
         scan_banner
-        select_4 "nmap scan" "Enumeration" "OpenVAS" "help"
+        select_4 "Port Scan" "Enumeration" "OpenVAS" "help"
         flg_omp=`tmux list-window -a | grep "OpenVAS"`
         read -n 1 -t 25 -s KEY
         
         scan_banner
         case "$KEY" in
             1 )
-                nmap_scan_menu ;;
+                port_scan_menu ;;
             2 )
                 enum_menu ;;
             3 )

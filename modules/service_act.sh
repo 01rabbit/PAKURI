@@ -39,7 +39,7 @@ function nmap_scan()
             echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Check open port"
             ports=$(nmap -Pn -p- -v --min-rate=1000 -T4 $ip | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
             echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Port Scan -> Window[$window_name]"
-            tmux send-keys -t "$window_name" "nmap -sV -v -p$ports $ip -oN $WDIR/nmap_$ip.nmap -oG $WDIR/nmap_$ip.grep; tmux kill-window -t $window_name" C-m
+            tmux send-keys -t "$window_name" "nmap -sV -v --script=\"*vuln*\" -p$ports $ip -oN $WDIR/nmap_$ip.nmap -oG $WDIR/nmap_$ip.grep; tmux kill-window -t $window_name" C-m
             
             count=$((++count))
         fi
@@ -142,15 +142,11 @@ function enum_scan()
                     echo "$SERV enum4linux"
                 fi
                 ;;
-            # ftp|pop3|smtp|oracle|mysql|ms-sql)
-            #     nmap_enum $IP $PORT $SERV
-            #     ;;
             *)
                 nmap_enum $IP $PORT $SERV
                 ;;
         esac
     done
-    tmux kill-window 
 }
 
 function openvas_scan()
