@@ -39,7 +39,7 @@ function nmap_scan()
             echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Check open port"
             ports=$(nmap -Pn -p- -v --min-rate=1000 -T4 $ip | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
             echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Port Scan -> Window[$window_name]"
-            tmux send-keys -t "$window_name" "nmap -sV -v --script=\"*vuln*\" -p$ports $ip -oN $WDIR/nmap_$ip.nmap -oG $WDIR/nmap_$ip.grep; tmux kill-window -t $window_name" C-m
+            tmux send-keys -t "$window_name" "nmap -sV -v  -p$ports $ip -oN $WDIR/nmap_$ip.nmap -oG $WDIR/nmap_$ip.grep; tmux kill-window -t $window_name" C-m
             
             count=$((++count))
         fi
@@ -139,7 +139,6 @@ function enum_scan()
                 fi
                 if [ ${PORT} = "139" ] || [ ${PORT} -eq "389" ] || [ ${PORT} -eq "445" ];then
                     enum4linux -a -M -1 -d ${IP} | tee $WDIR/enum4linux_${IP}:${PORT}.txt
-                    echo "$SERV enum4linux"
                 fi
                 ;;
             *)
@@ -315,6 +314,7 @@ case $1 in
         enum_ctrl
         ;;
     enumscan)
+        # $2:Target IP
         enum_scan $2
         ;;
 esac

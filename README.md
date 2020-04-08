@@ -71,6 +71,7 @@ For beginner:
   * [enum4linux](https://tools.kali.org/information-gathering/enum4linux)
   * [Nikto](https://tools.kali.org/information-gathering/nikto)
   * [Nmap](https://tools.kali.org/information-gathering/nmap)
+    * [nmap_vulners](https://github.com/vulnersCom/nmap-vulners)
   * [OpenVAS](https://tools.kali.org/vulnerability-analysis/openvas)
   * [Skipfish](https://tools.kali.org/web-applications/skipfish)
   * [sslscan](https://github.com/rbsec/sslscan)

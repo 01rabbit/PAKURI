@@ -24,7 +24,7 @@ function port_scan_menu()
                 tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh nscan $TARGETS" C-m
                 tmux select-pane -t $WINDOW_NAME.0
             elif [ $KEY -eq 3 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "cat $DOCUMENTS/learn_well-knownquick.txt" C-m 
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/help/scan_help_module.sh 111" C-m 
                 tmux select-pane -t $WINDOW_NAME.0
             fi
         elif [ $KEY = 2 ];then
@@ -36,7 +36,7 @@ function port_scan_menu()
                 tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh nvscan $TARGETS" C-m
                 tmux select-pane -t $WINDOW_NAME.0
             elif [ $KEY -eq 3 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "cat $DOCUMENTS/learn_well-knownquick.txt" C-m 
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/help/scan_help_module.sh 112" C-m 
                 tmux select-pane -t $WINDOW_NAME.0
             fi
         fi
@@ -57,7 +57,7 @@ function enum_menu()
             tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh enumctrl" C-m
             tmux select-pane -t $WINDOW_NAME.0
         elif [ $KEY -eq 3 ];then
-            tmux send-keys -t $WINDOW_NAME.1 "cat $DOCUMENTS/learn_well-knownquick.txt" C-m 
+            tmux send-keys -t $WINDOW_NAME.1 "$MODULES/help/scan_help_module.sh 12" C-m 
             tmux select-pane -t $WINDOW_NAME.0
         fi
     else
