@@ -30,7 +30,7 @@ function menu()
                 tmux select-window -t "${modules[3]}"
                 tmux select-pane -t "${modules[3]}".0 ;;
             4 )
-                tmux send-keys -t "${modules[0]}".1 "clear && cat documents/assist_main.txt" C-m 
+                tmux send-keys -t "${modules[0]}".1 "$MODULES/help/assist_module.sh main" C-m 
                 tmux select-pane -t "${modules[0]}".0 ;;
             9 ) 
                 tmux kill-window -t "f-client"
