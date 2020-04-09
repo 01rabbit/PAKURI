@@ -90,7 +90,7 @@ function openvas_menu()
             tmux select-window -t "OpenVAS"
         fi
     elif [ $KEY -eq 3 ];then
-        tmux send-keys -t $WINDOW_NAME.1 "less $DOCUMENTS/learn_omp.txt" C-m 
+        tmux send-keys -t $WINDOW_NAME.1 "$MODULES/help/scan_help_module.sh 13" C-m 
         tmux select-pane -t $WINDOW_NAME.0
     fi
 }
