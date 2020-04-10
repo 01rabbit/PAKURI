@@ -24,8 +24,7 @@ function get_service_port()
 function nmap_scan()
 {
     local PORTS
-    local Count
-    Count=1
+    local Count=1
     while read ip
     do
         if [[ $ip != "" ]];then
@@ -47,8 +46,7 @@ function nmap_scan()
 function nmap_vulners_scan()
 {
     local PORTS
-    local Count
-    Count=1
+    local Count=1
     while read ip
     do
         if [[ $ip != "" ]];then
@@ -69,7 +67,7 @@ function nmap_vulners_scan()
 
 function enum_ctrl()
 {
-    Count=1
+    local Count=1
     while read TARGET
     do
         if [[ $TARGET != "" ]];then
@@ -85,12 +83,12 @@ function enum_ctrl()
 
 function nmap_enum()
 {
-    IP=$1
-    PORT=$2
-    SERV=$3
-    BaseName=$4
+    local IP=$1
+    local PORT=$2
+    local SERV=$3
+    local BaseName=$4
 
-    WindowName="${BaseName}_${SERV}${PORT}"
+    local WindowName="${BaseName}_${SERV}${PORT}"
     tmux new-window -n "$WindowName"
     tmux send-keys -t "$WindowName" "faraday-terminal $MYIP 9977" C-m
     sleep 1
@@ -102,7 +100,11 @@ function nmap_enum()
 
 function enum_scan()
 {
-    BaseName=$2
+    local IP
+    local PORT
+    local SERV
+    local BaseName=$2
+    local WindowName
     for i in `get_service_port $1`
     do
         IP=`echo ${i} | cut -d , -f 1`
@@ -293,7 +295,7 @@ function openvas_scan()
 
 function window_back()
 {
-    local ans
+    local Ans
 
     while :
     do
@@ -301,8 +303,8 @@ function window_back()
         echo -e "${BLACK_b}+---+"
         echo -e "| 9 | Back"
         echo -e "+---+${NC}"
-        read -n 1 -s ans
-        if [ $ans -eq 9 ];then
+        read -n 1 -s Ans
+        if [ $Ans -eq 9 ];then
             tmux select-window -t "${modules[1]}"
         fi
     done

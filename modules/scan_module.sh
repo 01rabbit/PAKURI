@@ -5,6 +5,8 @@ WINDOW_NAME="${modules[1]}"
 
 function port_scan_menu()
 {
+    local KEY
+    
     box_1 "Port Scan"
     echo -e "-------- Select Action ---------"
     if ps -ef|grep nmap|grep -v "grep" >/dev/null;then

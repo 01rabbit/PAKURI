@@ -44,7 +44,7 @@ function op_banner()
 }
 function bar () 
 {
-  printf "%40s(%s%%)\r" $1 $2
+  printf "%-40s(%s%%)\r" $1 $2
   sleep 0.2
 }
 
@@ -85,10 +85,10 @@ function boot_check()
         bar `yes "#" | head -$((i*4))  | tr -d "\r\n"` $((i*10))
     done
 
-    printf "%42s" `yes "#" | head -$((10*4))  | tr -d "\r\n"`
+    printf "%-42s" `yes "#" | head -$((10*4))  | tr -d "\r\n"`
     printf " OK! \r\n"
     echo -e "PAKURI SYSTEM BOOT-UP COMPLETE!"
-    sleep 1
+    sleep 2
 }
 
 # Main Banner
