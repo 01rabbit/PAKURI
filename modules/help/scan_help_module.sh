@@ -8,7 +8,7 @@ function help_portscan()
     echo -e "${BLUE_b}+---+  +---+  +---+"
     echo -e "${BLUE_b}| 1 |  | 1 |  | 1 |  Port Scan"
     echo -e "${BLUE_b}+---+  +---+  +---+${NC}"
-    echo -e "------------------------------------------------------"
+    echo -e "${BOLD}------------------------------------------------------${NC}"
     echo -e "Overview"
     echo -e "   Use Nmap to perform a port scan."
     echo -e ""
@@ -35,6 +35,7 @@ function help_portscan()
     echo -e "       directories, script-files or script-categories"
     echo -e "   -oN/-oX/-oS/-oG <file>: Output scan in normal, XML, s|<rIpt kIddi3,"
     echo -e "       and Grepable format, respectively, to the given filename."
+    echo -e ""
 }
 
 function help_vulnerscan()
@@ -44,7 +45,7 @@ function help_vulnerscan()
     echo -e "${BLUE_b}+---+  +---+  ${RED_b}+---+"
     echo -e "${BLUE_b}| 1 |  | 1 |  ${RED_b}| 2 |  Vulners Scan"
     echo -e "${BLUE_b}+---+  +---+  ${RED_b}+---+${NC}"
-    echo -e "------------------------------------------------------"
+    echo -e "${BOLD}------------------------------------------------------${NC}"
     echo -e "Overview"
     echo -e "   Use NSE scripts(nmap_vulners) to enumerate known vulnerability information."
     echo -e ""
@@ -72,6 +73,7 @@ function help_vulnerscan()
     echo -e "   --script-args=<n1=v1,[n2=v2,...]>: provide arguments to scripts"
     echo -e "   -oN/-oX/-oS/-oG <file>: Output scan in normal, XML, s|<rIpt kIddi3,"
     echo -e "       and Grepable format, respectively, to the given filename."
+    echo -e ""
 }
 
 function help_enumeration()
@@ -81,7 +83,7 @@ function help_enumeration()
     echo -e "${BLUE_b}+---+  ${RED_b}+---+"
     echo -e "${BLUE_b}| 1 |  ${RED_b}| 2 |  Enumeration"
     echo -e "${BLUE_b}+---+  ${RED_b}+---+${NC}"
-    echo -e "------------------------------------------------------"
+    echo -e "${BOLD}------------------------------------------------------${NC}"
     echo -e "Overview"
     echo -e "   Use the various commands to enumerate against the open ports."
     echo -e ""
@@ -127,7 +129,7 @@ function help_openvas()
     echo -e "${BLUE_b}+---+  ${YELLOW_b}+---+"
     echo -e "${BLUE_b}| 1 |  ${YELLOW_b}| 3 |  OpenVAS"
     echo -e "${BLUE_b}+---+  ${YELLOW_b}+---+${NC}"
-    echo -e "------------------------------------------------------"
+    echo -e "${BOLD}------------------------------------------------------${NC}"
     echo -e "Overview"
     echo -e "   Use the OpenVAS Management Protocol (OMP) to perform a vulnerability scan."
     echo -e "   The entire control of the Greenbone Security Manager (GSM) appliance is done via the OpenVAS Management Protocol (OMP)."
@@ -184,6 +186,7 @@ function help_openvas()
     echo -e "       9e5e5deb-879e-4ecc-8be6-a71cd0875cdd  Topology SVG"
     echo -e "       a3810a62-1f62-11e1-9219-406186ea4fc5  TXT"
     echo -e "       a994b278-1f62-11e1-96ac-406186ea4fc5  XML"
+    echo -e ""
 }
 
 case $1 in
