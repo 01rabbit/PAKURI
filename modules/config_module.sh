@@ -148,7 +148,7 @@ function config_manage()
     do
         clear
         config_banner
-        select_5 "Configure Targets" "Configure Service" "Data import to Faraday" "Mode Switching" "Assist"
+        select_4 "Configure Targets" "Configure Service" "Mode Switching" "Assist"
         read -n 1 -t 10 -s KEY
         clear
         config_banner
@@ -168,20 +168,8 @@ function config_manage()
                 service_menu
                 ;;
             3 )
-                box_3 "Data import to Faraday"
-                echo -e "Is the faraday's workspace name is $WORKSPACE? "
-                yes-no
-                read -n 1 -s ans
-                if [ $ans = 1 ];then
-                    tmux send-keys -t $SESSION_NAME.1 "$INSTALL_DIR/$IMPORT $WDIR $WORKSPACE" C-m
-                    tmux select-pane -t $SESSION_NAME.0
-                    echo -e "Please check Faraday."
-                    read -p "Press Enter to continue..."
-                fi
-                ;;
-            4 )
                 modeswitching ;;
-            5 )
+            4 )
                 tmux send-keys -t $WINDOW_NAME.1 "$MODULES/help/assist_module.sh config" C-m 
                 tmux select-pane -t $WINDOW_NAME.0 ;;
             9 )

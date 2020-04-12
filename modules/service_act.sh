@@ -310,13 +310,23 @@ function window_back()
     done
 }
 
+function import_faraday()
+{
+    select fname in $1/*.*
+    do
+        echo "<--$fname-->"
+        cat $fname
+        break
+    done
+}
+
 case $1 in
-    show_port_count)
-        show_open_port_count
-        ;;
-    show_serv_port)
-        show_service_port 
-        ;;
+    # show_port_count)
+    #     show_open_port_count
+    #     ;;
+    # show_serv_port)
+    #     show_service_port 
+    #     ;;
     nscan)
         nmap_scan
         ;;
@@ -336,5 +346,8 @@ case $1 in
         # $2:Target IP
         # $3:BaseName
         enum_scan $2 $3
+        ;;
+    import)
+        import_faraday
         ;;
 esac
