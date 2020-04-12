@@ -141,16 +141,14 @@ function yes-no()
 {
     echo -e "${BLUE_b}+---+        ${RED_b}+---+"
     echo -e "${BLUE_b}| 1 | yes    ${RED_b}| 2 | no"
-    echo -e "${BLUE_b}+---+        ${RED_b}+---+"
-    echo -e "${NC}"
+    echo -e "${BLUE_b}+---+        ${RED_b}+---+${NC}"
 }
 
 function yes-no-help()
 {
     echo -e "${BLUE_b}+---+        ${RED_b}+---+       ${YELLOW_b}+---+"
     echo -e "${BLUE_b}| 1 | yes    ${RED_b}| 2 | no    ${YELLOW_b}| 3 | help"
-    echo -e "${BLUE_b}+---+        ${RED_b}+---+       ${YELLOW_b}+---+"
-    echo -e "${NC}"
+    echo -e "${BLUE_b}+---+        ${RED_b}+---+       ${YELLOW_b}+---+${NC}"
 }
 
 function select_5()

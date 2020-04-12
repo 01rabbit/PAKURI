@@ -53,14 +53,16 @@ function modeswitching()
             * ) 
                 echo -e "error" ;;
         esac
-        echo -e "Press Enter to continue..."
-        read
+        read -p "Press Enter to continue..."
     done
 }
 
 function service_menu()
 {
     local flg_p
+    local flg_o
+    local KEY
+    local Ans
 
     while :
     do
@@ -89,7 +91,7 @@ function service_menu()
             box_2 "OpenVAS ${NC}[${RED_b}DOWN${NC}]"
         fi
         box_9
-        read -n 1 -t 10 -s KEY
+        read -n 1 -s KEY
         clear
         config_banner
         box_2 "Configure Service"
@@ -100,16 +102,16 @@ function service_menu()
                 box_1 "PpstgreSQL ${NC}[${GREEN_b}Running${NC}]"
                 echo -e "Do you want it to ${RED_b}stop${NC}?"
                 yes-no
-                read -n 1 -s ans
-                if [ $ans -eq 1 ];then
+                read -n 1 -s Ans
+                if [ $Ans -eq 1 ];then
                     service_stop postgresql
                 fi
             else
                 box_1 "PostgreSQL ${NC}[${RED_b}DOWN${NC}]"
                 echo -e "Do you want it to ${GREEN_b}start${NC}?"
                 yes-no
-                read -n 1 -s ans
-                if [ $ans -eq 1 ];then
+                read -n 1 -s Ans
+                if [ $Ans -eq 1 ];then
                     service_start postgresql
                 fi
             fi ;;
@@ -118,8 +120,8 @@ function service_menu()
                 box_2 "OpenVAS ${NC}[${GREEN_b}Running${NC}]"
                 echo -e "Do you want it to ${RED_b}stop${NC}?"
                 yes-no
-                read -n 1 -s ans
-                if [ $ans -eq 1 ];then
+                read -n 1 -s Ans
+                if [ $Ans -eq 1 ];then
                     tmux send-keys -t $WINDOW_NAME.1 "sudo openvas-stop" C-m
                     tmux select-pane -t $SESSION_NAME.0
                 fi
@@ -127,8 +129,8 @@ function service_menu()
                 box_2 "OpenVAS ${NC}[${RED_b}DOWN${NC}]"
                 echo -e "Do you want it to ${GREEN_b}start${NC}?"
                 yes-no
-                read -n 1 -s ans
-                if [ $ans -eq 1 ];then
+                read -n 1 -s Ans
+                if [ $Ans -eq 1 ];then
                     tmux send-keys -t $WINDOW_NAME.1 "sudo openvas-start" C-m
                     tmux select-pane -t $SESSION_NAME.0
                 fi
@@ -149,7 +151,7 @@ function config_manage()
         clear
         config_banner
         select_4 "Configure Targets" "Configure Service" "Mode Switching" "Assist"
-        read -n 1 -t 10 -s KEY
+        read -n 1 -t 25 -s KEY
         clear
         config_banner
         case "$KEY" in

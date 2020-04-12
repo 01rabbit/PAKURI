@@ -7,7 +7,9 @@ source $MODULES/misc_module.sh
 # Main Menu
 function menu()
 {
-    local key
+    local KEY
+    local Ans
+
     while : 
     do
         clear
@@ -17,9 +19,9 @@ function menu()
         echo -e "---------- Main Menu -----------"
         select_4 "Scanning" "Exploit" "Config" "Assist"
 
-        read -n 1 -t 10 -s key
+        read -n 1 -t 10 -s KEY
         echo
-        case "$key" in
+        case "$KEY" in
             1 )
                 tmux select-window -t "${modules[1]}"
                 tmux select-pane -t "${modules[1]}".0 ;;
@@ -33,14 +35,25 @@ function menu()
                 tmux send-keys -t "${modules[0]}".1 "$MODULES/help/assist_module.sh main" C-m 
                 tmux select-pane -t "${modules[0]}".0 ;;
             9 ) 
-                tmux kill-window -t "f-client"
-                tmux kill-window -t "${modules[3]}"
-                tmux kill-window -t "${modules[2]}"
-                tmux kill-window -t "${modules[1]}"
-                tmux kill-pane -t "${modules[0]}".1
-                tmux kill-pane -t "${modules[0]}".0
-                tmux kill-session -t $SESSION_NAME
-                break ;;
+                tmux send-keys -t "${modules[0]}".1 "$MODULES/help/assist_module.sh quit" C-m 
+                tmux select-pane -t "${modules[0]}".0
+                echo -e "Are you sure you want to quit PAKURI?"
+                yes-no
+                read -n 1 -s Ans
+                if [ $Ans = 1 ];then
+                    tmux kill-window -t "f-client"
+                    tmux kill-window -t "${modules[3]}"
+                    tmux kill-window -t "${modules[2]}"
+                    tmux kill-window -t "${modules[1]}"
+                    tmux kill-pane -t "${modules[0]}".1
+                    tmux kill-pane -t "${modules[0]}".0
+                    tmux kill-session -t $SESSION_NAME
+                    break 
+                else
+                    tmux send-keys -t "${modules[0]}".1 "clear" C-m 
+                    tmux select-pane -t "${modules[0]}".0
+                fi
+                ;;
             * ) 
                 ;;
         esac

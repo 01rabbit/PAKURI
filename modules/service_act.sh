@@ -288,8 +288,7 @@ function openvas_scan()
 
     echo -e ""
     echo -e "${YELLOW}All processes are compleate!${NC}"
-    echo -e "Press enter key to continue..."
-    read
+    read -p "Press enter key to continue..."
     tmux select-window -t "${modules[1]}"
 }
 
@@ -310,23 +309,7 @@ function window_back()
     done
 }
 
-function import_faraday()
-{
-    select fname in $1/*.*
-    do
-        echo "<--$fname-->"
-        cat $fname
-        break
-    done
-}
-
 case $1 in
-    # show_port_count)
-    #     show_open_port_count
-    #     ;;
-    # show_serv_port)
-    #     show_service_port 
-    #     ;;
     nscan)
         nmap_scan
         ;;
