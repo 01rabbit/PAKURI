@@ -44,7 +44,7 @@ function op_banner()
 }
 function bar () 
 {
-  printf "%40s(%s%%)\r" $1 $2
+  printf "%-40s(%s%%)\r" $1 $2
   sleep 0.2
 }
 
@@ -62,7 +62,10 @@ function boot_check()
         if [[ $? != 0 ]];then
             echo -e "${RED_b}Caution!${NC}"
             echo -e "$proc not found."
-            echo -e "Execute the install.sh";read;exit 1
+            echo -e "Execute the install.sh"
+            tmux kill-session -t $SESSION_NAME
+            read
+            exit 1
         fi
     done
 
@@ -70,7 +73,10 @@ function boot_check()
     if [[ $? != 0 ]];then
         echo -e "${RED_b}Caution!${NC}"
         echo -e "Faraday not found."
-        echo -e "Execute the install.sh";read;exit 1
+        echo -e "Execute the install.sh"
+        tmux kill-session -t $SESSION_NAME
+        read
+        exit 1
     fi
 
     for i in `seq 10`
@@ -79,10 +85,10 @@ function boot_check()
         bar `yes "#" | head -$((i*4))  | tr -d "\r\n"` $((i*10))
     done
 
-    printf "%42s"
+    printf "%-42s" `yes "#" | head -$((10*4))  | tr -d "\r\n"`
     printf " OK! \r\n"
     echo -e "PAKURI SYSTEM BOOT-UP COMPLETE!"
-    sleep 1
+    sleep 2
 }
 
 # Main Banner
@@ -135,16 +141,14 @@ function yes-no()
 {
     echo -e "${BLUE_b}+---+        ${RED_b}+---+"
     echo -e "${BLUE_b}| 1 | yes    ${RED_b}| 2 | no"
-    echo -e "${BLUE_b}+---+        ${RED_b}+---+"
-    echo -e "${NC}"
+    echo -e "${BLUE_b}+---+        ${RED_b}+---+${NC}"
 }
 
 function yes-no-help()
 {
     echo -e "${BLUE_b}+---+        ${RED_b}+---+       ${YELLOW_b}+---+"
     echo -e "${BLUE_b}| 1 | yes    ${RED_b}| 2 | no    ${YELLOW_b}| 3 | help"
-    echo -e "${BLUE_b}+---+        ${RED_b}+---+       ${YELLOW_b}+---+"
-    echo -e "${NC}"
+    echo -e "${BLUE_b}+---+        ${RED_b}+---+       ${YELLOW_b}+---+${NC}"
 }
 
 function select_5()

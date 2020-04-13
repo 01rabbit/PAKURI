@@ -60,3 +60,7 @@ fi
 sudo -u postgres dropdb faraday
 sudo -u postgres dropuser faraday_postgresql
 faraday-manage initdb|tee faraday.log
+
+echo -e "nmap_vulners Install"
+wget https://raw.githubusercontent.com/vulnersCom/nmap-vulners/master/vulners.nse
+mv vulners.nse /usr/share/nmap/script/

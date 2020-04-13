@@ -19,7 +19,7 @@ function modeswitching()
 {
     local mode
     local mode_v
-    local key
+    local KEY
 
     while :
     do
@@ -34,43 +34,42 @@ function modeswitching()
         box_4 "Mode Switching"
         echo -e "--------- Now mode $mode_v ---------"
         select_2 "Switch CUI mode" "Switch GUI mode"
-        read -n 1 -s key
+        read -n 1 -s KEY
         clear
         config_banner
         box_4 "Mode Switching"
         echo -e "--------- Now mode $mode_v ---------"
-        case "$key" in
+        case "$KEY" in
             1 )
                 box_1 "Switch CUI mode"
-                echo -e "CUI mode enabled after reboot"
+                echo -e "CUI mode is enabled after a reboot"
                 systemctl set-default -f multi-user.target ;;
             2 )
                 box_2 "Switch GUI mode"
-                echo -e "GUI mode enabled after reboot"
+                echo -e "GUI mode is enabled after a reboot"
                 systemctl set-default -f graphical.target ;;
             9 )
                 break ;;
             * ) 
                 echo -e "error" ;;
         esac
-        echo -e "Press Enter to continue..."
-        read
+        read -p "Press Enter to continue..."
     done
 }
 
 function service_menu()
 {
+    local flg_p
+    local flg_o
+    local KEY
+    local Ans
+
     while :
     do
         if systemctl status postgresql|grep "active (exited)" >/dev/null ;then
             flg_p=1
         else
             flg_p=0
-        fi
-        if systemctl status faraday-server.service |grep "active (running)" >/dev/null ;then
-            flg_f=1
-        else
-            flg_f=0
         fi
         if ps -ef|grep [o]penvas > /dev/null; then
             flg_o=1
@@ -86,82 +85,52 @@ function service_menu()
         else
             box_1 "PostgreSQL ${NC}[${RED_b}DOWN${NC}]"
         fi
-        if [ $flg_f = 1 ];then
-            box_2 "Faraday ${NC}[${GREEN_b}Running${NC}]"
-        else
-            box_2 "Faraday ${NC}[${RED_b}DOWN${NC}]"
-        fi
         if [ $flg_o = 1 ];then
-            box_3 "OpenVAS ${NC}[${GREEN_b}Running${NC}]"
+            box_2 "OpenVAS ${NC}[${GREEN_b}Running${NC}]"
         else
-            box_3 "OpenVAS ${NC}[${RED_b}DOWN${NC}]"
+            box_2 "OpenVAS ${NC}[${RED_b}DOWN${NC}]"
         fi
         box_9
-        read -n 1 -t 5 -s key
+        read -n 1 -s KEY
         clear
         config_banner
         box_2 "Configure Service"
         echo -e "-------- Service Menu ----------"
-        case "$key" in
+        case "$KEY" in
         1 )
             if [ $flg_p = 1 ];then
                 box_1 "PpstgreSQL ${NC}[${GREEN_b}Running${NC}]"
-                echo -e "Do you really want to ${RED_b}stop${NC}?"
+                echo -e "Do you want it to ${RED_b}stop${NC}?"
                 yes-no
-                read -n 1 -s ans
-                if [ $ans -eq 1 ];then
+                read -n 1 -s Ans
+                if [ $Ans -eq 1 ];then
                     service_stop postgresql
                 fi
             else
                 box_1 "PostgreSQL ${NC}[${RED_b}DOWN${NC}]"
-                echo -e "Do you really want to ${GREEN_b}start${NC}?"
+                echo -e "Do you want it to ${GREEN_b}start${NC}?"
                 yes-no
-                read -n 1 -s ans
-                if [ $ans -eq 1 ];then
+                read -n 1 -s Ans
+                if [ $Ans -eq 1 ];then
                     service_start postgresql
                 fi
             fi ;;
         2 )
-            if [ $flg_f = 1 ];then
-                box_2 "Faraday ${NC}[${GREEN_b}Running${NC}]"
-                echo -e "Do you really want to ${RED_b}stop${NC}?"
-                yes-no
-                read -n 1 -s ans
-                if [ $ans -eq 1 ];then
-                    service_stop faraday-server.service
-                fi
-            else
-                box_2 "Faraday ${NC}[${RED_b}DOWN${NC}]"
-                if [ $flg_p = 0 ];then
-                    echo -e "Please Start PostgreSQL."
-                    echo -e ""
-                    echo -e "Press Enter to continue..."
-                    read
-                else
-                    echo -e "Do you really want to ${GREEN_b}start${NC}?"
-                    yes-no
-                    read -n 1 -s ans
-                    if [ $ans -eq 1 ];then
-                        service_start faraday-server.service
-                    fi
-                fi
-            fi ;;
-        3 )
             if [ $flg_o = 1 ];then
-                box_3 "OpenVAS ${NC}[${GREEN_b}Running${NC}]"
-                echo -e "Do you really want to ${RED_b}stop${NC}?"
+                box_2 "OpenVAS ${NC}[${GREEN_b}Running${NC}]"
+                echo -e "Do you want it to ${RED_b}stop${NC}?"
                 yes-no
-                read -n 1 -s ans
-                if [ $ans -eq 1 ];then
+                read -n 1 -s Ans
+                if [ $Ans -eq 1 ];then
                     tmux send-keys -t $WINDOW_NAME.1 "sudo openvas-stop" C-m
                     tmux select-pane -t $SESSION_NAME.0
                 fi
             else
-                box_3 "OpenVAS ${NC}[${RED_b}DOWN${NC}]"
-                echo -e "Do you really want to ${GREEN_b}start${NC}?"
+                box_2 "OpenVAS ${NC}[${RED_b}DOWN${NC}]"
+                echo -e "Do you want it to ${GREEN_b}start${NC}?"
                 yes-no
-                read -n 1 -s ans
-                if [ $ans -eq 1 ];then
+                read -n 1 -s Ans
+                if [ $Ans -eq 1 ];then
                     tmux send-keys -t $WINDOW_NAME.1 "sudo openvas-start" C-m
                     tmux select-pane -t $SESSION_NAME.0
                 fi
@@ -175,62 +144,40 @@ function service_menu()
 # Config main menu
 function config_manage()
 {
-    local key
-    local flg_f
+    local KEY
 
     while :
     do
-        if systemctl status faraday-server.service |grep "active (running)" >/dev/null ;then
-            flg_f=1
-        else
-            flg_f=0
-        fi
         clear
         config_banner
-        select_4 "Configure Targets" "Configure Service" "Import data into Faraday" "Mode Switching"
-        read -n 1 -t 5 -s key
+        select_4 "Configure Targets" "Configure Service" "Mode Switching" "Assist"
+        read -n 1 -t 25 -s KEY
         clear
         config_banner
-        case "$key" in
+        case "$KEY" in
             1 )
                 box_1 "Configure Targets"
-                tmux send-keys -t $SESSION_NAME.1 "nano $INSTALL_DIR/$TARGETS;tmux select-pane -t $SESSION_NAME.0" C-m
+                tmux send-keys -t $SESSION_NAME.1 "nano $TARGETS;tmux select-pane -t $SESSION_NAME.0" C-m
                 tmux select-pane -t $SESSION_NAME.1
                 echo -e "Input your targets."
-                echo -e "This is edited with nano. Enter with Ctrl + x to exit."
+                echo -e "This is an edit using nano. After editing, press Ctrl+X to save and exit."
                 echo -e ""
-                echo -e "Press Enter to continue..."
-                read ;;
+                read -p "Press Enter to continue..."
+                ;;
             2 )
                 box_2 "Configure Service"
                 echo -e "-------- Service Menu ----------"
                 service_menu
                 ;;
             3 )
-                box_3 "Import data into Faraday"
-                if [ $flg_f = 0 ];then
-                    echo -e "Please Start Faraday."
-                    echo -e ""
-                    echo -e "Press Enter to continue..."
-                    read
-                else
-                    echo -e "Is the faraday's workspace name is $WORKSPACE? "
-                    yes-no
-                    read -n 1 -s ans
-                    if [ $ans = 1 ];then
-                        tmux send-keys -t $SESSION_NAME.1 "$INSTALL_DIR/$IMPORT $WDIR $WORKSPACE" C-m
-                        tmux select-pane -t $SESSION_NAME.0
-                        echo -e "Please check Faraday."
-                        echo -e "Press Enter to continue..."
-                        read
-                    fi
-                fi ;;
-            4 )
                 modeswitching ;;
+            4 )
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/help/assist_module.sh config" C-m 
+                tmux select-pane -t $WINDOW_NAME.0 ;;
             9 )
                 tmux select-window -t "${modules[0]}" ;;
             * )
-                echo -e "error" ;;
+                ;;
         esac
     done
 }
