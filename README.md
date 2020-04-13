@@ -92,21 +92,22 @@ For beginner:
 1. Update your apt and install git:  
 
     ```shell
-    root@kali:~# apt update
-    root@kali:~# apt install git
+    kali@kali:~$ sudo apt update
+    kali@kali:~$ sudo apt install git
     ```
 
 2. Download the PAKURI installer from the PAKURI Github repository:
 
     ```shell
-    root@kali:~# git clone https://github.com/01rabbit/PAKURI.git
+    kali@kali:~$ git clone https://github.com/01rabbit/PAKURI.git
     ```
 
 3. CD into the PAKURI folder and run the install script:
 
     ```shell
-    root@kali:~# cd PAKURI  
-    root@kali:~/PAKURI# bash install.sh
+    kali@kali:~$ cd PAKURI  
+    kali@kali:~/PAKURI$ chmod +x install.sh
+    kali@kali:~/PAKURI$ sudo ./install.sh
     ```
 
 ---
@@ -116,7 +117,7 @@ For beginner:
 1. Register the OpenVAS administrator user and password in pakuri.conf:
 
     ```shell
-    root@kali:~# vim /usr/share/PAKURI/pakuri.conf
+    kali@kali:~/PAKURI$ vim pakuri.conf
     ...snip...
 
     # OpenVAS
@@ -127,37 +128,33 @@ For beginner:
 2. Faraday-server is started. After starting up, access from your browser and register your workspace:
 
     ```shell
-    root@kali:~# systemctl start faraday-server.service  
-    root@kali:~# firefox localhost:5985
+    kali@kali:~/PAKURI$ sudo systemctl start faraday-server.service  
+    kali@kali:~/PAKURI$ firefox localhost:5985
     ```
 
 3. Register the workspace you just registered in pakuri.conf:
 
     ```shell
-    root@kali:~# vim /usr/share/PAKURI/pakuri.conf
+    kali@kali:~/PAKURI$ vim pakuri.conf
     ...snip...
 
     # Faraday
     WORKSPACE="test_workspace"
     ```
 
-4. CD into the PAKURI folder:
+4. Start PAKURI:
 
     ```shell
-    root@kali:~# cd /usr/share/PAKURI
+    kali@kali:~/PAKURI$ ./pakuri.sh
     ```
 
-5. Start PAKURI:
-
-    ```shell
-    root@kali:/usr/share/PAKURI# ./pakuri.sh
-    ```
    ![startup](https://user-images.githubusercontent.com/16553787/79108773-0c40a500-7d45-11ea-9cf3-fe01cdc1df97.gif)
 PAKURI is not fully automated and requires the user interactions, to make sure to proceed the pentest and to avoid any unintended attack or trouble.  
 
 ---
 
 ## Keypad Operation
+
 ![keypad_op](https://user-images.githubusercontent.com/16553787/79107440-5f652880-7d42-11ea-9206-fbc9908089a1.gif)  
 By operating the numeric keypad, it is possible to scan the network, scan for vulnerabilities, and perform simple pseudo attacks.
 
@@ -165,7 +162,7 @@ By operating the numeric keypad, it is possible to scan the network, scan for vu
 
 ## Operation check environment
 
-* OS: KAli Linux 2019.4
+* OS: KAli Linux 2020.1
 * Memory: 8.0GB
 
 ## Known Issues
