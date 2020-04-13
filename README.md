@@ -113,7 +113,7 @@ For beginner:
 
 ## Usage
 
-1. Check the OpenVAS admin user and password set them in the pakuri.conf file:
+1. Register the OpenVAS administrator user and password in pakuri.conf:
 
     ```shell
     root@kali:~# vim /usr/share/PAKURI/pakuri.conf
@@ -124,14 +124,14 @@ For beginner:
     OMPPASS="admin"
     ```
 
-2. Start Faraday-Server and set workspace:
+2. Faraday-server is started. After starting up, access from your browser and register your workspace:
 
     ```shell
     root@kali:~# systemctl start faraday-server.service  
     root@kali:~# firefox localhost:5985
     ```
 
-3. Set Workspace in the pakuri.conf file.
+3. Register the workspace you just registered in pakuri.conf:
 
     ```shell
     root@kali:~# vim /usr/share/PAKURI/pakuri.conf
@@ -151,47 +151,14 @@ For beginner:
 
     ```shell
     root@kali:/usr/share/PAKURI# ./pakuri.sh
-      ____ ____ ____ ____ ____ ____
-     ||P |||A |||K |||U |||R |||I ||
-     ||__|||__|||__|||__|||__|||__||
-     |/__\|/__\|/__\|/__\|/__\|/__\|
-                              v1.1.0
-                 Author  : Mr.Rabbit
-                     inspired by CDI
-
-     Workspace: demo
-     ---------- Main Menu -----------
-     +---+
-     | 1 | Scanning
-     +---+
-     +---+
-     | 2 | Exploit
-     +---+
-     +---+
-     | 3 | Config
-     +---+
-     +---+
-     | 4 | Assist
-     +---+
-     +---+
-     | 9 | Back
-     +---+
     ```
+   ![main](img/mainmenu.png)
+PAKURI is not fully automated and requires the user interactions, to make sure to proceed the pentest and to avoid any unintended attack or trouble.  
 
-PAKURI is not fully automated and requires the user interactions, to make sure to proceed the pentest and to avoid any unintended attack or trouble.
+---
 
-### Scanning
-
-![scanning](https://user-images.githubusercontent.com/16553787/71568958-dc132480-2b0e-11ea-97b0-13989b045ce2.png)
-
-### Exploit
-
-![exploit](https://user-images.githubusercontent.com/16553787/71568975-0238c480-2b0f-11ea-9092-010b78e34bd1.png)
-
-### Config
-
-![config](https://user-images.githubusercontent.com/16553787/71568995-1ed4fc80-2b0f-11ea-9afe-315a055b8a76.png)
-
+## Keypad Operation
+![keypad operation]()  
 By operating the numeric keypad, it is possible to scan the network, scan for vulnerabilities, and perform simple pseudo attacks.
 
 ---
