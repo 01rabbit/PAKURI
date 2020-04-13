@@ -158,7 +158,7 @@ PAKURI is not fully automated and requires the user interactions, to make sure t
 ---
 
 ## Keypad Operation
-![keypad operation]()  
+![keypad_op](https://user-images.githubusercontent.com/16553787/79107440-5f652880-7d42-11ea-9206-fbc9908089a1.gif)  
 By operating the numeric keypad, it is possible to scan the network, scan for vulnerabilities, and perform simple pseudo attacks.
 
 ---
