@@ -152,7 +152,7 @@ For beginner:
     ```shell
     root@kali:/usr/share/PAKURI# ./pakuri.sh
     ```
-   ![main](img/mainmenu.png)
+   ![startup](https://user-images.githubusercontent.com/16553787/79108773-0c40a500-7d45-11ea-9cf3-fe01cdc1df97.gif)
 PAKURI is not fully automated and requires the user interactions, to make sure to proceed the pentest and to avoid any unintended attack or trouble.  
 
 ---
