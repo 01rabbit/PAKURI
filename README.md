@@ -158,6 +158,11 @@ PAKURI is not fully automated and requires the user interactions, to make sure t
 ![keypad_op](https://user-images.githubusercontent.com/16553787/79107440-5f652880-7d42-11ea-9206-fbc9908089a1.gif)  
 By operating the numeric keypad, it is possible to scan the network, scan for vulnerabilities, and perform simple pseudo attacks.
 
+### Keypad Operation DEMO
+
+Main > [1]Scanning > [1]Port Scan > [1]Port Scan > [1]Yes  
+![scan](https://user-images.githubusercontent.com/16553787/79178611-a0dbfd80-7e40-11ea-8132-0d9a07d62750.gif)
+
 ---
 
 ## Operation check environment
