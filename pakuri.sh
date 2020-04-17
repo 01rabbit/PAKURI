@@ -17,7 +17,7 @@ function menu()
         
         echo -e "Workspace: $WORKSPACE"
         echo -e "---------- Main Menu -----------"
-        select_4 "Scanning" "Exploit" "Config" "Assist"
+        select_4 "Scanning" "Exploit" "Config" "Help"
 
         read -n 1 -t 10 -s KEY
         echo
@@ -32,10 +32,10 @@ function menu()
                 tmux select-window -t "${modules[3]}"
                 tmux select-pane -t "${modules[3]}".0 ;;
             4 )
-                tmux send-keys -t "${modules[0]}".1 "$MODULES/help/assist_module.sh main" C-m 
+                tmux send-keys -t "${modules[0]}".1 "$MODULES/help/main_help_module.sh main" C-m 
                 tmux select-pane -t "${modules[0]}".0 ;;
             9 ) 
-                tmux send-keys -t "${modules[0]}".1 "$MODULES/help/assist_module.sh quit" C-m 
+                tmux send-keys -t "${modules[0]}".1 "$MODULES/help/main_help_module.sh quit" C-m 
                 tmux select-pane -t "${modules[0]}".0
                 echo -e "Are you sure you want to quit PAKURI?"
                 yes-no

@@ -1,6 +1,39 @@
 #!/bin/bash
 source pakuri.conf
 
+function help_scan()
+{
+    clear
+    echo -e "${BLUE_b}+---+"
+    echo -e "${BLUE_b}| 1 |  Scanning"
+    echo -e "${BLUE_b}+---+${NC}"
+    echo -e "${BOLD}-------------------Scan Menu Assist-------------------${NC}"
+    echo -e ""
+    echo -e "${BLUE_b}+---+"
+    echo -e "${BLUE_b}| 1 |  Port Scan"
+    echo -e "${BLUE_b}+---+"
+    echo -e "------------------------------------------------------${NC}"
+    echo -e "Various scans are performed using Nmap's features."
+    echo -e "   ${BLUE_b}[1]${NC} Port Scan"
+    echo -e "   ${RED_b}[2]${NC} Vulners Scan"
+    echo -e ""
+    echo -e ""
+    echo -e "${RED_b}+---+"
+    echo -e "${RED_b}| 2 |  Enumeration"
+    echo -e "${RED_b}+---+"
+    echo -e "------------------------------------------------------${NC}"
+    echo -e "Perform enumeration for services that are open."
+    echo -e ""
+    echo -e ""
+    echo -e "${YELLOW_b}+---+"
+    echo -e "${YELLOW_b}| 3 |  OpenVAS"
+    echo -e "${YELLOW_b}+---+"
+    echo -e "------------------------------------------------------${NC}"
+    echo -e "Vulnerability scanning using OpenVAS."
+    echo -e ""
+    echo -e ""
+}
+
 function help_portscan()
 {
     clear
@@ -190,6 +223,8 @@ function help_openvas()
 }
 
 case $1 in
+    main)
+        help_scan;;
     111)
         help_portscan;;
     112)

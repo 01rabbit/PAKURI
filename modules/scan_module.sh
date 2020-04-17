@@ -106,7 +106,7 @@ function scan_manage()
     do
         flg_omp=""
         scan_banner
-        select_4 "Port Scan" "Enumeration" "OpenVAS" "Assist"
+        select_4 "Port Scan" "Enumeration" "OpenVAS" "Help"
         flg_omp=`tmux list-window -a | grep "OpenVAS"`
         read -n 1 -t 25 -s KEY
         
@@ -119,7 +119,7 @@ function scan_manage()
             3 )
                 openvas_menu ;;
             4 )
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/help/assist_module.sh scan" C-m 
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/help/scan_help_module.sh main" C-m 
                 tmux select-pane -t $WINDOW_NAME.0 ;;
             9 )
                 tmux select-window -t "${modules[0]}" ;;
