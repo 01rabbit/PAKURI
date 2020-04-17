@@ -71,7 +71,7 @@ function quit_message()
 
 case $1 in
     main)
-        help_main
+        help_main;;
     quit)
         quit_message;;
 esac
