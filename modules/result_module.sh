@@ -1,6 +1,6 @@
 #!/bin/bash
 source pakuri.conf
-source $MODULES/misc_module.sh
+source $MODULES_PATH/misc_module.sh
 
 clear
 
@@ -45,3 +45,8 @@ do
                 ;;
     esac
 done
+
+function result_manage()
+{
+    d
+}

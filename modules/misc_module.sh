@@ -1,5 +1,3 @@
-declare -a modules=("Main" "Scanning" "Exploit" "Config")
-
 # Opening Banner
 function op_banner()
 {
@@ -126,6 +124,17 @@ function exploit_banner()
     echo -e "--------- Exploit Menu ---------"
 }
 
+# Result banner
+function result_banner()
+{
+    clear
+    main_banner
+    echo -e "Workspace: $WORKSPACE"
+    echo -e "---------- Main Menu -----------"
+    box_3 "Result"
+    echo -e "--------- Result Menu ----------"
+}
+
 # Config banner
 function config_banner()
 {
@@ -133,7 +142,7 @@ function config_banner()
     main_banner
     echo -e "Workspace: $WORKSPACE"
     echo -e "---------- Main Menu -----------"
-    box_3 "Config"
+    box_4 "Config"
     echo -e "--------- Config Menu ----------"
 }
 

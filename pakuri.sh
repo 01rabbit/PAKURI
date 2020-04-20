@@ -2,7 +2,7 @@
 
 PAKURI=$0
 source pakuri.conf
-source $MODULES/misc_module.sh
+source $MODULES_PATH/misc_module.sh
 
 # Main Menu
 function menu()
@@ -17,7 +17,7 @@ function menu()
         
         echo -e "Workspace: $WORKSPACE"
         echo -e "---------- Main Menu -----------"
-        select_4 "Scanning" "Exploit" "Config" "Help"
+        select_5 "Scanning" "Exploit" "Result" "Config" "Help"
 
         read -n 1 -t 10 -s KEY
         echo
@@ -32,16 +32,20 @@ function menu()
                 tmux select-window -t "${modules[3]}"
                 tmux select-pane -t "${modules[3]}".0 ;;
             4 )
-                tmux send-keys -t "${modules[0]}".1 "$MODULES/help/main_help_module.sh main" C-m 
+                tmux select-window -t "${modules[4]}"
+                tmux select-pane -t "${modules[4]}".0 ;;
+            5 )
+                tmux send-keys -t "${modules[0]}".1 "$MODULES_PATH/help/main_help_module.sh main" C-m 
                 tmux select-pane -t "${modules[0]}".0 ;;
             9 ) 
-                tmux send-keys -t "${modules[0]}".1 "$MODULES/help/main_help_module.sh quit" C-m 
+                tmux send-keys -t "${modules[0]}".1 "$MODULES_PATH/help/main_help_module.sh quit" C-m 
                 tmux select-pane -t "${modules[0]}".0
                 echo -e "Are you sure you want to quit PAKURI?"
                 yes-no
                 read -n 1 -s Ans
                 if [ $Ans = 1 ];then
                     tmux kill-window -t "f-client"
+                    tmux kill-window -t "${modules[4]}"
                     tmux kill-window -t "${modules[3]}"
                     tmux kill-window -t "${modules[2]}"
                     tmux kill-window -t "${modules[1]}"
@@ -87,6 +91,9 @@ if [ -z ${TMUX} ]; then
     tmux new-window -n "${modules[3]}"
     tmux split-window -t "${modules[3]}".0 -h -p 80
     
+    tmux new-window -n "${modules[4]}"
+    tmux split-window -t "${modules[4]}".0 -h -p 80
+    
     tmux select-window -t "${modules[0]}"
     tmux send-keys -t "${modules[0]}".1 "faraday-terminal $MYIP 9977" C-m
 
@@ -95,9 +102,10 @@ if [ -z ${TMUX} ]; then
     tmux bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -i -sel clip > /dev/null"
     tmux bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "xclip -i -sel clip > /dev/null"
     tmux send-keys -t "${modules[0]}".0 "$PAKURI" C-m
-    tmux send-keys -t "${modules[1]}".0 "$MODULES/scan_module.sh" C-m
-    tmux send-keys -t "${modules[2]}".0 "$MODULES/exploit_module.sh" C-m
-    tmux send-keys -t "${modules[3]}".0 "$MODULES/config_module.sh" C-m
+    tmux send-keys -t "${modules[1]}".0 "$MODULES_PATH/scan_module.sh" C-m
+    tmux send-keys -t "${modules[2]}".0 "$MODULES_PATH/exploit_module.sh" C-m
+    tmux send-keys -t "${modules[3]}".0 "$MODULES_PATH/result_module.sh" C-m
+    tmux send-keys -t "${modules[4]}".0 "$MODULES_PATH/config_module.sh" C-m
     tmux -2 attach -t $SESSION_NAME
 else
     menu

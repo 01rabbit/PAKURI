@@ -1,6 +1,6 @@
 #!/bin/bash
 source pakuri.conf
-source $MODULES/misc_module.sh
+source $MODULES_PATH/misc_module.sh
 WINDOW_NAME="${modules[1]}"
 
 function port_scan_menu()
@@ -23,10 +23,10 @@ function port_scan_menu()
             yes-no-help
             read -n 1 -s KEY
             if [ $KEY -eq 1 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh nscan $TARGETS" C-m
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES_PATH/service_act.sh nscan $TARGETS" C-m
                 tmux select-pane -t $WINDOW_NAME.0
             elif [ $KEY -eq 3 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/help/scan_help_module.sh 111" C-m 
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES_PATH/help/scan_help_module.sh 111" C-m 
                 tmux select-pane -t $WINDOW_NAME.0
             fi
         elif [ $KEY = 2 ];then
@@ -35,10 +35,10 @@ function port_scan_menu()
             yes-no-help
             read -n 1 -s KEY
             if [ $KEY -eq 1 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh nvscan $TARGETS" C-m
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES_PATH/service_act.sh nvscan $TARGETS" C-m
                 tmux select-pane -t $WINDOW_NAME.0
             elif [ $KEY -eq 3 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/help/scan_help_module.sh 112" C-m 
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES_PATH/help/scan_help_module.sh 112" C-m 
                 tmux select-pane -t $WINDOW_NAME.0
             fi
         fi
@@ -56,10 +56,10 @@ function enum_menu()
         yes-no-help
         read -n 1 -s KEY
         if [ $KEY -eq 1 ];then
-            tmux send-keys -t $WINDOW_NAME.1 "$MODULES/service_act.sh enumctrl" C-m
+            tmux send-keys -t $WINDOW_NAME.1 "$MODULES_PATH/service_act.sh enumctrl" C-m
             tmux select-pane -t $WINDOW_NAME.0
         elif [ $KEY -eq 3 ];then
-            tmux send-keys -t $WINDOW_NAME.1 "$MODULES/help/scan_help_module.sh 12" C-m 
+            tmux send-keys -t $WINDOW_NAME.1 "$MODULES_PATH/help/scan_help_module.sh 12" C-m 
             tmux select-pane -t $WINDOW_NAME.0
         fi
     else
@@ -85,14 +85,14 @@ function openvas_menu()
             NEW_WINDOW="OpenVAS"
             tmux new-window -n "$NEW_WINDOW"
             tmux split-window -t "$NEW_WINDOW".0 -v -p 15
-            tmux send-keys -t "$NEW_WINDOW".1 "$MODULES/service_act.sh back" C-m
-            tmux send-keys -t "$NEW_WINDOW".0 "$MODULES/service_act.sh openvas ;tmux kill-window -t $NEW_WINDOW" C-m
+            tmux send-keys -t "$NEW_WINDOW".1 "$MODULES_PATH/service_act.sh back" C-m
+            tmux send-keys -t "$NEW_WINDOW".0 "$MODULES_PATH/service_act.sh openvas ;tmux kill-window -t $NEW_WINDOW" C-m
             tmux select-pane -t $NEW_WINDOW.0
         else
             tmux select-window -t "OpenVAS"
         fi
     elif [ $KEY -eq 3 ];then
-        tmux send-keys -t $WINDOW_NAME.1 "$MODULES/help/scan_help_module.sh 13" C-m 
+        tmux send-keys -t $WINDOW_NAME.1 "$MODULES_PATH/help/scan_help_module.sh 13" C-m 
         tmux select-pane -t $WINDOW_NAME.0
     fi
 }
@@ -119,7 +119,7 @@ function scan_manage()
             3 )
                 openvas_menu ;;
             4 )
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/help/scan_help_module.sh main" C-m 
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES_PATH/help/scan_help_module.sh main" C-m 
                 tmux select-pane -t $WINDOW_NAME.0 ;;
             9 )
                 tmux select-window -t "${modules[0]}" ;;
