@@ -116,7 +116,6 @@ function scan_manage()
 
     while :
     do
-        flg_omp=""
         scan_banner
         select_5 "Port Scan" "Enumeration" "OpenVAS" "Result" "Help"
         read -n 1 -t 25 -s KEY
