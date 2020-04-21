@@ -113,14 +113,12 @@ function result_menu()
 function scan_manage()
 {
     local KEY
-    local flg_omp
 
     while :
     do
         flg_omp=""
         scan_banner
         select_5 "Port Scan" "Enumeration" "OpenVAS" "Result" "Help"
-        flg_omp=`tmux list-window -a | grep "OpenVAS"`
         read -n 1 -t 25 -s KEY
         
         scan_banner
