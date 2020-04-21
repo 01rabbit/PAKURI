@@ -1,19 +1,19 @@
 #!/bin/bash
 source pakuri.conf
 
-function show_open_port_count()
-{
-    egrep -v "^#|Status: Up" $WDIR/nmap_*.grep | cut -d' ' -f2,4- | \
-    awk -F, '{split($0,a," "); printf "Host: %-20s Ports Open: %d\n" , a[1], NF}' \
-    | sort -k 5 -g
-}
-function show_service_port()
-{
-    echo -e "IP               State    Port/Prot  Service         Info"
-    egrep -v "^#|Status: Up" $WDIR/nmap_*.grep | cut -d' ' -f2,4- | \
-    awk '{ip=$1; $1=""; for(i=2; i<=NF; i++) { a=a""$i; }; split(a,s,","); for(e in s) { split(s[e],v,"/");
-     printf "%-15s  %-5s %7s/%3s   %-15s %s\n" ,ip, v[2], v[1], v[3], v[5], v[7]}; a="" }'|grep -i "$1"
-}
+# function show_open_port_count()
+# {
+#     egrep -v "^#|Status: Up" $WDIR/nmap_*.grep | cut -d' ' -f2,4- | \
+#     awk -F, '{split($0,a," "); printf "Host: %-20s Ports Open: %d\n" , a[1], NF}' \
+#     | sort -k 5 -g
+# }
+# function show_service_port()
+# {
+#     echo -e "IP               State    Port/Prot  Service         Info"
+#     egrep -v "^#|Status: Up" $WDIR/nmap_*.grep | cut -d' ' -f2,4- | \
+#     awk '{ip=$1; $1=""; for(i=2; i<=NF; i++) { a=a""$i; }; split(a,s,","); for(e in s) { split(s[e],v,"/");
+#      printf "%-15s  %-5s %7s/%3s   %-15s %s\n" ,ip, v[2], v[1], v[3], v[5], v[7]}; a="" }'|grep -i "$1"
+# }
 function get_service_port()
 {
     egrep -v "^#|Status: Up" $WDIR/nmap_*.grep | cut -d' ' -f2,4- | \
@@ -75,7 +75,7 @@ function enum_ctrl()
             tmux new-window -n "$WindowName"
             tmux select-window -t "${modules[1]}"
             echo -e "[${GREEN}Enumeration${NC}] $TARGET -> Window[$WindowName]"
-            tmux send-keys -t "$WindowName" "$MODULES/service_act.sh enumscan $TARGET $WindowName" C-m
+            tmux send-keys -t "$WindowName" "$MODULES_PATH/service_act.sh enumscan $TARGET $WindowName" C-m
             Count=$((++Count))
         fi
     done < $TARGETS
@@ -309,28 +309,69 @@ function window_back()
     done
 }
 
+function show_result()
+{
+    local ArrayFile=($(find $WDIR \( -name \*.nmap -or -name \*.txt \)) "Quit")
+    local Count=0
+    local MaxCount=`expr ${#ArrayFile[@]} - 1`
+
+    clear
+    echo -e "${GREEN_b}Select File${NC}" >&2
+
+    for _ in $(seq 0 $MaxCount);do echo "";done
+    while true
+    do
+        printf "\e[${#ArrayFile[@]}A\e[m" >&2
+
+        for i in $(seq 0 $MaxCount);do
+            if [ $Count = $i ];then
+                printf "${RED_b}>${NC} ${YELLOW_b}" >&2
+            else
+                printf "  " >&2
+            fi
+            echo -e "${ArrayFile[$i]}${NC}" >&2
+        done
+
+        IFS= read -r -n1 -s char
+        if [[ $char == $'\x1b' ]];then
+            read -r -n2 -s rest
+            char+="$rest"
+        fi
+        case $char in
+            $'\x1b\x5b\x41')
+                if [ $Count -gt 0 ];then
+                    Count=`expr $Count - 1`
+                fi ;;
+            $'\x1b\x5b\x42')
+                if [ $Count -lt $MaxCount ];then
+                    Count=`expr $Count + 1`
+                fi ;;
+            "")
+                if [ ${ArrayFile[$Count]} = "Quit" ];then
+                    tmux select-pane -t $WINDOW_NAME.0
+                    break
+                else
+                    less "${ArrayFile[$Count]}"
+                fi ;;
+        esac
+    done
+}
+
 case $1 in
     nscan)
-        nmap_scan
-        ;;
+        nmap_scan ;;
     nvscan)
-        nmap_vulners_scan
-        ;;
+        nmap_vulners_scan ;;
     openvas)
-        openvas_scan 
-        ;;
+        openvas_scan ;;
     back)
-        window_back
-        ;;
+        window_back ;;
     enumctrl)
-        enum_ctrl
-        ;;
+        enum_ctrl ;;
     enumscan)
         # $2:Target IP
         # $3:BaseName
-        enum_scan $2 $3
-        ;;
-    import)
-        import_faraday
-        ;;
+        enum_scan $2 $3 ;;
+    result)
+        show_result ;;
 esac

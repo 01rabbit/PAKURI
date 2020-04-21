@@ -64,8 +64,7 @@ function enum_menu()
         fi
     else
         echo -e "A port scan has not been performed."
-        echo -e "Press enter key to continue..."
-        read
+        read -p "Press enter key to continue..."
     fi
 }
 function openvas_menu()
@@ -97,6 +96,20 @@ function openvas_menu()
     fi
 }
 
+function result_menu()
+{
+    tmux send-keys -t $WINDOW_NAME.1 "$MODULES_PATH/service_act.sh result" C-m
+    tmux select-pane -t $WINDOW_NAME.1
+
+    box_4 Result
+    echo -e "-------- Select Action ---------"
+    echo -e "Select the output file in the right panel."
+    echo -e "Display the contents of a file with the less command"
+    echo -e ""
+    echo -e "Be sure to select \"Quit\" when you exit."
+    read -p "Press enter key to continue..."
+}
+
 function scan_manage()
 {
     local KEY
@@ -106,7 +119,7 @@ function scan_manage()
     do
         flg_omp=""
         scan_banner
-        select_4 "Port Scan" "Enumeration" "OpenVAS" "Help"
+        select_5 "Port Scan" "Enumeration" "OpenVAS" "Result" "Help"
         flg_omp=`tmux list-window -a | grep "OpenVAS"`
         read -n 1 -t 25 -s KEY
         
@@ -119,6 +132,8 @@ function scan_manage()
             3 )
                 openvas_menu ;;
             4 )
+                result_menu ;;
+            5 )
                 tmux send-keys -t $WINDOW_NAME.1 "$MODULES_PATH/help/scan_help_module.sh main" C-m 
                 tmux select-pane -t $WINDOW_NAME.0 ;;
             9 )
