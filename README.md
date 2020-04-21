@@ -1,6 +1,6 @@
-# PAKURI
+# PAKURI: Penetration Test Achieve Knowledge Unite Rapid Interface
 
-![logo](img/pakuri-banner.png)
+![logo](img/pakuri-banner.png)  
 ![version](https://img.shields.io/github/v/tag/01rabbit/PAKURI?label=Version)
 ![License](https://img.shields.io/github/license/01rabbit/PAKURI)
 ![release-date](https://img.shields.io/github/release-date/01rabbit/PAKURI)
@@ -10,7 +10,11 @@
 
 [Japanese](README_ja.md)
 
-## What's PAKURI
+## Overview
+
+PAKURI is a penetration test tool with a terminal user interface (TUI) that can be operated with just the keypad.
+
+### What's PAKURI
 
 I've consulted many pen testing tools. I then took the good points of those tools and incorporated them into my own tools. In Japanese slang, imitation is also called "paku-ru".
 > ぱくる (godan conjugation, hiragana and katakana パクる, rōmaji pakuru)
