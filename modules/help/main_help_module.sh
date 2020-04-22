@@ -14,6 +14,7 @@ function help_main()
     echo -e "   ${BLUE_b}[1]${NC} Port Scan"
     echo -e "   ${RED_b}[2]${NC} Enumeration"
     echo -e "   ${YELLOW_b}[3]${NC} OpenVAS"
+    echo -e "   ${GREEN_b}[4]${NC} Result"
     echo -e ""
     echo -e ""
     echo -e "${RED_b}+---+"

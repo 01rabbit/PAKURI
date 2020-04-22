@@ -32,6 +32,12 @@ function help_scan()
     echo -e "Vulnerability scanning using OpenVAS."
     echo -e ""
     echo -e ""
+    echo -e "${GREEN_b}+---+"
+    echo -e "${GREEN_b}| 4 |  Result"
+    echo -e "${GREEN_b}+---+"
+    echo -e "------------------------------------------------------${NC}"
+    echo -e "Displays the output file as a result of execution."
+    echo -e ""
 }
 
 function help_portscan()

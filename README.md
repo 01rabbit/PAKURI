@@ -34,18 +34,8 @@ Sometimes, the penetration testers love to perform a complicated job. However, I
 
 ## Presentation
 
-* November 2nd,2019: [AV TOKYO 2018 Hive](http://ja.avtokyo.org/avtokyo2019/event)
+* November 2nd,2019: [AV TOKYO 2019 Hive](http://ja.avtokyo.org/avtokyo2019/event)
 * December 21-22th,2019: [SECCON YOROZU 2019](https://www.seccon.jp/2019/akihabara/)
-
----
-
-## Abilities of "PAKURI"
-
-* Intelligence gathering.
-* Vulnerability analysis.
-* Visualize.
-* Brute Force Attack.
-* Exploitation.
 
 ---
 
@@ -71,19 +61,34 @@ For beginner:
 
 ## Features
 
-* Scan
+### Intelligence gathering
+
+* Port Scan
+  * [Nmap](https://tools.kali.org/information-gathering/nmap)
+  * [nmap_vulners](https://github.com/vulnersCom/nmap-vulners)
+* Enumeration
   * [enum4linux](https://tools.kali.org/information-gathering/enum4linux)
   * [Nikto](https://tools.kali.org/information-gathering/nikto)
-  * [Nmap](https://tools.kali.org/information-gathering/nmap)
-    * [nmap_vulners](https://github.com/vulnersCom/nmap-vulners)
-  * [OpenVAS](https://tools.kali.org/vulnerability-analysis/openvas)
-  * [Skipfish](https://tools.kali.org/web-applications/skipfish)
   * [sslscan](https://github.com/rbsec/sslscan)
   * [SSLyze](https://tools.kali.org/information-gathering/sslyze)
 
-* Exploit
+### Vulnerability analysis
+
+* Vulnerability Scan
+  * [OpenVAS](https://tools.kali.org/vulnerability-analysis/openvas)
+* Web Application Scan
+  * [Skipfish](https://tools.kali.org/web-applications/skipfish)
+
+### Exploit
+
+* Brute Force Attack
   * [BruteSpray](https://tools.kali.org/password-attacks/brutespray)
+* Exploitation
   * [Metasploit](https://tools.kali.org/exploitation-tools/metasploit-framework)
+  * Exsploit Database - [searchsploit](https://tools.kali.org/exploitation-tools/exploitdb)
+
+### Misc
+
 * Visualize
   * [Faraday](https://github.com/infobyte/faraday.git)
 * CUI-GUI switching
