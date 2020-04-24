@@ -298,45 +298,45 @@ function show_result()
         echo -e "File not found in $WDIR"
         tmux select-pane -t $WINDOW_NAME.0
     else
-    echo -e "${GREEN_b}Select File${NC}" >&2
+        echo -e "${GREEN_b}Select File${NC}" >&2
 
-    for _ in $(seq 0 $MaxCount);do echo "";done
-    while true
-    do
-        printf "\e[${#ArrayFile[@]}A\e[m" >&2
+        for _ in $(seq 0 $MaxCount);do echo "";done
+        while true
+        do
+            printf "\e[${#ArrayFile[@]}A\e[m" >&2
 
-        for i in $(seq 0 $MaxCount);do
-            if [ $Count = $i ];then
-                printf "${RED_b}>${NC} ${YELLOW_b}" >&2
-            else
-                printf "  " >&2
-            fi
-            echo -e "${ArrayFile[$i]}${NC}" >&2
-        done
-
-        IFS= read -r -n1 -s char
-        if [[ $char == $'\x1b' ]];then
-            read -r -n2 -s rest
-            char+="$rest"
-        fi
-        case $char in
-            $'\x1b\x5b\x41')
-                if [ $Count -gt 0 ];then
-                    Count=`expr $Count - 1`
-                fi ;;
-            $'\x1b\x5b\x42')
-                if [ $Count -lt $MaxCount ];then
-                    Count=`expr $Count + 1`
-                fi ;;
-            "")
-                if [ ${ArrayFile[$Count]} = "Quit" ];then
-                    tmux select-pane -t $WINDOW_NAME.0
-                    break
+            for i in $(seq 0 $MaxCount);do
+                if [ $Count = $i ];then
+                    printf "${RED_b}>${NC} ${YELLOW_b}" >&2
                 else
-                    less "${ArrayFile[$Count]}"
-                fi ;;
-        esac
-    done
+                    printf "  " >&2
+                fi
+                echo -e "${ArrayFile[$i]}${NC}" >&2
+            done
+
+            IFS= read -r -n1 -s char
+            if [[ $char == $'\x1b' ]];then
+                read -r -n2 -s rest
+                char+="$rest"
+            fi
+            case $char in
+                $'\x1b\x5b\x41')
+                    if [ $Count -gt 0 ];then
+                        Count=`expr $Count - 1`
+                    fi ;;
+                $'\x1b\x5b\x42')
+                    if [ $Count -lt $MaxCount ];then
+                        Count=`expr $Count + 1`
+                    fi ;;
+                "")
+                    if [ ${ArrayFile[$Count]} = "Quit" ];then
+                        tmux select-pane -t $WINDOW_NAME.0
+                        break
+                    else
+                        less "${ArrayFile[$Count]}"
+                    fi ;;
+            esac
+        done
     fi
 }
 
