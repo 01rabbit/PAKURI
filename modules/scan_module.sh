@@ -12,35 +12,15 @@ function port_scan_menu()
     if ps -ef|grep nmap|grep -v "grep" >/dev/null;then
         echo -e "Scan process is Running!"
     else
-        select_2 "Port Scan" "Vulners Scan"
+        echo -e "Do you want to perform a process??" 
+        yes-no-help
         read -n 1 -s KEY
-        scan_banner
-        box_1 "Port Scan"
-        echo -e "-------- Select Action ---------"
-        if [ $KEY = 1 ];then
-            box_1 "Port Scan"
-            echo -e "Do you want to perform a process??" 
-            yes-no-help
-            read -n 1 -s KEY
-            if [ $KEY -eq 1 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES_PATH/service_act.sh nscan $TARGETS" C-m
-                tmux select-pane -t $WINDOW_NAME.0
-            elif [ $KEY -eq 3 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES_PATH/help/scan_help_module.sh 111" C-m 
-                tmux select-pane -t $WINDOW_NAME.0
-            fi
-        elif [ $KEY = 2 ];then
-            box_2 "Vulners Scan"
-            echo -e "Do you want to perform a process??" 
-            yes-no-help
-            read -n 1 -s KEY
-            if [ $KEY -eq 1 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES_PATH/service_act.sh nvscan $TARGETS" C-m
-                tmux select-pane -t $WINDOW_NAME.0
-            elif [ $KEY -eq 3 ];then
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES_PATH/help/scan_help_module.sh 112" C-m 
-                tmux select-pane -t $WINDOW_NAME.0
-            fi
+        if [ $KEY -eq 1 ];then
+            tmux send-keys -t $WINDOW_NAME.1 "$MODULES_PATH/service_act.sh nscan $TARGETS" C-m
+            tmux select-pane -t $WINDOW_NAME.0
+        elif [ $KEY -eq 3 ];then
+            tmux send-keys -t $WINDOW_NAME.1 "$MODULES_PATH/help/scan_help_module.sh 11" C-m 
+            tmux select-pane -t $WINDOW_NAME.0
         fi
     fi
 }

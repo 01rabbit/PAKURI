@@ -35,29 +35,7 @@ function nmap_scan()
             echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Check open port"
             PORTS=$(nmap -Pn -p- -v --min-rate=1000 -T4 $ip | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
             echo -e "[${GREEN}Nmap Scan${NC}] $ip -- Port Scan -> Window[$WindowName]"
-            tmux send-keys -t "$WindowName" "nmap -sV -v  -p$PORTS $ip -oN $WDIR/nmap_$ip.nmap -oG $WDIR/nmap_$ip.grep; tmux kill-window -t $WindowName" C-m
-            
-            Count=$((++Count))
-        fi
-    done < $TARGETS
-    tmux select-window -t "${modules[1]}"
-}
-
-function nmap_vulners_scan()
-{
-    local PORTS
-    local Count=1
-    while read ip
-    do
-        if [[ $ip != "" ]];then
-            WindowName="vulnerscan_$Count"
-            tmux new-window -n "$WindowName"
-            tmux select-window -t "${modules[1]}"
-            tmux send-keys -t "$WindowName" "faraday-terminal $MYIP 9977" C-m
-            echo -e "[${GREEN}Vulners Scan${NC}] $ip -- Check open port"
-            PORTS=$(nmap -Pn -p- -v --min-rate=1000 -T4 $ip | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
-            echo -e "[${GREEN}Vulners Scan${NC}] $ip -- Vulners Scan -> Window[$WindowName]"
-            tmux send-keys -t "$WindowName" "nmap -Pn -v -sV --max-retries 1 --max-scan-delay 20 --script vulners --script-args mincvss=6.0 -p$PORTS $ip -oN $WDIR/nmap_vuln_$ip.nmap ;tmux kill-window -t $WindowName" C-m
+            tmux send-keys -t "$WindowName" "nmap -sV -v -p$PORTS $ip --max-retries 1 --max-scan-delay 20 --script vuln --script-args mincvss=7.0 --open -oN $WDIR/nmap_$ip.nmap -oG $WDIR/nmap_$ip.grep; tmux kill-window -t $WindowName" C-m
             
             Count=$((++Count))
         fi
@@ -316,6 +294,10 @@ function show_result()
     local MaxCount=`expr ${#ArrayFile[@]} - 1`
 
     clear
+    if [ $MaxCount = 0 ];then
+        echo -e "File not found in $WDIR"
+        tmux select-pane -t $WINDOW_NAME.0
+    else
     echo -e "${GREEN_b}Select File${NC}" >&2
 
     for _ in $(seq 0 $MaxCount);do echo "";done
@@ -355,6 +337,7 @@ function show_result()
                 fi ;;
         esac
     done
+    fi
 }
 
 case $1 in
