@@ -1,6 +1,6 @@
 #!/bin/bash
 source pakuri.conf
-source $MODULES/misc_module.sh
+source $MODULES_PATH/misc_module.sh
 
 # Start Service
 function service_start()
@@ -150,7 +150,7 @@ function config_manage()
     do
         clear
         config_banner
-        select_4 "Configure Targets" "Configure Service" "Mode Switching" "Assist"
+        select_4 "Configure Targets" "Configure Service" "Mode Switching" "Help"
         read -n 1 -t 25 -s KEY
         clear
         config_banner
@@ -172,7 +172,7 @@ function config_manage()
             3 )
                 modeswitching ;;
             4 )
-                tmux send-keys -t $WINDOW_NAME.1 "$MODULES/help/assist_module.sh config" C-m 
+                tmux send-keys -t $WINDOW_NAME.1 "$MODULES_PATH/help/config_help_module.sh main" C-m 
                 tmux select-pane -t $WINDOW_NAME.0 ;;
             9 )
                 tmux select-window -t "${modules[0]}" ;;

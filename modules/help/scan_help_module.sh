@@ -1,13 +1,50 @@
 #!/bin/bash
 source pakuri.conf
 
+function help_scan()
+{
+    clear
+    echo -e "${BLUE_b}+---+"
+    echo -e "${BLUE_b}| 1 |  Scanning"
+    echo -e "${BLUE_b}+---+${NC}"
+    echo -e "${BOLD}-------------------Scan Menu Assist-------------------${NC}"
+    echo -e ""
+    echo -e "${BLUE_b}+---+"
+    echo -e "${BLUE_b}| 1 |  Port Scan"
+    echo -e "${BLUE_b}+---+"
+    echo -e "------------------------------------------------------${NC}"
+    echo -e "Various scans are performed using Nmap's features."
+    echo -e ""
+    echo -e ""
+    echo -e "${RED_b}+---+"
+    echo -e "${RED_b}| 2 |  Enumeration"
+    echo -e "${RED_b}+---+"
+    echo -e "------------------------------------------------------${NC}"
+    echo -e "Perform enumeration for services that are open."
+    echo -e ""
+    echo -e ""
+    echo -e "${YELLOW_b}+---+"
+    echo -e "${YELLOW_b}| 3 |  OpenVAS"
+    echo -e "${YELLOW_b}+---+"
+    echo -e "------------------------------------------------------${NC}"
+    echo -e "Vulnerability scanning using OpenVAS."
+    echo -e ""
+    echo -e ""
+    echo -e "${GREEN_b}+---+"
+    echo -e "${GREEN_b}| 4 |  Result"
+    echo -e "${GREEN_b}+---+"
+    echo -e "------------------------------------------------------${NC}"
+    echo -e "Displays the output file as a result of execution."
+    echo -e ""
+}
+
 function help_portscan()
 {
     clear
     echo -e ""
-    echo -e "${BLUE_b}+---+  +---+  +---+"
-    echo -e "${BLUE_b}| 1 |  | 1 |  | 1 |  Port Scan"
-    echo -e "${BLUE_b}+---+  +---+  +---+${NC}"
+    echo -e "${BLUE_b}+---+  +---+"
+    echo -e "${BLUE_b}| 1 |  | 1 |  Port Scan"
+    echo -e "${BLUE_b}+---+  +---+${NC}"
     echo -e "${BOLD}------------------------------------------------------${NC}"
     echo -e "Overview"
     echo -e "   Use Nmap to perform a port scan."
@@ -33,44 +70,6 @@ function help_portscan()
     echo -e "   -sV: Probe open ports to determine service/version info"
     echo -e "   --script=<Lua scripts>: <Lua scripts> is a comma separated list of"
     echo -e "       directories, script-files or script-categories"
-    echo -e "   -oN/-oX/-oS/-oG <file>: Output scan in normal, XML, s|<rIpt kIddi3,"
-    echo -e "       and Grepable format, respectively, to the given filename."
-    echo -e ""
-}
-
-function help_vulnerscan()
-{
-    clear
-    echo -e ""
-    echo -e "${BLUE_b}+---+  +---+  ${RED_b}+---+"
-    echo -e "${BLUE_b}| 1 |  | 1 |  ${RED_b}| 2 |  Vulners Scan"
-    echo -e "${BLUE_b}+---+  +---+  ${RED_b}+---+${NC}"
-    echo -e "${BOLD}------------------------------------------------------${NC}"
-    echo -e "Overview"
-    echo -e "   Use NSE scripts(nmap_vulners) to enumerate known vulnerability information."
-    echo -e ""
-    echo -e "${GREEN_b}Step 1${NC}"
-    echo -e "   First, use the following command to store the freed port number in a variable(PORT)."
-    echo -e ""
-    echo -e "Use Command:"
-    echo -e "   nmap -Pn -p- -v --min-rate=1000 -T4 <IP Address>"
-    echo -e "Options:"
-    echo -e "   -Pn: Treat all hosts as online -- skip host discovery"
-    echo -e "   -p <port ranges>: Only scan specified ports"
-    echo -e "   -v: Increase verbosity level (use -vv or more for greater effect)"
-    echo -e "   --min-rate <number>: Send packets no slower than <number> per second"
-    echo -e "   -T<0-5>: Set timing template (higher is faster)"
-    echo -e ""
-    echo -e "${GREEN_b}Step 2${NC}"
-    echo -e "   Next, we enumerate the known vulnerabilities of the freed ports using the previous variable(PORT)."
-    echo -e ""
-    echo -e "Use Command:"
-    echo -e "   nmap -Pn -v -sV --max-retries 1 --max-scan-delay 20 --script vulners --script-args mincvss=6.0 -p\$PORT <IP Address> -oN <.nmap file>"
-    echo -e "Options:"
-    echo -e "   -sV: Probe open ports to determine service/version info"
-    echo -e "   --script=<Lua scripts>: <Lua scripts> is a comma separated list of"
-    echo -e "       directories, script-files or script-categories"
-    echo -e "   --script-args=<n1=v1,[n2=v2,...]>: provide arguments to scripts"
     echo -e "   -oN/-oX/-oS/-oG <file>: Output scan in normal, XML, s|<rIpt kIddi3,"
     echo -e "       and Grepable format, respectively, to the given filename."
     echo -e ""
@@ -190,10 +189,10 @@ function help_openvas()
 }
 
 case $1 in
-    111)
+    main)
+        help_scan;;
+    11)
         help_portscan;;
-    112)
-        help_vulnerscan;;
     12)
         help_enumeration;;
     13)

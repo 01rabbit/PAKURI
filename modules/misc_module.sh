@@ -1,5 +1,3 @@
-declare -a modules=("Main" "Scanning" "Exploit" "Config")
-
 # Opening Banner
 function op_banner()
 {
@@ -135,6 +133,23 @@ function config_banner()
     echo -e "---------- Main Menu -----------"
     box_3 "Config"
     echo -e "--------- Config Menu ----------"
+}
+
+function window_back()
+{
+    local Ans
+
+    while :
+    do
+        clear
+        echo -e "${BLACK_b}+---+"
+        echo -e "| 9 | Back"
+        echo -e "+---+${NC}"
+        read -n 1 -s Ans
+        if [ $Ans -eq 9 ];then
+            tmux select-window -t "${modules[1]}"
+        fi
+    done
 }
 
 function yes-no()
