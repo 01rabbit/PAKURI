@@ -14,6 +14,13 @@
 
 PAKURI is a penetration test tool with a terminal user interface (TUI) that can be operated with just the keypad.
 
+![overview](https://user-images.githubusercontent.com/16553787/80278942-4fcbe380-8735-11ea-825d-61f662c4754a.png)
+
+### Presentation
+
+* November 2nd,2019: [AV TOKYO 2019 Hive](http://ja.avtokyo.org/avtokyo2019/event)
+* December 21-22th,2019: [SECCON YOROZU 2019](https://www.seccon.jp/2019/akihabara/)
+
 ### What's PAKURI
 
 I've consulted many pen testing tools. I then took the good points of those tools and incorporated them into my own tools. In Japanese slang, imitation is also called "paku-ru".
@@ -26,16 +33,12 @@ I've consulted many pen testing tools. I then took the good points of those tool
 >
 > [Wiktionary:ぱくる](https://en.wiktionary.org/wiki/%E3%81%B1%E3%81%8F%E3%82%8B "ぱくる")
 
-## Description
-
-Sometimes, the penetration testers love to perform a complicated job. However, I always prefer the easy way. PAKURI is an semi-automated user-friendly penetration testing tool framework. You can run the popular pentest tools using only the numeric keypad, just like a game. It is also a good entry tool for the beginners. They can use PAKURI to learn the flow to the penetration testing without struggling with a confusing command line/tools.
-
 ---
 
-## Presentation
+## Description
 
-* November 2nd,2019: [AV TOKYO 2019 Hive](http://ja.avtokyo.org/avtokyo2019/event)
-* December 21-22th,2019: [SECCON YOROZU 2019](https://www.seccon.jp/2019/akihabara/)
+PAKURI is a semi-automated, user-friendly framework for penetration testing tools. Using only the keypad, you can use the penetration test tool like a game.  
+It's also a great introductory tool for beginners. Learn the flow of penetration testing with PAKURI without having to wrestle with confusing command lines and tools.
 
 ---
 
@@ -91,8 +94,8 @@ For beginner:
 
 * Visualize
   * [Faraday](https://github.com/infobyte/faraday.git)
-* CUI-GUI switching
-  * PAKURI can be operated with CUI and does not require a high-spec machine, so it can be operated with Raspberry Pi.
+* CUI-GUI switching  
+  PAKURI can be operated with CUI and does not require a high-spec machine, so it can be operated with Raspberry Pi.
 
 ---
 
@@ -119,11 +122,7 @@ For beginner:
     kali@kali:~/PAKURI$ sudo ./install.sh
     ```
 
----
-
-## Usage
-
-1. Register the OpenVAS administrator user and password in pakuri.conf:
+4. Register the OpenVAS administrator user and password in pakuri.conf:
 
     ```shell
     kali@kali:~/PAKURI$ vim pakuri.conf
@@ -134,14 +133,14 @@ For beginner:
     OMPPASS="admin"
     ```
 
-2. Faraday-server is started. After starting up, access from your browser and register your workspace:
+5. Faraday-server is started. After starting up, access from your browser and register your workspace:
 
     ```shell
     kali@kali:~/PAKURI$ sudo systemctl start faraday-server.service  
     kali@kali:~/PAKURI$ firefox localhost:5985
     ```
 
-3. Register the workspace you just registered in pakuri.conf:
+6. Register the workspace you just registered in pakuri.conf:
 
     ```shell
     kali@kali:~/PAKURI$ vim pakuri.conf
@@ -151,26 +150,22 @@ For beginner:
     WORKSPACE="test_workspace"
     ```
 
-4. Start PAKURI:
+---
 
-    ```shell
-    kali@kali:~/PAKURI$ ./pakuri.sh
-    ```
+## Usage
 
-   ![startup](https://user-images.githubusercontent.com/16553787/79108773-0c40a500-7d45-11ea-9cf3-fe01cdc1df97.gif)
+```shell
+kali@kali:~/PAKURI$ ./pakuri.sh
+```
+![startup](https://user-images.githubusercontent.com/16553787/80306953-31e19b80-8794-11ea-8a50-554dafe65294.gif)  
 PAKURI is not fully automated and requires the user interactions, to make sure to proceed the pentest and to avoid any unintended attack or trouble.  
 
 ---
 
 ## Keypad Operation
 
-![keypad_op](https://user-images.githubusercontent.com/16553787/79107440-5f652880-7d42-11ea-9206-fbc9908089a1.gif)  
+![keypad](https://user-images.githubusercontent.com/16553787/80306868-da433000-8793-11ea-9b5b-4e2b82ba3254.gif)  
 By operating the numeric keypad, it is possible to scan the network, scan for vulnerabilities, and perform simple pseudo attacks.
-
-### Keypad Operation DEMO
-
-Main > [1]Scanning > [1]Port Scan > [1]Port Scan > [1]Yes  
-![scan](https://user-images.githubusercontent.com/16553787/79178611-a0dbfd80-7e40-11ea-8132-0d9a07d62750.gif)
 
 ---
 
