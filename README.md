@@ -168,6 +168,11 @@ PAKURI is not fully automated and requires the user interactions, to make sure t
 By operating the numeric keypad, it is possible to scan the network, scan for vulnerabilities, and perform simple pseudo attacks.
 
 ---
+## Demo
+
+[![](https://img.youtube.com/vi/wr9i2NsaqPc/0.jpg)](https://www.youtube.com/watch?v=wr9i2NsaqPc)
+
+---
 
 ## Operation check environment
 
