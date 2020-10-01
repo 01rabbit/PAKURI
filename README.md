@@ -8,18 +8,17 @@
 
 ---
 
-[Japanese](README_ja.md)
-
 ## Overview
 
 PAKURI is a penetration test tool with a terminal user interface (TUI) that can be operated with just the keypad.
 
-![overview](https://user-images.githubusercontent.com/16553787/80278942-4fcbe380-8735-11ea-825d-61f662c4754a.png)
+![overview](https://user-images.githubusercontent.com/16553787/93030592-19005680-f65f-11ea-8d8c-8216bdb43bb5.png)  
 
 ### Presentation
 
-* November 2nd,2019: [AV TOKYO 2019 Hive](http://ja.avtokyo.org/avtokyo2019/event)
-* December 21-22th,2019: [SECCON YOROZU 2019](https://www.seccon.jp/2019/akihabara/)
+* November 2,2019: [AV TOKYO 2019 Hive](http://ja.avtokyo.org/avtokyo2019/event)
+* December 21-22,2019: [SECCON YOROZU 2019](https://www.seccon.jp/2019/akihabara/)
+* October 1-2,2020: [black hat asia 2020 arsenal ](https://www.blackhat.com/asia-20/arsenal/schedule/index.html#pakuri-penetration-test-achieve-knowledge-unite-rapid-interface-19270)
 
 ### What's PAKURI
 
@@ -68,7 +67,6 @@ For beginner:
 
 * Port Scan
   * [Nmap](https://tools.kali.org/information-gathering/nmap)
-  * [nmap_vulners](https://github.com/vulnersCom/nmap-vulners)
 * Enumeration
   * [enum4linux](https://tools.kali.org/information-gathering/enum4linux)
   * [Nikto](https://tools.kali.org/information-gathering/nikto)
@@ -79,8 +77,6 @@ For beginner:
 
 * Vulnerability Scan
   * [OpenVAS](https://tools.kali.org/vulnerability-analysis/openvas)
-* Web Application Scan
-  * [Skipfish](https://tools.kali.org/web-applications/skipfish)
 
 ### Exploit
 
@@ -99,7 +95,7 @@ For beginner:
 
 ---
 
-## Install
+## Setup
 
 1. Update your apt and install git:  
 
@@ -114,15 +110,27 @@ For beginner:
     kali@kali:~$ git clone https://github.com/01rabbit/PAKURI.git
     ```
 
-3. CD into the PAKURI folder and run the install script:
+3. CD into the PAKURI folder and run the setup script:
 
     ```shell
     kali@kali:~$ cd PAKURI  
-    kali@kali:~/PAKURI$ chmod +x install.sh
-    kali@kali:~/PAKURI$ sudo ./install.sh
+    kali@kali:~/PAKURI$ chmod +x setup.sh
+    kali@kali:~/PAKURI$ sudo ./setup.sh
+    ```
+4. Install OpenVAS/GVM if haven’t done so:  
+
+    ```shell
+    sudo apt install -y openvas
+    or
+    sudo apt install -y gvm
+    ```  
+5. Initialize Faraday if you haven't done so:  
+    ```shell
+    sudo systemctl start postgresql
+    sudo faraday-manage initdb
     ```
 
-4. Register the OpenVAS administrator user and password in pakuri.conf:
+6. Include the credentials in pakuri.conf:
 
     ```shell
     kali@kali:~/PAKURI$ vim pakuri.conf
@@ -133,14 +141,14 @@ For beginner:
     OMPPASS="admin"
     ```
 
-5. Faraday-server is started. After starting up, access from your browser and register your workspace:
+7. Faraday-server is started. After starting up, access from your browser and register your workspace:
 
     ```shell
-    kali@kali:~/PAKURI$ sudo systemctl start faraday-server.service  
+    kali@kali:~/PAKURI$ systemctl start faraday.service  
     kali@kali:~/PAKURI$ firefox localhost:5985
     ```
 
-6. Register the workspace you just registered in pakuri.conf:
+8. Register the workspace you just registered in pakuri.conf:
 
     ```shell
     kali@kali:~/PAKURI$ vim pakuri.conf
@@ -157,20 +165,7 @@ For beginner:
 ```shell
 kali@kali:~/PAKURI$ ./pakuri.sh
 ```
-![startup](https://user-images.githubusercontent.com/16553787/80306953-31e19b80-8794-11ea-8a50-554dafe65294.gif)  
 PAKURI is not fully automated and requires the user interactions, to make sure to proceed the pentest and to avoid any unintended attack or trouble.  
-
----
-
-## Keypad Operation
-
-![keypad](https://user-images.githubusercontent.com/16553787/80306868-da433000-8793-11ea-9b5b-4e2b82ba3254.gif)  
-By operating the numeric keypad, it is possible to scan the network, scan for vulnerabilities, and perform simple pseudo attacks.
-
----
-## Demo
-
-[![](https://img.youtube.com/vi/wr9i2NsaqPc/0.jpg)](https://www.youtube.com/watch?v=wr9i2NsaqPc)
 
 ---
 
@@ -181,8 +176,8 @@ By operating the numeric keypad, it is possible to scan the network, scan for vu
 
 ## Known Issues
 
-This is intended for use Kali Linux. Operation on other OS is not guaranteed.
-
+* This is intended for use Kali Linux. Operation on other OS is not guaranteed.  
+* Due to major changes in OpenVAS, the commands used have changed. This will be fixed in the next version.
 ---
 
 ## Contributors
