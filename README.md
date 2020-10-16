@@ -5,6 +5,7 @@
 ![License](https://img.shields.io/github/license/01rabbit/PAKURI)
 ![release-date](https://img.shields.io/github/release-date/01rabbit/PAKURI)
 ![sns](https://img.shields.io/twitter/follow/PAKURI9?label=PAKURI&style=social)
+![BHASIA](https://img.shields.io/badge/BlackHat%20Asia%202020-Arsenal-red)
 
 ---
 
