@@ -145,3 +145,37 @@ sudo chown -R 2000:2000 ./volumes/app/mattermost/
 sudo docker-compose up -d
 
 cd ..
+
+# minio
+mkdir minio
+cd minio
+cat >docker-compose.yml <<EOI
+version: '3'
+
+services:
+  minio:
+    image: minio/minio:latest
+    ports:
+      - 19000:9000
+    volumes:
+      - ./data/minio/data:/export
+      - ./data/minio/config:/root/.minio
+    environment:
+      MINIO_ACCESS_KEY: PAKURI_MINIO
+      MINIO_SECRET_KEY: pakuri_secret
+    command: server /export
+  createbuckets:
+    image: minio/mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      until (/usr/bin/mc config host add myminio http://minio:9000 PAKURI_MINIO pakuri_secret) do echo '...waiting...' && sleep 1>      /usr/bin/mc mb myminio/mybucket;
+      /usr/bin/mc policy download myminio/mybucket;
+      exit 0;
+      "
+EOI
+
+sudo docker-compose up -d
+
+cd ..
