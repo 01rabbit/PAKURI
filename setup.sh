@@ -25,11 +25,6 @@ echo -e "Starting installation of PAKURI."
 echo -e "#########################################################################"
 echo -e "${NC}"
 
-# Root check
-if [ ${EUID:-${UID}} != 0 ]; then
-  echo -e "You are not root."
-  exit 1
-fi
 
 if [ -f ~/.tmux.conf ]; then
   cat tmux.conf >>~/.tmux.conf
@@ -42,7 +37,7 @@ echo -e "Installing package dependencies."
 echo -e "${NC}"
 
 sudo apt update
-declare -a modules=("dnsrecon" "impacket-scripts" "sslyze" "sslscan" "onesixtyone" 
+declare -a modules=("dnsrecon" "impacket-scripts" "sslyze" "sslscan" "onesixtyone" "brutespray" "dialog"
   "ike-scan" "smbclient" "enum4linux" "nikto" "seclists" "xmlstarlet" "xclip" "gobuster")
 for cmd in ${modules[@]}; do
   echo $str
@@ -55,6 +50,7 @@ done
 
 # docker
 sudo systemctl start docker.service
+mkdir docker && cd docker
 
 # codimd
 # https://github.com/hackmdio/codimd.git

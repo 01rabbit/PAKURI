@@ -17,9 +17,10 @@ PAKURI is a penetration test tool with a terminal user interface (TUI) that can 
 
 ### Presentation
 
-* November 2,2019: [AV TOKYO 2019 Hive](http://ja.avtokyo.org/avtokyo2019/event)
+* November 2,2019: [AVTOKYO2019 HIVE](http://ja.avtokyo.org/avtokyo2019/event)
 * December 21-22,2019: [SECCON YOROZU 2019](https://www.seccon.jp/2019/akihabara/)
-* October 1-2,2020: [black hat asia 2020 arsenal ](https://www.blackhat.com/asia-20/arsenal/schedule/index.html#pakuri-penetration-test-achieve-knowledge-unite-rapid-interface-19270)
+* October 1-2,2020: [black hat asia 2020 arsenal](https://www.blackhat.com/asia-20/arsenal/schedule/index.html#pakuri-penetration-test-achieve-knowledge-unite-rapid-interface-19270)
+* October 31,2020: [AVTOKYO2020 HIVE](https://www.avtokyo.org/2020/event)
 
 ### What's PAKURI
 
@@ -105,33 +106,59 @@ For beginner:
     kali@kali:~$ sudo apt install git
     ```
 
-2. Download the PAKURI installer from the PAKURI Github repository:
+2. PAKURI uses the Docker. If you don't have it installed, you can install it by following the steps below.
+
+    1. Install Docker. (I've been promoted to administrator privileges to reduce the amount of work involved.
+  Add the GPG key from the official Docker repository to the system.
+
+        ```shell
+        root@kali:/home/kali# curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+        ```
+
+    2. Add the Docker repository to the APT source. (kali base debian)
+
+        ```shell
+        root@kali:/home/kali# echo 'deb [arch=amd64] https://download.docker.com/linux/debian buster stable' > /etc/apt/sources.list.d/docker.list
+        ```
+
+    3. Update the repository and install docker-ce and docker-compose.
+
+        ```shell
+        kali@kali:~$ sudo apt update
+        kali@kali:~$ sudo apt install docker-ce -y
+        kali@kali:~$ sudo apt install docker-compose -y
+        ```
+
+3. Download the PAKURI installer from the PAKURI Github repository:
 
     ```shell
     kali@kali:~$ git clone https://github.com/01rabbit/PAKURI.git
     ```
 
-3. CD into the PAKURI folder and run the setup script:
+4. CD into the PAKURI folder and run the setup script:
 
     ```shell
     kali@kali:~$ cd PAKURI  
     kali@kali:~/PAKURI$ chmod +x setup.sh
-    kali@kali:~/PAKURI$ sudo ./setup.sh
+    kali@kali:~/PAKURI$ ./setup.sh
     ```
-4. Install OpenVAS/GVM if haven’t done so:  
+
+5. Install OpenVAS/GVM if haven’t done so:  
 
     ```shell
     sudo apt install -y openvas
     or
     sudo apt install -y gvm
     ```  
-5. Initialize Faraday if you haven't done so:  
+
+6. Initialize Faraday if you haven't done so:  
+
     ```shell
     sudo systemctl start postgresql
-    sudo faraday-manage initdb
+    sudo faraday-manage initdb | tee faraday-setup.log
     ```
 
-6. Include the credentials in pakuri.conf:
+7. Include the credentials in pakuri.conf:
 
     ```shell
     kali@kali:~/PAKURI$ vim pakuri.conf
@@ -142,14 +169,14 @@ For beginner:
     OMPPASS="admin"
     ```
 
-7. Faraday-server is started. After starting up, access from your browser and register your workspace:
+8. Faraday-server is started. After starting up, access from your browser and register your workspace:
 
     ```shell
     kali@kali:~/PAKURI$ systemctl start faraday.service  
     kali@kali:~/PAKURI$ firefox localhost:5985
     ```
 
-8. Register the workspace you just registered in pakuri.conf:
+9. Register the workspace you just registered in pakuri.conf:
 
     ```shell
     kali@kali:~/PAKURI$ vim pakuri.conf
@@ -166,6 +193,7 @@ For beginner:
 ```shell
 kali@kali:~/PAKURI$ ./pakuri.sh
 ```
+
 PAKURI is not fully automated and requires the user interactions, to make sure to proceed the pentest and to avoid any unintended attack or trouble.  
 
 ---
@@ -179,6 +207,7 @@ PAKURI is not fully automated and requires the user interactions, to make sure t
 
 * This is intended for use Kali Linux. Operation on other OS is not guaranteed.  
 * Due to major changes in OpenVAS, the commands used have changed. This will be fixed in the next version.
+
 ---
 
 ## Contributors
