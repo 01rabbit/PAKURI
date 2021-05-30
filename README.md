@@ -15,13 +15,6 @@ PAKURI is a penetration test tool with a terminal user interface (TUI) that can 
 
 ![overview](https://user-images.githubusercontent.com/16553787/93030592-19005680-f65f-11ea-8d8c-8216bdb43bb5.png)  
 
-### Presentation
-
-* November 2,2019: [AVTOKYO2019 HIVE](http://ja.avtokyo.org/avtokyo2019/event)
-* December 21-22,2019: [SECCON YOROZU 2019](https://www.seccon.jp/2019/akihabara/)
-* October 1-2,2020: [black hat asia 2020 arsenal](https://www.blackhat.com/asia-20/arsenal/schedule/index.html#pakuri-penetration-test-achieve-knowledge-unite-rapid-interface-19270)
-* October 31,2020: [AVTOKYO2020 HIVE](https://www.avtokyo.org/2020/event)
-
 ### What's PAKURI
 
 I've consulted many pen testing tools. I then took the good points of those tools and incorporated them into my own tools. In Japanese slang, imitation is also called "paku-ru".
@@ -214,6 +207,21 @@ PAKURI is not fully automated and requires the user interactions, to make sure t
 
 If you have some new idea about this project, issue, feedback or found some valuable tool feel free to open an issue for just DM me via [@Mr.Rabbit](https://twitter.com/01ra66it) or [@PAKURI](https://twitter.com/PAKURI9).
 
+---
+
+### Presentation
+* Black Hat:
+  * Asia ![](https://raw.github.com/wiki/infobyte/faraday/images/flags/singapore.png):
+  [2020](https://www.blackhat.com/asia-20/arsenal/schedule/index.html#pakuri-penetration-test-achieve-knowledge-unite-rapid-interface-19270)
+
+* AVTokyo ![](https://raw.github.com/wiki/infobyte/faraday/images/flags/japan.png):
+    [2019](http://en.avtokyo.org/avtokyo2019/event) -
+    [2020](http://en.avtokyo.org/avtokyo2020/event)
+
+* SECCON ![](https://raw.github.com/wiki/infobyte/faraday/images/flags/japan.png):
+   [2019](https://www.seccon.jp/2019/akihabara/#yorozu)
+
 ### Special thanks
 
-Thanks to [@cyberdefense_jp](https://twitter.com/cyberdefense_jp) for contribute so many awesome ideas to this tool.
+Thanks to [@cyberdefense_jp](https://twitter.com/cyberdefense_jp) for contribute so many awesome ideas to this tool.  
+***Please note that I have nothing to do with CDI. I just respect them on my own.***
