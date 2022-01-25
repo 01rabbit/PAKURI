@@ -9,6 +9,8 @@
 
 ---
 
+## PAKURI has been merged with Python and launched as a new project, [PAKURI-THON](https://github.com/01rabbit/PAKURI-THON).
+
 ## Overview
 
 PAKURI is a penetration test tool with a terminal user interface (TUI) that can be operated with just the keypad.
